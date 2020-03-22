@@ -1,0 +1,14 @@
+[
+    {"Territory":{"owner":1,"attackArmyList":[],"ownerArmy":1,"name":"Apple","neighborList":[2,10],"terrID":1}},
+    {"Territory":{"owner":1,"attackArmyList":[],"ownerArmy":2,"name":"Narnia","neighborList":[1,3,10],"terrID":2}},
+    {"Territory":{"owner":1,"attackArmyList":[],"ownerArmy":3,"name":"Midkemia","neighborList":[2,4,5,10,11],"terrID":3}},
+    {"Territory":{"owner":2,"attackArmyList":[],"ownerArmy":4,"name":"Oz","neighborList":[3,5,6,7,11],"terrID":4}},
+    {"Territory":{"owner":2,"attackArmyList":[],"ownerArmy":5,"name":"Banana","neighborList":[3,4,6],"terrID":5}},
+    {"Territory":{"owner":2,"attackArmyList":[],"ownerArmy":6,"name":"Gondor","neighborList":[4,5,7],"terrID":6}},
+    {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":7,"name":"Mordor","neighborList":[6,4,11,8],"terrID":7}},
+    {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":8,"name":"Hogwarts","neighborList":[7,11,12,9],"terrID":8}},
+    {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":9,"name":"Peach","neighborList":[8,12],"terrID":9}},
+    {"Territory":{"owner":4,"attackArmyList":[],"ownerArmy":10,"name":"Elantris","neighborList":[1,2,3,11,12],"terrID":10}},
+    {"Territory":{"owner":4,"attackArmyList":[],"ownerArmy":11,"name":"Scadrial","neighborList":[2,3,4,7,8,10,12],"terrID":11}},
+    {"Territory":{"owner":4,"attackArmyList":[],"ownerArmy":12,"name":"Roshar","neighborList":[10,11,8,9],"terrID":12}}
+]

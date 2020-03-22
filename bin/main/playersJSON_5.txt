@@ -1,0 +1,7 @@
+[
+    {"Player":{"name":"Green","playerID":1,"status":"SETUP","terrList":[1,2,3]}},
+    {"Player":{"name":"Red","playerID":2,"status":"SETUP","terrList":[4,5,6]}},
+    {"Player":{"name":"Purple","playerID":3,"status":"SETUP","terrList":[7,8,9]}}，
+    {"Player":{"name":"Blue","playerID":4,"status":"SETUP","terrList":[10,11,12]}},
+    {"Player":{"name":"Pink","playerID":5,"status":"SETUP","terrList":[13,14,15]}}
+]
