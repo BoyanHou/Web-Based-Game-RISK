@@ -1,0 +1,17 @@
+[
+    {"Army":{"owner":1,"armyID":1,"unitList":10}},
+    {"Army":{"owner":1,"armyID":2,"unitList":12}},
+    {"Army":{"owner":1,"armyID":3,"unitList":8}},
+    {"Army":{"owner":2,"armyID":4,"unitList":13}},
+    {"Army":{"owner":2,"armyID":5,"unitList":14}},
+    {"Army":{"owner":2,"armyID":6,"unitList":3}},
+    {"Army":{"owner":3,"armyID":7,"unitList":6}},
+    {"Army":{"owner":3,"armyID":8,"unitList":15}},
+    {"Army":{"owner":3,"armyID":9,"unitList":9}},
+    {"Army":{"owner":4,"armyID":10,"unitList":8}},
+    {"Army":{"owner":4,"armyID":11,"unitList":13}},
+    {"Army":{"owner":4,"armyID":12,"unitList":9}},
+    {"Army":{"owner":5,"armyID":13,"unitList":7}},
+    {"Army":{"owner":5,"armyID":14,"unitList":13}},
+    {"Army":{"owner":5,"armyID":15,"unitList":10}}
+]
