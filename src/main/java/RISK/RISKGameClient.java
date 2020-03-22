@@ -27,7 +27,7 @@ public class RISKGameClient {
   public static GameClientJSON testClientSetUp(String serverIP, int serverPort) {
     try {
       Scanner scanner = new Scanner(System.in);
-      GameClientJSON client = new GameClientJSON("0.0.0.0",
+      GameClientJSON client = new GameClientJSON(serverIP,
                                                  8000,
                                                  scanner);
       // acquire info from server, setup game
