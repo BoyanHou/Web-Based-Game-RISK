@@ -34,6 +34,10 @@ public class AttackOrder extends Order {
         return num;
     }
 
+    public void setNum(int num) {
+        this.num = num;
+    }
+
     @Override
     public boolean validate() {
       /*
@@ -74,7 +78,6 @@ public class AttackOrder extends Order {
     @Override
     public void execute() {
       // add the myTerr's army to the targetTerr's attackArmy list
-      // TODO: check armyList ID
       ArrayList<Unit> units = new ArrayList<>();
       Soldier soldier = new Soldier();
       for (int i = 0; i < this.num; i++) {
@@ -87,8 +90,8 @@ public class AttackOrder extends Order {
       if (checkMergeArmy() == false) {
         targetTerr.getAttackArmyList().add(attackArmy);
       }
+      
     }
-
   
    // check if there are armies from same player, and merge
    private boolean checkMergeArmy() {
@@ -105,6 +108,6 @@ public class AttackOrder extends Order {
      return false;
      
    }
-
   
+
 }
