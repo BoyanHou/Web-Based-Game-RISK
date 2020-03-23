@@ -33,19 +33,25 @@ public class NtopFactoryJSON implements NtopFactory<JSONObject> {
       HashMap<Integer, Territory> terrMap = game.getTerrMap();
       HashMap<Integer, Player> playerMap = game.getPlayerMap();
 
-      JSONObject moveOrderN = moveOrder.getJSONObject("MoveOrder");
-      int fromTerrID = moveOrderN.getInt("fromTerr");
-      int toTerrID = moveOrderN.getInt("toTerr");
-      int num = moveOrderN.getInt("num");
-      int playerID = moveOrderN.getInt("player");
-
-      Territory fromTerr = terrMap.get(fromTerrID);
-      Territory toTerr = terrMap.get(toTerrID);
-        
-      Player ownerPlayer = playerMap.get(playerID);
-      
-      MoveOrder mv = new MoveOrder(fromTerr, toTerr, num, ownerPlayer);
+      MoveOrder mv = moveNtop(moveOrder, terrMap, playerMap);
       return mv;
+    }
+
+    public MoveOrder moveNtop(JSONObject moveOrder, HashMap<Integer, Territory> terrMap, HashMap<Integer, Player> playerMap) {
+
+        JSONObject moveOrderN = moveOrder.getJSONObject("MoveOrder");
+        int fromTerrID = moveOrderN.getInt("fromTerr");
+        int toTerrID = moveOrderN.getInt("toTerr");
+        int num = moveOrderN.getInt("num");
+        int playerID = moveOrderN.getInt("player");
+
+        Territory fromTerr = terrMap.get(fromTerrID);
+        Territory toTerr = terrMap.get(toTerrID);
+
+        Player ownerPlayer = playerMap.get(playerID);
+
+        MoveOrder mv = new MoveOrder(fromTerr, toTerr, num, ownerPlayer);
+        return mv;
     }
 
     /*
@@ -61,18 +67,24 @@ public class NtopFactoryJSON implements NtopFactory<JSONObject> {
       HashMap<Integer, Territory> terrMap = game.getTerrMap(); 
       HashMap<Integer, Player> playerMap = game.getPlayerMap();
       
-      JSONObject atkOrderN = atkOrder.getJSONObject("AttackOrder");
-      int myTerrID = atkOrderN.getInt("myTerr");
-      int targetTerrID = atkOrderN.getInt("targetTerr");
-      int num = atkOrderN.getInt("num");
-      int playerID = atkOrderN.getInt("player");
-      
-      Territory myTerr = terrMap.get(myTerrID);
-      Territory targetTerr = terrMap.get(targetTerrID);
-      Player ownerPlayer = playerMap.get(playerID);
-
-      AttackOrder atk = new AttackOrder(myTerr, targetTerr, num, ownerPlayer);
+      AttackOrder atk = attackNtop(atkOrder, terrMap, playerMap);
       return atk;
+    }
+
+    public AttackOrder attackNtop(JSONObject atkOrder, HashMap<Integer, Territory> terrMap, HashMap<Integer, Player> playerMap) {
+
+        JSONObject atkOrderN = atkOrder.getJSONObject("AttackOrder");
+        int myTerrID = atkOrderN.getInt("myTerr");
+        int targetTerrID = atkOrderN.getInt("targetTerr");
+        int num = atkOrderN.getInt("num");
+        int playerID = atkOrderN.getInt("player");
+
+        Territory myTerr = terrMap.get(myTerrID);
+        Territory targetTerr = terrMap.get(targetTerrID);
+        Player ownerPlayer = playerMap.get(playerID);
+
+        AttackOrder atk = new AttackOrder(myTerr, targetTerr, num, ownerPlayer);
+        return atk;
     }
 
     /*
