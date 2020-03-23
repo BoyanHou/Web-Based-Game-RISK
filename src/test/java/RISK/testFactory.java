@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FactoryJSONTest {
+public class testFactory {
     private GameInitial game = new GameInitial();
     private PtonFactoryJSON pf = new PtonFactoryJSON();
     private NtopFactoryJSON nf = new NtopFactoryJSON();
