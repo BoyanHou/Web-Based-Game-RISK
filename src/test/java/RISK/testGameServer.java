@@ -11,7 +11,7 @@ import RISK.Game.GameClientJSON;
 import RISK.Game.GameServerJSON;
 
 public class testGameServer {
-  @Test
+  //@Test
   public void test_ServerSetup() {
     int port = 9000;
     GameServerJSON server = getTestServer(port);

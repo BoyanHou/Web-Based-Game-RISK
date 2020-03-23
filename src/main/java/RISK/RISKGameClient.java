@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import RISK.ClassBuilder.ClassBuilderJSON;
 import RISK.Displayer.Displayer;
+import RISK.Displayer.DisplayerStub;
 import RISK.Factory.NtopFactoryJSON;
 import RISK.Factory.PtonFactoryJSON;
 import RISK.Game.GameClientJSON;
@@ -34,7 +35,8 @@ public class RISKGameClient {
                                                  8000,
                                                  scanner);
       // acquire info from server, setup game
-      Displayer displayer = new TextDisplayer();
+      Displayer displayer = new DisplayerStub();
+      //Displayer displayer = new TextDisplayer();
       NtopFactoryJSON ntopFactory = new NtopFactoryJSON();
       ClassBuilderJSON classBuilder = new ClassBuilderJSON(ntopFactory);
       client.initializeConnection(classBuilder, displayer);
@@ -50,7 +52,8 @@ public class RISKGameClient {
   public static void testClientChooseMoves(GameClientJSON client) {
     try {
       PtonFactoryJSON ptonFactory = new PtonFactoryJSON();
-      Displayer displayer = new TextDisplayer();
+      Displayer displayer = new DisplayerStub();
+      //Displayer displayer = new TextDisplayer();
       client.chooseMoves(ptonFactory, displayer);
     } catch (Exception e) {
       e.printStackTrace();
