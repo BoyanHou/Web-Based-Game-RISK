@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FactoryJSONTest {
     private GameInitial game = new GameInitial();
@@ -27,6 +28,9 @@ public class FactoryJSONTest {
     private ArrayList<Territory> territories = game.getTerritories();
     private ArrayList<Player> players = game.getPlayers();
     private ArrayList<Army> armies = game.getArmies();
+
+    private HashMap<Integer, Territory> territoryHashMap = new HashMap<>();
+    private HashMap<Integer, Player> playerHashMap = new HashMap<>();
 
     @Test
     void testTerritoryPton() {
@@ -101,17 +105,28 @@ public class FactoryJSONTest {
     @Test
     void testMoveOrderNtop() {
         JSONObject input = new JSONObject("{\"MoveOrder\":{\"fromTerr\":1,\"num\":2,\"toTerr\":2,\"player\":1}}");
-        MoveOrder actual = nf.moveNtop(input, territories, players);
+        prepare();
+        MoveOrder actual = nf.moveNtop(input, territoryHashMap, playerHashMap);
         JSONObject actualJson = pf.movePton(actual);
         MoveOrder expected = new MoveOrder(territories.get(0), territories.get(1), 2, players.get(0));
         JSONObject expectedJson = pf.movePton(expected);
         assertEquals(expectedJson.toString(), actualJson.toString());
     }
 
+    void prepare() {
+        for(Territory territory: territories) {
+            territoryHashMap.put(territory.getTerrID(), territory);
+        }
+        for(Player player: players) {
+            playerHashMap.put(player.getPlayerID(), player);
+        }
+    }
+
     @Test
     void testAttackOrderNtop() {
         JSONObject input = new JSONObject("{\"AttackOrder\":{\"targetTerr\":2,\"num\":2,\"myTerr\":1,\"player\":1}}");
-        AttackOrder actual = nf.attackNtop(input, territories, players);
+        prepare();
+        AttackOrder actual = nf.attackNtop(input, territoryHashMap, playerHashMap);
         JSONObject actualJson = pf.attackPton(actual);
         AttackOrder expected = new AttackOrder(territories.get(0), territories.get(1), 2, players.get(0));
         JSONObject expectedJson = pf.attackPton(expected);
