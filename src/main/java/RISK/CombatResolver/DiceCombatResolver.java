@@ -35,7 +35,7 @@ public class DiceCombatResolver implements CombatResolver{
       if (combatResult == defenderWin) {
         // do nothing
       }
-      else if (combatResult == attackerWin) {
+      if (combatResult == attackerWin) {
         // update defending army
         Army defendArmy = terr.getOwnerArmy();
         defendArmy.setOwner(attackArmy.getOwner());     // owner
@@ -45,8 +45,6 @@ public class DiceCombatResolver implements CombatResolver{
         defender.delTerr(terr);
         attacker.addTerr(terr);
         terr.setOwner(attackArmy.getOwner());
-      } else {
-        System.out.println("Error: status is -1, check it in DiceCombatResolever");
       }
       
     }
