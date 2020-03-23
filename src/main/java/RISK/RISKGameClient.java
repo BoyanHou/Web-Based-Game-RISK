@@ -12,9 +12,11 @@ import RISK.Utils.TextDisplayer;
 
 public class RISKGameClient {
 
-  public static void run(String serverIP, int serverPort) {
-
-    GameClientJSON client = testClientSetUp(serverIP, serverPort);
+  public static void run(String serverIP,
+                         int serverPort,
+                         Scanner scanner) {
+    
+    GameClientJSON client = setupClient(serverIP, serverPort, scanner);
     while (client.getGameState() != 2) { // while game hasn't ended
       if (client.getGameState()!= 1) { // if not auditing
         testClientChooseMoves(client);
@@ -24,9 +26,10 @@ public class RISKGameClient {
     System.out.println("Client finishes game");
   }
 
-  public static GameClientJSON testClientSetUp(String serverIP, int serverPort) {
+  public static GameClientJSON setupClient(String serverIP,
+                                           int serverPort,
+                                           Scanner scanner) {
     try {
-      Scanner scanner = new Scanner(System.in);
       GameClientJSON client = new GameClientJSON(serverIP,
                                                  8000,
                                                  scanner);

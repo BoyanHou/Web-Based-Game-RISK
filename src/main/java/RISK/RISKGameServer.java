@@ -13,24 +13,29 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class RISKGameServer {
-  public static void run(int port, int playerNum) {
-    GameServerJSON server = testServerSetUp(port, playerNum);
-        testServerAcceptConnections(server);
+  public static void run(int port,
+                         String terrPath,
+                         String playerPath,
+                         String armyPath) {
+    GameServerJSON server = serverSetUp(port,
+                                        terrPath,
+                                        playerPath,
+                                        armyPath);
+        serverAcceptConnections(server);
         while (server.getGameState() == 0) { // game still runs
-            testServerAcceptOrders(server);
-            testServerResolveCombats(server);
+          serverAcceptOrders(server);
+          serverResolveCombats(server);
         }
         System.out.println("Server finishes game");
     }
 
-  public static GameServerJSON testServerSetUp(int port, int playerNum) {
+  public static GameServerJSON serverSetUp(int port,
+                                           String terrPath,
+                                           String playerPath,
+                                           String armyPath) {
         try {
             NtopFactoryJSON ntopFactory = new NtopFactoryJSON();
             ClassBuilderJSON classBuilder = new ClassBuilderJSON(ntopFactory);
-            String resourceRoot = "./src/main/resources/";
-            String terrPath = resourceRoot + "territoriesJSON_" + playerNum + ".txt";
-            String playerPath = resourceRoot + "playersJSON_" + playerNum + ".txt";
-            String armyPath = resourceRoot + "armiesJSON_" + playerNum + ".txt";
             GameServerJSON serverJSON = new GameServerJSON(port, classBuilder,
                                                            terrPath,
                                                            playerPath,
@@ -41,7 +46,7 @@ public class RISKGameServer {
         return null;
     }
 
-    public static void testServerAcceptConnections(GameServerJSON server) {
+    public static void serverAcceptConnections(GameServerJSON server) {
         try {
             PtonFactory<JSONObject> ptonFactory = new PtonFactoryJSON();
             server.acceptConnections(ptonFactory);
@@ -50,22 +55,22 @@ public class RISKGameServer {
         }
     }
 
-    public static void testServerAcceptOrders(GameServerJSON server) {
-        try {
-            NtopFactory<JSONObject> ntopFactory = new NtopFactoryJSON();
-            server.acceptOrders(ntopFactory);
-        } catch (IOException e) {
-            System.out.println("Server failed to accept connections");
-        }
+  public static void serverAcceptOrders(GameServerJSON server) {
+    try {
+      NtopFactory<JSONObject> ntopFactory = new NtopFactoryJSON();
+      server.acceptOrders(ntopFactory);
+    } catch (IOException e) {
+      System.out.println("Server failed to accept connections");
     }
+  }
 
-    public static void testServerResolveCombats(GameServerJSON server) {
-        try {
-            CombatResolver combatResolver = new DiceCombatResolver(20);
-            PtonFactory<JSONObject> ptonFactory = new PtonFactoryJSON();
-            server.resolveCombats(combatResolver, ptonFactory);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  public static void serverResolveCombats(GameServerJSON server) {
+    try {
+      CombatResolver combatResolver = new DiceCombatResolver(20);
+      PtonFactory<JSONObject> ptonFactory = new PtonFactoryJSON();
+      server.resolveCombats(combatResolver, ptonFactory);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+  }
 }

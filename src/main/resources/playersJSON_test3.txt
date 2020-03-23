@@ -1,0 +1,5 @@
+[
+    {"Player":{"name":"P1","playerID":1,"status":"SETUP","terrList":[1]}},
+    {"Player":{"name":"P2","playerID":2,"status":"SETUP","terrList":[2]}},
+    {"Player":{"name":"P3","playerID":3,"status":"SETUP","terrList":[3,4]}}
+]
