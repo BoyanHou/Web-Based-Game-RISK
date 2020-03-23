@@ -30,13 +30,20 @@ public class Messenger {
 
   public void send(String str) throws IOException {
     this.simpleSend(str);
+    
     String confirmation = this.simpleRecv();  // block here for "ACK"
     if (!confirmation.equals("ACK")) {
+      System.out.println("NO ACK RECEVIED!");
       throw new IOException();
     }
   }
 
   public void simpleSend(String str) throws IOException {
+    try {
+    Thread.sleep(1000);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     OutputStream outputStream = this.socket.getOutputStream();
     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
     bufferedWriter.write(str + "\n") ;
@@ -74,6 +81,12 @@ public class Messenger {
 
   // receive a string
   public String simpleRecv() throws IOException {
+    try {
+    Thread.sleep(1000);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
     String str;
     InputStream inputStream = this.socket.getInputStream();
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
