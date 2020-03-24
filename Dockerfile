@@ -52,6 +52,3 @@ COPY --chown=juser ./ ./
 
 # compile the code
 RUN ./gradlew  assemble
-
-# test the code
-RUN ./gradlew test
