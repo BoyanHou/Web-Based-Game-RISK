@@ -12,7 +12,7 @@
     {"Territory":{"owner":4,"attackArmyList":[],"ownerArmy":11,"name":"Peach","neighborList":[10,14,15],"terrID":11}},
     {"Territory":{"owner":4,"attackArmyList":[],"ownerArmy":12,"name":"Scadrial","neighborList":[13,4,5,9,10,14],"terrID":12}},
     {"Territory":{"owner":5,"attackArmyList":[],"ownerArmy":13,"name":"Elantris","neighborList":[1,2,3,4,12,14],"terrID":13}},
-    {"Territory":{"owner":5,"attackArmyList":[],"ownerArmy":14,"name":"Roshar","neighborList":[13,12,10,15,11],"terrID":14}}
+    {"Territory":{"owner":5,"attackArmyList":[],"ownerArmy":14,"name":"Roshar","neighborList":[13,12,10,15,11],"terrID":14}},
     {"Territory":{"owner":5,"attackArmyList":[],"ownerArmy":15,"name":"Cherry","neighborList":[14,11],"terrID":15}}
 
 ]
