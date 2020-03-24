@@ -14,5 +14,4 @@
     {"Territory":{"owner":5,"attackArmyList":[],"ownerArmy":13,"name":"Elantris","neighborList":[1,2,3,4,12,14],"terrID":13}},
     {"Territory":{"owner":5,"attackArmyList":[],"ownerArmy":14,"name":"Roshar","neighborList":[13,12,10,15,11],"terrID":14}},
     {"Territory":{"owner":5,"attackArmyList":[],"ownerArmy":15,"name":"Cherry","neighborList":[14,11],"terrID":15}}
-
 ]
