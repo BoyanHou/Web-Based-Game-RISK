@@ -155,7 +155,7 @@ public class testFactory {
         JSONObject input = new JSONObject("{\"Army\":{\"owner\":1,\"armyID\":1,\"unitList\":10}}");
         ArmyRO actual = nf.armyNtop(input);
         assertEquals(actual.getArmyID(), 1);
-        assertEquals(actual.getUnitListSize(), 101);
+        assertEquals(actual.getUnitListSize(), 10);
     }
 
 }
