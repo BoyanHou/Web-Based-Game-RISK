@@ -166,7 +166,7 @@ public class testGameServer {
     }
   }
   
-
+  
   public void testRunFunc() {
 
     int playerNum = 3;
@@ -189,7 +189,7 @@ public class testGameServer {
     
     // the code below runs the game again,
     // using the "run" funcion of client & server
-    int port2 = 8123;
+    int port2 = 8321;
     //server:
     String terrPath = "./src/main/resources/territoriesJSON_test3.txt";
     String playerPath = "./src/main/resources/playersJSON_test3.txt";

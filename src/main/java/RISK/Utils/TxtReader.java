@@ -9,13 +9,14 @@ public class TxtReader {
     // open txt file
     FileReader fileReader = new FileReader(path);
     BufferedReader bufferReader = new BufferedReader(fileReader);
-    StringBuffer stringBuffer = new StringBuffer();
 
     // read line by line
     String row;
     while((row = bufferReader.readLine()) != null) {  
       res += row;
     }
+
+    bufferReader.close();
     
     return res;
   }
