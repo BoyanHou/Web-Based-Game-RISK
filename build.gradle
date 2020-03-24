@@ -50,6 +50,10 @@ clover {
     compiler{
         additionalArgs = "-g:lines,source,vars"
     }
+    report{
+        html = true
+        xml = true
+    }
 }
 
 test {
