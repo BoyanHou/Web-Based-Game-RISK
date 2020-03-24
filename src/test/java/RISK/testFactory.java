@@ -55,7 +55,7 @@ public class testFactory {
     @Test
     void testPlayerPton() {
         ArrayList<String> expected = new ArrayList<>();
-        expected.add("{\"Player\":{\"name\":\"Green\",\"playerID\":1,\"status\":\"SETUP\",\"terrList\":[1,2,3]}}");
+        expected.add("{\"Player\":{\"name\":\"Blue\",\"playerID\":1,\"status\":\"SETUP\",\"terrList\":[1,2,3]}}");
         expected.add("{\"Player\":{\"name\":\"Red\",\"playerID\":2,\"status\":\"SETUP\",\"terrList\":[4,5,6]}}");
         expected.add("{\"Player\":{\"name\":\"Purple\",\"playerID\":3,\"status\":\"SETUP\",\"terrList\":[7,8,9]}}");
         int index = 0;
@@ -143,10 +143,10 @@ public class testFactory {
 
     @Test
     void testPlayerNtop() {
-        JSONObject input = new JSONObject("{\"Player\":{\"name\":\"Green\",\"playerID\":1,\"status\":\"PLAY\",\"terrList\":[1,2,3]}}");
+        JSONObject input = new JSONObject("{\"Player\":{\"name\":\"Blue\",\"playerID\":1,\"status\":\"PLAY\",\"terrList\":[1,2,3]}}");
         PlayerRO actual = nf.playerNtop(input);
         assertEquals(actual.getPlayerID(), 1);
-        assertEquals(actual.getName(), "Green");
+        assertEquals(actual.getName(), "Blue");
         assertEquals(actual.getStatus(), Status.PLAY);
     }
 
