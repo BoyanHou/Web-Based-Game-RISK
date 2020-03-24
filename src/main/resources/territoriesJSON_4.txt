@@ -9,6 +9,6 @@
     {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":8,"name":"Hogwarts","neighborList":[7,11,12,9],"terrID":8}},
     {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":9,"name":"Peach","neighborList":[8,12],"terrID":9}},
     {"Territory":{"owner":4,"attackArmyList":[],"ownerArmy":10,"name":"Elantris","neighborList":[1,2,3,11,12],"terrID":10}},
-    {"Territory":{"owner":4,"attackArmyList":[],"ownerArmy":11,"name":"Scadrial","neighborList":[2,3,4,7,8,10,12],"terrID":11}},
+    {"Territory":{"owner":4,"attackArmyList":[],"ownerArmy":11,"name":"Scadrial","neighborList":[3,4,7,8,10,12],"terrID":11}},
     {"Territory":{"owner":4,"attackArmyList":[],"ownerArmy":12,"name":"Roshar","neighborList":[10,11,8,9],"terrID":12}}
 ]

@@ -2,7 +2,7 @@
     {"Territory":{"owner":1,"attackArmyList":[],"ownerArmy":1,"name":"Narnia","neighborList":[2,4],"terrID":1}},
     {"Territory":{"owner":1,"attackArmyList":[],"ownerArmy":2,"name":"Midkemia","neighborList":[1,4,5,3],"terrID":2}},
     {"Territory":{"owner":1,"attackArmyList":[],"ownerArmy":3,"name":"Oz","neighborList":[2,5],"terrID":3}},
-    {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":4,"name":"Elantris","neighborList":[1,2,5,6],"terrID":4}},
-    {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":5,"name":"Scadrial","neighborList":[4,2,3,6],"terrID":5}},
-    {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":6,"name":"Roshar","neighborList":[4,5],"terrID":6}}
+    {"Territory":{"owner":2,"attackArmyList":[],"ownerArmy":4,"name":"Elantris","neighborList":[1,2,5,6],"terrID":4}},
+    {"Territory":{"owner":2,"attackArmyList":[],"ownerArmy":5,"name":"Scadrial","neighborList":[4,2,3,6],"terrID":5}},
+    {"Territory":{"owner":2,"attackArmyList":[],"ownerArmy":6,"name":"Roshar","neighborList":[4,5],"terrID":6}}
 ]
