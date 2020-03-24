@@ -6,14 +6,24 @@ before_script:
   - docker --version
 
 stages:
+   - build
    - test
    - coverage
+   - deploy
+   - test-deployment
+
+   
+build:
+  tags:
+     - ece651
+  stage: build
+  script: docker build --build-arg LOCAL_USER_ID=`id -u`  --tag citest .
 
 test:
   tags:
      - ece651
   stage: test
-  script: gradle build
+  script: scripts/run-tests-in-docker.sh
   artifacts:
     paths:
       - coverage
@@ -29,3 +39,17 @@ pages:
  artifacts:
    paths:
      - public
+
+deploy:
+  tags:
+    - ece651
+  stage: deploy
+  script: ./scripts/redeploy.sh
+
+test-deployment:
+  tags:
+    - ece651
+  stage: test-deployment
+  dependencies:
+    - deploy
+  script: ./scripts/test-deployment.sh
