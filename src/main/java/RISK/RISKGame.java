@@ -2,8 +2,10 @@ package RISK;
 
 import java.util.Scanner;
 
+import RISK.Displayer.Displayer;
 import RISK.Utils.IntFormatException;
 import RISK.Utils.NumUtils;
+import RISK.Utils.TextDisplayer;
 
 public class RISKGame {
   public static void main(String[] args) {
@@ -21,7 +23,8 @@ public class RISKGame {
         int serverPort = NumUtils.strToInt(args[1]);
         String serverIP = args[2];
         Scanner scanner = new Scanner(System.in); // use console input
-        RISKGameClient.run(serverIP, serverPort, scanner);        
+        Displayer displayer = new TextDisplayer();
+        RISKGameClient.run(serverIP, serverPort, scanner, displayer);        
       } else {
         String mannual = "use 1: server <portNum> <playerNum>\n";
         mannual += "    2: client <serverPort> <serverIP>";

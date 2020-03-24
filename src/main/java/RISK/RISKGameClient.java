@@ -8,33 +8,35 @@ import RISK.Displayer.Displayer;
 import RISK.Factory.NtopFactoryJSON;
 import RISK.Factory.PtonFactoryJSON;
 import RISK.Game.GameClientJSON;
-import RISK.Utils.TextDisplayer;
+
 
 public class RISKGameClient {
 
   public static void run(String serverIP,
                          int serverPort,
-                         Scanner scanner) {
+                         Scanner scanner,
+                         Displayer displayer) {
     
-    GameClientJSON client = setupClient(serverIP, serverPort, scanner);
+    GameClientJSON client = setupClient(serverIP, serverPort, scanner, displayer);
     while (client.getGameState() != 2) { // while game hasn't ended
       if (client.getGameState()!= 1) { // if not auditing
-        testClientChooseMoves(client);
+        testClientChooseMoves(client, displayer);
       }
-      testClientListenForUpdate(client);
+      testClientListenForUpdate(client, displayer);
     }
     System.out.println("Client finishes game");
-  }
+ }
 
   public static GameClientJSON setupClient(String serverIP,
                                            int serverPort,
-                                           Scanner scanner) {
+                                           Scanner scanner,
+                                           Displayer displayer) {
     try {
       GameClientJSON client = new GameClientJSON(serverIP,
                                                  8000,
                                                  scanner);
       // acquire info from server, setup game
-      Displayer displayer = new TextDisplayer();
+      //Displayer displayer = new TextDisplayer();
       NtopFactoryJSON ntopFactory = new NtopFactoryJSON();
       ClassBuilderJSON classBuilder = new ClassBuilderJSON(ntopFactory);
       client.initializeConnection(classBuilder, displayer);
@@ -47,19 +49,20 @@ public class RISKGameClient {
     return null;
   }
 
-  public static void testClientChooseMoves(GameClientJSON client) {
+  public static void testClientChooseMoves(GameClientJSON client,
+                                           Displayer displayer) {
     try {
       PtonFactoryJSON ptonFactory = new PtonFactoryJSON();
-      Displayer displayer = new TextDisplayer();
+      //Displayer displayer = new TextDisplayer();
       client.chooseMoves(ptonFactory, displayer);
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
-  public static void testClientListenForUpdate(GameClientJSON client) {
+  public static void testClientListenForUpdate(GameClientJSON client,
+                                               Displayer displayer) {
     try {
-      Displayer displayer = new TextDisplayer();
       NtopFactoryJSON ntopFactory = new NtopFactoryJSON();
       ClassBuilderJSON classBuilder = new ClassBuilderJSON(ntopFactory);
       client.listenForUpdates(classBuilder, displayer);

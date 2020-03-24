@@ -294,8 +294,9 @@ public class GameServerJSON extends GameServer<JSONObject> {
     @Override
     public void run () {
       try {
-          System.out.println("CONNECTION THREAD: RUNNING");
-        String setUpCode = this.messenger.recv();  // blocks here!
+        System.out.println("CONNECTION THREAD: RUNNING");
+        String setUpCode = this.messenger.recv(); // blocks here!
+       
         if (!setUpCode.equals("INIT")) {
           System.out.println("Received \"" + setUpCode + "\" != \"INIT\"");
           return;
