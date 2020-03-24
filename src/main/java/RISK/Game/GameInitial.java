@@ -36,7 +36,7 @@ public class GameInitial {
         territories = new ArrayList<>(Arrays.asList(narnia, midkemia, oz, gondor, mordor, hogwarts, elantris, scadrial, roshar));
 
         //initial all players
-        Player green = new Player(1, "Blue");
+        Player green = new Player(1, "Green");
         Player red = new Player(2, "Red");
         Player purple = new Player(3, "Purple");
 
