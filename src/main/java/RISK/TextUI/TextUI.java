@@ -34,7 +34,12 @@ public class TextUI {
     public void run () throws ClientOperationException{
         this.connectionUI();
         while (this.client.getGameState() == 0) {
-            this.opUI();
+            String ans;
+            do {
+                this.opUI();
+                text("another? y/n");
+                ans = this.scanner.next();
+            } while (ans.equals("y"));
             this.clientOperator.stopMakingOrder();
             this.receiveUpdateUI();
         }
@@ -132,11 +137,7 @@ public class TextUI {
         } catch (IntFormatException e) {
             this.opUI();
         }
-        text("another? y/n");
-        String ans = this.scanner.next();
-        if (ans.equals("y")) {
-            this.opUI();
-        }
+
     }
 
     protected void receiveUpdateUI() throws ClientOperationException {
