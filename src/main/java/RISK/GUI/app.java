@@ -125,10 +125,13 @@ public class app extends JFrame {
     private static void setMapPanel() {
         GameInitial game = new GameInitial();
         Territory territory = game.getTerritories().get(0);
+
         TerritoryBlock tb = new TerritoryBlock(territory);
+
         ArrayList<Block> blocks = new ArrayList<>();
         blocks.add(new Block(50, 50));
         tb.setBlocks(blocks);
+
         ArrayList<TerritoryBlock> territoryBlocks = new ArrayList<>();
         territoryBlocks.add(tb);
         //TODO the map

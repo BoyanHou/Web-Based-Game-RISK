@@ -14,6 +14,7 @@ public class TerritoryBlock {
     private Color color;
     private Territory territory;
     private ArrayList<Block> blocks;
+    private ArrayList<Line> borders;
 
     public TerritoryBlock(Territory territory) {
         this.territory = territory;
@@ -21,8 +22,19 @@ public class TerritoryBlock {
 
     public void  setBlocks(ArrayList<Block> blocks) {
         this.blocks = blocks;
+        //calculate borders
     }
 
+    /*
+    @param: p: a point
+    @return: boolean
+    Return true if the point is in the territoryBlock.
+    PLEASE MARK: Boundary sensitive or not.
+     */
+    public boolean check(Point p) {
+        //TODO
+        return false;
+    }
 
     /*
     Update the color of the TerritoryBlock to be the same with the territory
