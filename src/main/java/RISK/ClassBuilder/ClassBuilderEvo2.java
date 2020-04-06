@@ -1,3 +1,5 @@
+//code reviewed by Zian Li
+
 package RISK.ClassBuilder;
 
 import RISK.Army.Army;
@@ -13,6 +15,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+// This class is used for evaluation 2 with an updated army object
 
 public class ClassBuilderEvo2 extends ClassBuilder<JSONObject> {
   
