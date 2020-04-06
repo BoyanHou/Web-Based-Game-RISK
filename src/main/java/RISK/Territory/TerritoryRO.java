@@ -11,24 +11,33 @@ import RISK.Player.PlayerRO;
 import RISK.Utils.TerritoryNames;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
     Writer & Maintainer: hby
  */
-public class TerritoryRO {
+public class TerritoryRO<T> {
 
     protected int terrID;
-    protected ArrayList<Territory> neighborList;
-    protected TerritoryNames name;
+    protected HashMap<Integer, Territory> neighborMap; // terrID:Territory
+    protected String name;
     protected Player owner;
     protected Army ownerArmy;
-    protected ArrayList<Army> attackArmyList;
+    protected HashMap<Integer, Army> attackArmyMap; // ownerID:Army
+    protected int size;
+    protected int food;
+    protected int tech;
+    protected HashMap<Integer, Integer> unitGenMap; // level:number -- units to generate each round (for owner)
 
     public int getTerrID() {
         return this.terrID;
     }
 
-    public TerritoryNames getName() {
+    public int getSize() {return this.size;}
+    public int getFood() {return this.food;}
+    public int getTech() {return this.tech;}
+
+    public String getName() {
         return this.name;
     }
 
@@ -40,17 +49,25 @@ public class TerritoryRO {
         return ownerArmy;
     }
 
-    public ArrayList<TerritoryRO> getNeighborListRO() {
-        if (neighborList == null) {
+    public HashMap<Integer, TerritoryRO> getNeighborMapRO() {
+        if (this.neighborMap == null) {
             return null;
         }
-        return new ArrayList<>(neighborList);
+        HashMap <Integer, TerritoryRO> neighborMapRO = new HashMap<>();
+        for (int terrID : this.neighborMap.keySet()) {
+            neighborMapRO.put(terrID, this.neighborMap.get(terrID));
+        }
+        return neighborMapRO;
     }
 
-    public ArrayList<ArmyRO> getAttackArmyListRO() {
-        if (attackArmyList == null) {
+    public HashMap<Integer, ArmyRO> getAttackArmyMapRO() {
+        if (attackArmyMap == null) {
             return null;
         }
-        return new ArrayList<>(attackArmyList);
+        HashMap<Integer, ArmyRO> attackArmyMapRO = new HashMap<>();
+        for (int armyID : this.attackArmyMap.keySet()) {
+            attackArmyMapRO.put(armyID, this.attackArmyMap.get(armyID));
+        }
+        return attackArmyMapRO;
     }
 }

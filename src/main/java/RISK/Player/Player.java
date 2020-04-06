@@ -6,52 +6,64 @@ package RISK.Player;
 
 
 import RISK.Territory.Territory;
+import RISK.Unit.UnitLevelException;
 import RISK.Utils.Status;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class Player extends PlayerRO {
+public abstract class Player<T> extends PlayerRO<T> {
 
-    public Player(int id, String name) {
-        this.playerID = id;
+    public Player(int playerID, String name, int status) {
+        this.playerID = playerID;
         this.name = name;
-        this.status = Status.SETUP;
-        this.terrList = new ArrayList<>();
+        this.status = status;
+        this.terrMap = new HashMap<>();
     }
 
-    public ArrayList<Territory> getTerrList() {
-        return this.terrList;
+    public HashMap<Integer, Territory> getTerrMap() {
+        return this.terrMap;
     }
 
-    public void setTerrList(List<Territory> lst) {
-        this.terrList = new ArrayList<>(lst);
+    public void setTerrMap(Map<Integer, Territory> terrMap) {
+        this.terrMap = (HashMap)terrMap;
     }
-
-    public void setStatus(Status status) {
+    public void setStatus(int status) {
         this.status = status;
     }
+    public void setFood(int food) {this.food = food;}
+    public void setTech(int tech) {this.tech = tech;}
+    public void setName(String name) {this.name = name;}
+    public void setPlayerID(int playerID) {this.playerID = playerID;}
 
-    public void addTerr(Territory toAdd) {
-      this.terrList.add(toAdd);
-    }
-
-    public void delTerr(Territory toDel) {
-      int len = this.terrList.size();
-      int toDelTerrID = toDel.getTerrID();
-      int toDelIndex = -1;
-
-      for (int i = 0; i < len; i++) {
-        if (this.terrList.get(i).getTerrID() == toDelTerrID) {
-          toDelIndex = i;
-          break;
+    public void harvestTech() {
+        for (Territory terr : this.terrMap.values()) {
+            this.tech += terr.getTech();
         }
-      }
-
-      if (toDelIndex != -1) {
-          this.terrList.remove(toDelIndex);
-      }
-      return;
     }
+
+    public void harvestFood() {
+        for (Territory terr: this.terrMap.values()) {
+            this.food += terr.getFood();
+        }
+    }
+
+    public void harvestUnit() throws UnitLevelException {
+        for (Territory terr: this.terrMap.values()) {
+            terr.generateUnits();
+        }
+    }
+
+    public void addTerr(Territory terr) {
+        this.terrMap.put(terr.getTerrID(), terr);
+    }
+
+    public void looseTerr(int terrID) {
+        this.terrMap.remove(terrID);
+    }
+
+    public abstract T pton();
 
 }

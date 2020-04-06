@@ -1,33 +1,41 @@
 package RISK.ClassBuilder;
 
+import RISK.Army.Army;
 import RISK.Factory.NtopFactory;
 import RISK.Game.Game;
+import RISK.Player.Player;
+import RISK.Territory.Territory;
 
 import java.util.HashMap;
 
 public abstract class ClassBuilder<T> {
 
-  protected NtopFactory<T> ntopFactory;
+  // record the object fields of models at the beginning
+  // after all models are built, fill their object fields with already-built models
+  protected interface ArmyObjectFields{
+    public abstract void getConnected(Game game, Army army);
+  }
+  protected interface TerrObjectFields{
+    public abstract void getConnected(Game game, Territory terr);
+  }
+  protected interface PlayerObjectFields{
+    public abstract void getConnected(Game game, Player player);
+  }
 
-  protected HashMap<Integer, ClassBuilderJSON.ArmyObjectFields> armyFieldMap;
-  protected HashMap<Integer, ClassBuilderJSON.TerrObjectFields> terrFieldMap;
-  protected HashMap<Integer, ClassBuilderJSON.PlayerObjectFields> playerFieldMap;
-
-//  protected HashMap<Integer, Army> armyMap;
-//  protected HashMap<Integer, Territory> terrMap;
-//  protected HashMap<Integer, Player> playerMap;
-
+  protected HashMap<Integer, ArmyObjectFields> armyFieldMap;
+  protected HashMap<Integer, TerrObjectFields> terrFieldMap;
+  protected HashMap<Integer, PlayerObjectFields> playerFieldMap;
   
   // entry func
-  public void buildAllClasses(T classes, Game game) {
-    this.buildPrimitiveClasses(classes, game);
+  public void buildAllClasses(T classesT, Game game) throws BuildClassesException {
+    this.buildPrimitiveClasses(classesT, game);
     this.fillClasses(game);
   }
 
   // build classes & put into maps
-  // omit object fileds for now
-  protected abstract void buildPrimitiveClasses(T classes, Game game);
+  // omit object fields for now
+  protected abstract void buildPrimitiveClasses(T classesT, Game game) throws BuildClassesException;
 
   // fill in object fields using the maps
-  protected abstract void fillClasses(Game game);
+  protected abstract void fillClasses(Game game) throws BuildClassesException;
 }

@@ -1,6 +1,6 @@
 package RISK;
 
-import RISK.ClassBuilder.ClassBuilderJSON;
+import RISK.ClassBuilder.ClassBuilderEvo2;
 import RISK.CombatResolver.CombatResolver;
 import RISK.CombatResolver.DiceCombatResolver;
 import RISK.Factory.NtopFactory;
@@ -35,7 +35,7 @@ public class RISKGameServer {
                                            String armyPath) {
         try {
             NtopFactoryJSON ntopFactory = new NtopFactoryJSON();
-            ClassBuilderJSON classBuilder = new ClassBuilderJSON(ntopFactory);
+            ClassBuilderEvo2 classBuilder = new ClassBuilderEvo2(ntopFactory);
             GameServerJSON serverJSON = new GameServerJSON(port, classBuilder,
                                                            terrPath,
                                                            playerPath,

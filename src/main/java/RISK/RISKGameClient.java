@@ -3,7 +3,7 @@ package RISK;
 import java.io.IOException;
 import java.util.Scanner;
 
-import RISK.ClassBuilder.ClassBuilderJSON;
+import RISK.ClassBuilder.ClassBuilderEvo2;
 import RISK.Displayer.Displayer;
 import RISK.Factory.NtopFactoryJSON;
 import RISK.Factory.PtonFactoryJSON;
@@ -38,7 +38,7 @@ public class RISKGameClient {
       // acquire info from server, setup game
       //Displayer displayer = new TextDisplayer();
       NtopFactoryJSON ntopFactory = new NtopFactoryJSON();
-      ClassBuilderJSON classBuilder = new ClassBuilderJSON(ntopFactory);
+      ClassBuilderEvo2 classBuilder = new ClassBuilderEvo2(ntopFactory);
       client.initializeConnection(classBuilder, displayer);
 
       System.out.println("Assigned playerID:" + client.getPlayerID());
@@ -64,7 +64,7 @@ public class RISKGameClient {
                                                Displayer displayer) {
     try {
       NtopFactoryJSON ntopFactory = new NtopFactoryJSON();
-      ClassBuilderJSON classBuilder = new ClassBuilderJSON(ntopFactory);
+      ClassBuilderEvo2 classBuilder = new ClassBuilderEvo2(ntopFactory);
       client.listenForUpdates(classBuilder, displayer);
     } catch (Exception e) {
       e.printStackTrace();
