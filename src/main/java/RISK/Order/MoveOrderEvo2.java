@@ -41,6 +41,7 @@ public class MoveOrderEvo2 extends MoveOrder<JSONObject>{
             throws WrongOrderVersionException,
             InvalidOptionException {
         Player player = game.getPlayerMap().get(playerID);
+        this.player = player;
         HashMap<Integer, Territory> myTerrMap = player.getTerrMap();
         String errorStr = "";
 
@@ -135,7 +136,7 @@ public class MoveOrderEvo2 extends MoveOrder<JSONObject>{
         JSONObject orderN = new JSONObject();
         orderN.put("type", "move");
         orderN.put("order", orderJSON);
-        return orderJSON;
+        return orderN;
     }
 
     @Override
@@ -193,7 +194,7 @@ public class MoveOrderEvo2 extends MoveOrder<JSONObject>{
             // do nothing: not-connected case has been dealt with in checkpoint 4
         }
         int totalFoodCost = totalUnitNum * leastCost; // use the least cost for units moving
-        if (totalFoodCost < player.getFood()) {
+        if (totalFoodCost > player.getFood()) {
             errorString += "Your moving army of " + totalUnitNum + " will cost " + totalFoodCost + "food, ";
             errorString += "however you only have " + player.getFood() +" food\n";
         }

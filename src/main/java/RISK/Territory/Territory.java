@@ -107,15 +107,25 @@ public abstract class Territory<T> extends TerritoryRO<T> implements BattleField
   // upgrade it to the toLevel
   public void upgradeUnit(int fromLevel, int toLevel)
   throws InvalidOptionException{
+    HashMap<Integer, ArrayList<Unit>> unitMap = this.ownerArmy.getUnitMap();
     // if no such unit: exception
     if (!this.ownerArmy.getUnitMap().containsKey(fromLevel) ||
-            ((ArrayList<Unit>)(this.ownerArmy.getUnitMap().get(fromLevel))).size() == 0) {
+            unitMap.get(fromLevel).size() == 0) {
       throw new InvalidOptionException("No level" + fromLevel +" unit on " + this.getName());
     }
-    Unit unit = ((ArrayList<Unit>)(this.ownerArmy.getUnitMap().get(fromLevel))).get(0);
+    ArrayList<Unit> units = unitMap.get(fromLevel);
+    int unitIndex = units.size() - 1;
+    Unit unit = units.get(unitIndex);
 
     try {
       unit.setLevel(toLevel);
+      // move unit to new level list
+      if (!unitMap.containsKey(toLevel)) {
+        ArrayList<Unit> newLevelList = new ArrayList<>();
+        unitMap.put(toLevel, newLevelList);
+      }
+      unitMap.get(fromLevel).remove(unitIndex); // remove from old list
+      unitMap.get(toLevel).add(unit);           // add to new list
     } catch (UnitLevelException e) {
       throw new InvalidOptionException(e.getMessage());
     }

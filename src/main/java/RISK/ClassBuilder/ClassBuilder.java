@@ -1,7 +1,6 @@
 package RISK.ClassBuilder;
 
 import RISK.Army.Army;
-import RISK.Factory.NtopFactory;
 import RISK.Game.Game;
 import RISK.Player.Player;
 import RISK.Territory.Territory;

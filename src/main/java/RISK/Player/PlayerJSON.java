@@ -11,8 +11,7 @@ public class PlayerJSON extends Player<JSONObject> {
     //    "tech": int
     public PlayerJSON(JSONObject playerJO) {
         super(playerJO.getInt("playerID"),
-                playerJO.getString("name"),
-                playerJO.getInt("status"));
+                playerJO.getString("name"));
         this.food = playerJO.getInt("food");
         this.tech = playerJO.getInt("tech");
     }

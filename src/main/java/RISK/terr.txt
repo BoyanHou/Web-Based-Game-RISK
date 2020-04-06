@@ -1,0 +1,4 @@
+[
+    {"terrID":1,"name":"Terr1xx","owner":1,"attackArmyMap":[],"ownerArmy":1,"neighborMap":[2],"size":1,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":2,"name":"Terr2xx","owner":2,"attackArmyMap":[],"ownerArmy":2,"neighborMap":[1],"size":1,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}}
+]

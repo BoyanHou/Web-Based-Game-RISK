@@ -3,12 +3,9 @@ package RISK;
 import RISK.ClassBuilder.ClassBuilderEvo2;
 import RISK.CombatResolver.CombatResolver;
 import RISK.CombatResolver.DiceCombatResolver;
-import RISK.Factory.NtopFactory;
-import RISK.Factory.NtopFactoryJSON;
-import RISK.Factory.PtonFactory;
-import RISK.Factory.PtonFactoryJSON;
 import RISK.Game.GameServerJSON;
-import org.json.JSONObject;
+import RISK.Order.OrderFactory;
+import RISK.Order.OrderFactoryEvo2;
 
 import java.io.IOException;
 
@@ -34,12 +31,15 @@ public class RISKGameServer {
                                            String playerPath,
                                            String armyPath) {
         try {
-            NtopFactoryJSON ntopFactory = new NtopFactoryJSON();
-            ClassBuilderEvo2 classBuilder = new ClassBuilderEvo2(ntopFactory);
-            GameServerJSON serverJSON = new GameServerJSON(port, classBuilder,
-                                                           terrPath,
-                                                           playerPath,
-                                                           armyPath);
+            ClassBuilderEvo2 classBuilder = new ClassBuilderEvo2();
+            OrderFactory orderFactory = new OrderFactoryEvo2();
+            GameServerJSON serverJSON = new GameServerJSON(
+                    port,
+                    classBuilder,
+                    terrPath,
+                    playerPath,
+                    armyPath,
+                    orderFactory);
             return serverJSON;
         } catch (Exception e) {
         }
@@ -48,8 +48,7 @@ public class RISKGameServer {
 
     public static void serverAcceptConnections(GameServerJSON server) {
         try {
-            PtonFactory<JSONObject> ptonFactory = new PtonFactoryJSON();
-            server.acceptConnections(ptonFactory);
+            server.acceptConnections();
         } catch (IOException e) {
             System.out.println("Server failed to accept connections");
         }
@@ -57,8 +56,7 @@ public class RISKGameServer {
 
   public static void serverAcceptOrders(GameServerJSON server) {
     try {
-      NtopFactory<JSONObject> ntopFactory = new NtopFactoryJSON();
-      server.acceptOrders(ntopFactory);
+      server.acceptOrders();
     } catch (IOException e) {
       System.out.println("Server failed to accept connections");
     }
@@ -67,9 +65,8 @@ public class RISKGameServer {
   public static void serverResolveCombats(GameServerJSON server) {
     try {
       CombatResolver combatResolver = new DiceCombatResolver(20);
-      PtonFactory<JSONObject> ptonFactory = new PtonFactoryJSON();
-      server.resolveCombats(combatResolver, ptonFactory);
-    } catch (IOException e) {
+      server.resolveCombats(combatResolver);
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }

@@ -41,6 +41,7 @@ public class UpgradeOrderEvo2 extends UpgradeOrder<JSONObject> {
             throws WrongOrderVersionException,
             InvalidOptionException {
         Player player = game.getPlayerMap().get(playerID);
+        this.player = player;
         HashMap<Integer, Territory> myTerrMap = player.getTerrMap();
         String errorStr = "";
 
@@ -122,7 +123,7 @@ public class UpgradeOrderEvo2 extends UpgradeOrder<JSONObject> {
         JSONObject orderN = new JSONObject();
         orderN.put("type", "upgrade");
         orderN.put("order", orderJSON);
-        return orderJSON;
+        return orderN;
     }
 
     @Override
@@ -214,7 +215,7 @@ public class UpgradeOrderEvo2 extends UpgradeOrder<JSONObject> {
         // deduct the tech point from player
         int cost = 0;
         try {
-            this.getCost(this.fromLevel, this.toLevel);
+            cost = this.getCost(this.fromLevel, this.toLevel);
         } catch (InvalidOptionException e) {
             errorStr += e.getMessage() + "\n";
         }

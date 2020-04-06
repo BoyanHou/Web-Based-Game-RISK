@@ -16,10 +16,9 @@ import java.util.Map;
 
 public abstract class Player<T> extends PlayerRO<T> {
 
-    public Player(int playerID, String name, int status) {
+    public Player(int playerID, String name) {
         this.playerID = playerID;
         this.name = name;
-        this.status = status;
         this.terrMap = new HashMap<>();
     }
 

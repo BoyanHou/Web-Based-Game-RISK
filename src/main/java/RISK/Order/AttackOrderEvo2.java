@@ -38,6 +38,7 @@ public class AttackOrderEvo2 extends AttackOrder<JSONObject> {
             throws WrongOrderVersionException,
                     InvalidOptionException {
         Player player = game.getPlayerMap().get(playerID);
+        this.player = player;
         HashMap<Integer, Territory> myTerrMap = player.getTerrMap();
         String errorStr = "";
 
@@ -131,7 +132,7 @@ public class AttackOrderEvo2 extends AttackOrder<JSONObject> {
         JSONObject orderN = new JSONObject();
         orderN.put("type", "attack");
         orderN.put("order", orderJSON);
-        return orderJSON;
+        return orderN;
     }
 
     @Override
@@ -183,7 +184,7 @@ public class AttackOrderEvo2 extends AttackOrder<JSONObject> {
             totalUnitNum += this.unitMap.get(level);
         }
         int totalFoodCost = totalUnitNum; // attack cost 1 food per unit attacking
-        if (totalFoodCost < player.getFood()) {
+        if (totalFoodCost > player.getFood()) {
             errorString += "Your attacking army of " + totalUnitNum + " will cost " + totalFoodCost + "food, ";
             errorString += "however you only have " + player.getFood() +" food\n";
         }
@@ -208,6 +209,7 @@ public class AttackOrderEvo2 extends AttackOrder<JSONObject> {
         // add the myTerr's army to the targetTerr's attackArmy list
         Army attackArmy = new ArmyJSON(-1);
         this.myTerr.formArmy(this.unitMap, attackArmy);
+        attackArmy.setOwner(this.player);
         this.targetTerr.addAttackArmy(attackArmy);
 
         // deduct food cost from player
