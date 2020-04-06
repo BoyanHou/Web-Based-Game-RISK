@@ -55,7 +55,6 @@ public class TerritoryBlock {
 
 
     public void paint(Graphics g) {
-        update();
         for (Block block: blocks) {
             g.setColor(color);
             g.fillRect(block.getX(), block.getY(),
