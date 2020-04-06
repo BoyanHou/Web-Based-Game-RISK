@@ -7,11 +7,8 @@ import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 
-import RISK.Displayer.Displayer;
-import RISK.Displayer.DisplayerStub;
 import RISK.Game.GameClientJSON;
 import RISK.Game.GameServerJSON;
-import RISK.Utils.TextDisplayer;
 
 public class testGameServer {
   @Test
