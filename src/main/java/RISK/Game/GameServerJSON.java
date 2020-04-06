@@ -1,15 +1,13 @@
 package RISK.Game;
 
+import RISK.Army.Army;
+import RISK.ClassBuilder.BuildClassesException;
 import RISK.ClassBuilder.ClassBuilder;
 import RISK.CombatResolver.CombatResolver;
-import RISK.Factory.NtopFactory;
-import RISK.Factory.PtonFactory;
-import RISK.Order.AttackOrder;
-import RISK.Order.MoveOrder;
-import RISK.Order.Order;
+import RISK.Order.*;
 import RISK.Player.Player;
 import RISK.Territory.Territory;
-import RISK.Unit.Soldier;
+import RISK.Unit.UnitLevelException;
 import RISK.Utils.TxtReader;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,9 +25,13 @@ public class GameServerJSON extends GameServer<JSONObject> {
   // read info from txt files to build up game 
   public GameServerJSON(int port,
                         ClassBuilder<JSONObject> classBuilder,
-                        String terrPath, String playerPath, String armyPath)
-    throws IOException{
+                        String terrPath,
+                        String playerPath,
+                        String armyPath,
+                        OrderFactory<JSONObject>orderFactory)
+    throws IOException, BuildClassesException {
     this.gameState = 0; // set gameState as running
+    this.orderFactory = orderFactory;
     String terrStr = TxtReader.readStrFromFile(terrPath);
     JSONArray terrJOs = new JSONArray(terrStr);
 
@@ -51,10 +53,10 @@ public class GameServerJSON extends GameServer<JSONObject> {
   }
 
   @Override
-  public void acceptConnections(PtonFactory<JSONObject> ptonFactory)
+  public void acceptConnections()
     throws IOException {
 
-    JSONObject classes = this.packUpContent(ptonFactory);
+    JSONObject classes = this.packUpContent();
     
     ArrayList<Thread> connectionThreads = new ArrayList<>();
     for (int playerID : this.playerMap.keySet()) {
@@ -82,14 +84,14 @@ public class GameServerJSON extends GameServer<JSONObject> {
   }
 
   @Override
-  public void acceptOrders(NtopFactory<JSONObject> ntopFactory) throws IOException {
+  public void acceptOrders() throws IOException {
     ArrayList<Thread> orderThreads = new ArrayList<>();
 
     // playerMap will be updated after end of this turn,
     // so lost players will not be able to send orders
     for (int playerID : this.playerMap.keySet()) {
       Socket socket = this.socketMap.get(playerID);
-      Thread orderThread = new OrderThread(socket, playerID, this, ntopFactory);
+      Thread orderThread = new OrderThread(socket, playerID, this, this.orderFactory);
       orderThreads.add(orderThread);
       orderThread.start();
     }
@@ -106,8 +108,8 @@ public class GameServerJSON extends GameServer<JSONObject> {
   }
 
   @Override
-  public void resolveCombats(CombatResolver combatResolver,
-                             PtonFactory<JSONObject> ptonFactory) throws IOException {
+  public void resolveCombats(CombatResolver combatResolver)
+          throws IOException, UnitLevelException {
     // make messegners
     // messengers are made based on socketMap,
     // so that it's possible a player's not in playerMap (lost) but
@@ -128,18 +130,18 @@ public class GameServerJSON extends GameServer<JSONObject> {
     }
 
     // broadcast final battle result
-    JSONObject classes = this.packUpContent(ptonFactory);
+    JSONObject classes = this.packUpContent();
     this.broadCast(classes.toString(), msgerMap); // broadCast new models
 
-    // go through each territory after all combats finish
-    // ADD ONE NEW UNIT into the territory
-    for (int terrID : this.terrMap.keySet()) {
-      Territory terr = this.terrMap.get(terrID);
-      terr.getOwnerArmy().addUnit(new Soldier());
+    //  after all combats finish, update game here:
+    for (Player player : this.playerMap.values()) {
+      player.harvestFood();
+      player.harvestTech();
+      player.harvestUnit();
     }
 
     // broadcast again for updated units
-    classes = this.packUpContent(ptonFactory);
+    classes = this.packUpContent();
     this.broadCast(classes.toString(), msgerMap); // broadCast new models
 
     // broadcast info to enter next turn
@@ -149,12 +151,13 @@ public class GameServerJSON extends GameServer<JSONObject> {
     this.processTurnResult(msgerMap);
   }
 
-  protected void processTurnResult(HashMap<Integer, Messenger> msgerMap) throws IOException {
+  protected void processTurnResult(HashMap<Integer, Messenger> msgerMap)
+          throws IOException {
     HashSet<Integer> thisRoundLoserIDs = new HashSet<>();
     int winnerID = -1;
     for (int playerID : this.playerMap.keySet()) {
       Player player = this.playerMap.get(playerID);
-      int terrNum = player.getTerrList().size();
+      int terrNum = player.getTerrMap().size();
       if (terrNum == this.terrMap.size()) { // you got to win'em all!
         winnerID =playerID;
         break;
@@ -250,29 +253,29 @@ public class GameServerJSON extends GameServer<JSONObject> {
 
 
   @Override
-  protected JSONObject packUpContent(PtonFactory<JSONObject> ptonFactory) {
+  protected JSONObject packUpContent() {
     JSONObject res = new JSONObject();
   
     // terrs
     JSONArray terrJOs = new JSONArray();
-    for (int terrID : this.terrMap.keySet()) {
-      JSONObject terrJO = ptonFactory.terrPton(this.terrMap.get(terrID));
+    for (Territory terr: this.terrMap.values()) {
+      JSONObject terrJO = (JSONObject) terr.pton();
       terrJOs.put(terrJO);
     }
     res.put("Terr", terrJOs);
 
     // players
     JSONArray playerJOs = new JSONArray();
-    for (int playerID : this.playerMap.keySet()) {
-      JSONObject playerJO = ptonFactory.playerPton(this.playerMap.get(playerID));
+    for (Player player : this.playerMap.values()) {
+      JSONObject playerJO = (JSONObject)player.pton();
       playerJOs.put(playerJO);
     }
     res.put("Player", playerJOs);
 
     // armies
     JSONArray armyJOs = new JSONArray();
-    for (int armyID : this.armyMap.keySet()) {
-      JSONObject armyJO = ptonFactory.armyPton(this.armyMap.get(armyID));
+    for (Army army : this.armyMap.values()) {
+      JSONObject armyJO = (JSONObject)army.pton();
       armyJOs.put(armyJO);
     }
     res.put("Army", armyJOs);
@@ -314,21 +317,25 @@ public class GameServerJSON extends GameServer<JSONObject> {
     Messenger messenger;
     Game game;
     int playerID;
-    NtopFactory<JSONObject> ntopFactory;
+    OrderFactory<JSONObject> orderFactory;
     
     public OrderThread (Socket socket,
                         int playerID,
                         Game game,
-                        NtopFactory<JSONObject> ntopFactory)
+                        OrderFactory<JSONObject> orderFactory)
     throws IOException {
+      this.orderFactory = orderFactory;
       this.messenger = new Messenger(socket);
       this.game = game;
       this.playerID = playerID;
-      this.ntopFactory = ntopFactory;
     }
 
     protected synchronized void executeSynchronizedOrder(Order order) {
-      order.execute();
+      try {
+        order.execute();
+      } catch (InvalidLogicException e) {
+        System.out.println(e.getMessage());  // shouldn't happen
+      }
       return;
     }
     
@@ -338,33 +345,32 @@ public class GameServerJSON extends GameServer<JSONObject> {
         String msgStr = this.messenger.recv();
       
         while (!msgStr.equals("DONE")) {
-          JSONObject msgJO = new JSONObject(msgStr);
-        
-          String type = msgJO.getString("type");
-          JSONObject orderJO = msgJO.getJSONObject("order");
           
           Boolean orderAccepted = false;
-          if (type.equals("move")) { // moveOrder
-            MoveOrder moveOrder = this.ntopFactory.moveNtop(orderJO, this.game);
-            if (moveOrder.validate() &&
-                moveOrder.getPlayer().getPlayerID() == this.playerID) {
-              orderAccepted = true;
-              moveOrder.execute();  // execute order
-            }
-          } else if (type.equals("attack")) { // attackOrder
-            AttackOrder attackOrder = this.ntopFactory.attackNtop(orderJO, this.game);
-            if (attackOrder.validate() &&
-                attackOrder.getPlayer().getPlayerID() == this.playerID) {
-              orderAccepted = true;
-              this.executeSynchronizedOrder(attackOrder); // execute order
-            }
+          Order order = null;
+          try {
+            order = this.orderFactory.makeOrderByNtop(this.game, msgStr);
+          } catch (ProtocolException e) {
+            System.out.println(e.getMessage());
+          } catch (InvalidOptionException e) {
+            System.out.println(e.getMessage());
+          } catch (WrongOrderVersionException e) {
+            System.out.println(e.getMessage());
+          }
+          if (order == null) {
+            return;
+          }
+          // verify order
+          try {
+            order.verify();
+            this.messenger.send("VALID");
+          } catch (InvalidLogicException e) {
+            this.messenger.send("INVALID");
+            System.out.println(e.getMessage());
           }
 
-          if (orderAccepted) {
-            this.messenger.send("VALID");
-          } else {
-            this.messenger.send("INVALID");
-          }
+          this.executeSynchronizedOrder(order); // execute order
+
           msgStr = this.messenger.recv();
         }
       } catch (IOException e) {

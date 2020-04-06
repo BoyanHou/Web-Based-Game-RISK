@@ -3,8 +3,10 @@ package RISK.CombatResolver;
 import RISK.Army.Army;
 import RISK.Player.Player;
 import RISK.Territory.Territory;
+import RISK.Unit.Unit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 
@@ -24,13 +26,14 @@ public class DiceCombatResolver implements CombatResolver{
   @Override
   public void resolve(Territory terr) {
     
-    ArrayList<Army> attackArmyList = terr.getAttackArmyList();
+    HashMap<Integer, Army> attackArmyMap = terr.getAttackArmyMap();
 
     Army ownerArmy = terr.getOwnerArmy();
-    while(!attackArmyList.isEmpty()){
-      Army attackArmy = attackArmyList.remove(0);
+    for (Army attackArmy : attackArmyMap.values()) {
+
       Player defender = terr.getOwner();
       Player attacker = attackArmy.getOwner();
+
       int combatResult = combatUnitResolver(ownerArmy, attackArmy);
       if (combatResult == defenderWin) {
         // do nothing
@@ -39,10 +42,10 @@ public class DiceCombatResolver implements CombatResolver{
         // update defending army
         Army defendArmy = terr.getOwnerArmy();
         defendArmy.setOwner(attackArmy.getOwner());     // owner
-        defendArmy.setUnits(attackArmy.getUnitList());  // units
+        defendArmy.setUnitMap(attackArmy.getUnitMap());  // units
 
         // update terr ownership
-        defender.delTerr(terr);
+        defender.looseTerr(terr.getTerrID());
         attacker.addTerr(terr);
         terr.setOwner(attackArmy.getOwner());
       }
@@ -50,33 +53,74 @@ public class DiceCombatResolver implements CombatResolver{
     }
   }
 
-  public int combatUnitResolver(Army ownerArmy, Army attackArmy) {
+  public int combatUnitResolver(Army defenderArmy, Army attackerArmy) {
     while (true) {
-      if (ownerArmy.getUnitListSize() == 0) {
+      ArrayList<Unit> defenderUnits = this.getUnits("highest", defenderArmy);
+      ArrayList<Unit> attackerUnits = this.getUnits("lowest", attackerArmy);
+      if (defenderUnits == null) {
         return attackerWin;
       }
-      if (attackArmy.getUnitListSize() == 0) {
+      if (attackerUnits == null) {
         return defenderWin;
       }
-      if (randomDiceResult() == defenderWin) {
-        ownerArmy.reduceUnit(1);
-      }
-      else {
-        attackArmy.reduceUnit(1);
+      while (defenderUnits.size() != 0 && attackerUnits.size() != 0) {
+        int defenderUnitIndex = defenderUnits.size()-1;
+        int attackerUnitIndex = attackerUnits.size()-1;
+        Unit defenderUnit = defenderUnits.get(defenderUnitIndex);
+        Unit attackerUnit = attackerUnits.get(attackerUnitIndex);
+        int battleResult = this.randomDiceResult(
+                defenderUnit.getBonus(),
+                attackerUnit.getBonus());
+        if (battleResult == attackerWin) {
+          defenderUnits.remove(defenderUnitIndex);
+        } else {
+          attackerUnits.remove(attackerUnitIndex);
+        }
       }
     }
   }
   
   // if defender win, return 0, else return 1
-  public int randomDiceResult(){
+  public int randomDiceResult(int defenderBonus,
+                              int attackerBonus){
     Random newRan = new Random();
-    int ran0 = newRan.nextInt(diceSides);
-    int ran1 = newRan.nextInt(diceSides);
-    if (ran0 >= ran1) {
+    int defenderNum = newRan.nextInt(diceSides) + defenderBonus;
+    int attackerNum = newRan.nextInt(diceSides) + attackerBonus;
+    if (defenderNum >= attackerNum) {
       return defenderWin;
     }
     else {
       return attackerWin;
     }
+  }
+
+  protected ArrayList<Unit> getUnits(String condition, Army army) {
+
+    HashMap<Integer, ArrayList<Unit>> unitMap = army.getUnitMap();
+    if (condition.equals("highest")) {
+      for (int level = 6; level >= 0; level--) {
+        if (unitMap.containsKey(level)) {
+          ArrayList<Unit> units = unitMap.get(level);
+          if (units.size() == 0) {
+            unitMap.remove(level);
+          } else {
+            return units;
+          }
+        }
+      }
+    } else {
+      for (int level = 6; level >= 0; level--) {
+        if (unitMap.containsKey(level)) {
+          ArrayList<Unit> units = unitMap.get(level);
+          if (units.size() == 0) {
+            unitMap.remove(level);
+          } else {
+            return units;
+          }
+        }
+      }
+    }
+
+    return null;
   }
 }
