@@ -7,6 +7,5 @@ public class ServerTest {
         RISKGameServer.run(8000,
                     "/Users/liyating/Documents/651/ece651-spr20-g7/src/main/java/RISK/terr.txt",
                   "/Users/liyating/Documents/651/ece651-spr20-g7/src/main/java/RISK/player.txt",
-                   "/Users/liyating/Documents/651/ece651-spr20-g7/src/main/java/RISK/army.txt");
-    }
+                   "/Users/liyating/Documents/651/ece651-spr20-g7/src/main/java/RISK/army.txt"); }
 }

@@ -53,6 +53,7 @@ public abstract class Army<T> extends ArmyRO<T> {
 
   public void absorb(Army army) {
     HashMap<Integer, ArrayList<Unit>> units = army.getUnitMap();
+    ArrayList<Integer> levelToRemove = new ArrayList<>();
     for (int level : units.keySet()) {
       if (!this.unitMap.containsKey(level)) {
         ArrayList<Unit> unitList = new ArrayList<>();
@@ -61,6 +62,9 @@ public abstract class Army<T> extends ArmyRO<T> {
       for (Unit unit :units.get(level)) {
         this.unitMap.get(level).add(unit);
       }
+      levelToRemove.add(level);
+    }
+    for (int level : levelToRemove) {
       units.remove(level);
     }
   }

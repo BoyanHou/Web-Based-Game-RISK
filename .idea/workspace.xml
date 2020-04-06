@@ -2,62 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e892aa69-5017-4bf2-b419-f9c96b331b84" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Army/Army.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Army/Army.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Army/ArmyRO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Army/ArmyRO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/ClassBuilder/ClassBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/ClassBuilder/ClassBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/ClassBuilder/ClassBuilderJSON$ArmyObjectFields.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/ClassBuilder/ClassBuilderJSON$PlayerObjectFields.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/ClassBuilder/ClassBuilderJSON$TerrObjectFields.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/ClassBuilder/ClassBuilderJSON.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/CombatResolver/DiceCombatResolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/CombatResolver/DiceCombatResolver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Displayer/Displayer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Displayer/DisplayerStub.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Factory/NtopFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Factory/NtopFactoryJSON.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Factory/PtonFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Factory/PtonFactoryJSON.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/Block.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/Block.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/TerritoryBlock.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/TerritoryBlock.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Game/CodeException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Game/GameClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Game/GameClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Game/GameClientJSON.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Game/GameClientJSON.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Game/GameDisplayable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Game/GameDisplayable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Game/GameInitial.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Game/GameServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Game/GameServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Game/GameServerJSON$AuditThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Game/GameServerJSON$AuditThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Game/GameServerJSON$ConnectionThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Game/GameServerJSON$ConnectionThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Game/GameServerJSON$OrderThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Game/GameServerJSON$OrderThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Game/GameServerJSON.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Game/GameServerJSON.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Game/InvalidOptionException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Game/InvalidOrderException.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Game/InvalidOrderException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Order/AttackOrder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Order/AttackOrder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Order/MoveOrder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Order/MoveOrder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Order/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Order/Order.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Player/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Player/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Player/PlayerRO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Player/PlayerRO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/RISKGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/RISKGame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/RISKGameClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/RISKGameClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/RISKGameServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/RISKGameServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Territory/Territory.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Territory/Territory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Territory/TerritoryRO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Territory/TerritoryRO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Unit/Soldier.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Unit/Soldier.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Unit/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Unit/Unit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Utils/TextDisplayer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/RISK/GUI/TerritoryBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RISK/GUI/TerritoryBlock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/RISK/Game/GameInitial.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/RISK/Army/Army.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RISK/Army/Army.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/RISK/GUI/app.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RISK/GUI/app.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/RISK/Tests/ServerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RISK/Tests/ServerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/RISK/testOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/RISK/testOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/RISK/TextUI/TextUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RISK/TextUI/TextUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/RISK/army.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RISK/army.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/RISK/player.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RISK/player.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/RISK/terr.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RISK/terr.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -74,8 +26,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/RISK/GUI/app.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="368" column="40" selection-start-line="368" selection-start-column="40" selection-end-line="368" selection-end-column="40" />
+            <state>
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -105,7 +56,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/RISK/player.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
-              <caret line="4" selection-start-line="4" selection-end-line="4" />
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
             </state>
           </provider>
         </entry>
@@ -125,8 +76,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/RISK/Tests/ServerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="153">
+              <caret line="9" column="97" selection-start-line="9" selection-start-column="97" selection-end-line="9" selection-end-column="97" />
             </state>
           </provider>
         </entry>
@@ -175,10 +126,10 @@
         <option value="$PROJECT_DIR$/src/main/java/RISK/GUI/Line.java" />
         <option value="$PROJECT_DIR$/src/main/java/RISK/GUI/Block.java" />
         <option value="$PROJECT_DIR$/src/main/java/RISK/GUI/CheckboxListCellRenderer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/RISK/Tests/ServerTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/RISK/player.txt" />
         <option value="$PROJECT_DIR$/src/test/java/RISK/testOrder.java" />
         <option value="$PROJECT_DIR$/src/main/java/RISK/GUI/TerritoryBlock.java" />
+        <option value="$PROJECT_DIR$/src/main/java/RISK/Tests/ServerTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/RISK/GUI/app.java" />
       </list>
     </option>
@@ -460,7 +411,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/RISK/player.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
         </state>
       </provider>
     </entry>
@@ -468,13 +419,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2460">
           <caret line="174" column="5" lean-forward="true" selection-start-line="18" selection-start-column="3" selection-end-line="174" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/RISK/Tests/ServerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
         </state>
       </provider>
     </entry>
@@ -557,10 +501,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/RISK/Tests/ServerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="97" selection-start-line="9" selection-start-column="97" selection-end-line="9" selection-end-column="97" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/RISK/GUI/app.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="368" column="40" selection-start-line="368" selection-start-column="40" selection-end-line="368" selection-end-column="40" />
+        <state>
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
