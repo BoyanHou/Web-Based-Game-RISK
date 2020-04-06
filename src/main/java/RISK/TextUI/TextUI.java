@@ -40,6 +40,7 @@ public class TextUI {
         }
         while (this.client.getGameState() == 1) {
             this.receiveUpdateUI();
+            this.dMap();
         }
         return;
     }
@@ -134,7 +135,7 @@ public class TextUI {
         text("another? y/n");
         String ans = this.scanner.next();
         if (ans.equals("y")) {
-          this.opUI();
+            this.opUI();
         }
     }
 
@@ -179,10 +180,13 @@ public class TextUI {
     }
     protected void dMap() {
         if (this.display) {
+            this.text("\n");
             int id = this.client.getPlayerID();
             Player playerX = this.client.getPlayerMap().get(id);
-            String playerStr = "id: " + id + "|food:" + playerX.getFood()+"|tech:" + playerX.getTech();
-            this.text(playerStr);
+            if (this.client.getGameState() == 0) {
+                String playerStr = "id: " + id + "|food:" + playerX.getFood() + "|tech:" + playerX.getTech();
+                this.text(playerStr);
+            }
             for (int playerID : this.client.getPlayerMap().keySet()) {
                 Player player = this.client.getPlayerMap().get(playerID);
                 this.text(playerID + "'s terrs:");
