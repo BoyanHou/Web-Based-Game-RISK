@@ -168,6 +168,10 @@ public class app extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     clientOperator.AuditOrNot("YES");
+                    System.out.println("Send Yes");
+                    frame.remove(makeChoicePanel);
+                    frame.revalidate();
+                    frame.repaint();
                     String message = clientOperator.listenForUpdates();
                     while (message.equals("CONTINUE")) {
                         JOptionPane.showMessageDialog(frame, "Next Round");
@@ -195,6 +199,7 @@ public class app extends JFrame {
                 JOptionPane.showMessageDialog(frame, "Please Close the Web now");
             }
         });
+        frame.add(makeChoicePanel, BorderLayout.SOUTH);
     }
 
     //MARK: - draw the map
@@ -803,7 +808,7 @@ public class app extends JFrame {
         ClientOperator clientOperator = new ClientOperatorEvo2(client, orderFactory);
         // make text GUI
         try {
-            clientOperator.initConnection("0.0.0.0", "8000");
+            clientOperator.initConnection("3.15.215.167", "8000");
         } catch (ClientOperationException ce) {
 
         }
