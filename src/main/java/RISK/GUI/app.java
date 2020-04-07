@@ -199,7 +199,8 @@ public class app extends JFrame {
                     if (moveTerrFrom.getText().equals("")) {
                         moveTerrFrom.setText(selected);
                         String[] armiesInfo = makeUnits(moveTerrFrom);
-                        choseMoveNums = makeMultiSelectionList(movePanel, armiesInfo, new Rectangle(290, 70, 100, 100));
+                        choseMoveNums.setListData(armiesInfo);
+                        updateMapPanel();
                     } else if (moveTerrTo.getText().equals("")) {
                         moveTerrTo.setText(selected);
                     }
@@ -209,7 +210,7 @@ public class app extends JFrame {
                     if (attackTerrFrom.getText().equals("")) {
                         attackTerrFrom.setText(selected);
                         String[] armiesInfo = makeUnits(attackTerrFrom);
-                        choseAttachNums = makeMultiSelectionList(attackPanel, armiesInfo, new Rectangle(290, 70, 100, 100));
+                        choseAttachNums.setListData(armiesInfo);
                     } else if (attackTerrTo.getText().equals("")) {
                         attackTerrTo.setText(selected);
                     }
@@ -254,6 +255,11 @@ public class app extends JFrame {
 
     private static void updateMapPanel() {
         //TODO
+        for (TerritoryBlock territoryBlock: territoryBlocks) {
+            territoryBlock.update();
+        }
+        mapPanel.revalidate();
+        mapPanel.repaint();
     }
 
     //Mark: - setup the player info
@@ -346,7 +352,7 @@ public class app extends JFrame {
      */
     private static Territory getTerr(String name) {
         for (Territory territory : territories.values()) {
-            if (territory.getName().toString().equals(name)) {
+            if (territory.getName().equals(name)) {
                 return territory;
             }
         }
@@ -373,7 +379,6 @@ public class app extends JFrame {
                 currentPanel = movePanel;
                 moveTerrFrom.setText("");
                 moveTerrTo.setText("");
-                //TODO set only all invalid from terr candidates into gray
             }
         });
 
@@ -389,7 +394,6 @@ public class app extends JFrame {
                 currentPanel = attackPanel;
                 attackTerrFrom.setText("");
                 attackTerrTo.setText("");
-                //TODO set only all invalid from terr candidates into gray
             }
         });
 
@@ -403,7 +407,6 @@ public class app extends JFrame {
                 frame.repaint();
                 currentPanel = upgradePanel;
                 upgradeTerr.setText("");
-                //TODO set only all invalid from terr candidates into gray
             }
         });
 
@@ -420,7 +423,18 @@ public class app extends JFrame {
                     switch (message) {
                         case "LOSE":
                             try {
+                                JOptionPane.showMessageDialog(frame, "You are audit now. If you wish to leave, please close the window.");
                                 clientOperator.AuditOrNot("YES");
+                                message = clientOperator.listenForUpdates();
+                                frame.remove(actionPanel);
+                                while (!message.equals("CONTINUE") && !message.equals("LOSE")) {
+                                    if (message.equals("CONTINUE")) {
+                                        JOptionPane.showMessageDialog(frame, "Next Round");
+                                        updateArrtibute();
+                                    }
+                                    message = clientOperator.listenForUpdates();
+                                }
+                                JOptionPane.showMessageDialog(frame, message);
                             } catch (ClientOperationException ce) {
 
                             }
@@ -431,8 +445,8 @@ public class app extends JFrame {
                         }
                         default:
                             JOptionPane.showMessageDialog(frame, message);
-                            //TODO exit
                     }
+                    updateArrtibute();
                 } catch (ClientOperationException ce) {
 
                 }
@@ -520,6 +534,7 @@ public class app extends JFrame {
         String fromTerr = label.getText();
         Territory territory;
         if (fromTerr.equals("")) {
+            //territory = territories.get(1);
             return new String[0];
         } else {
             territory = getTerr(fromTerr);
