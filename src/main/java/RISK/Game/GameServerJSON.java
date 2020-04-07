@@ -59,7 +59,8 @@ public class GameServerJSON extends GameServer<JSONObject> {
     JSONObject classes = this.packUpContent();
     
     ArrayList<Thread> connectionThreads = new ArrayList<>();
-    for (int playerID : this.playerMap.keySet()) {
+    for (int playerID = 1; playerID <= this.playerMap.size(); playerID++) {
+      //for (int playerID : this.playerMap.keySet()) {
       Socket socket = this.serverSocket.accept();
       this.socketMap.put(playerID, socket);
       JSONObject initInfo = new JSONObject();

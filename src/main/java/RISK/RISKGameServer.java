@@ -13,18 +13,22 @@ public class RISKGameServer {
   public static void run(int port,
                          String terrPath,
                          String playerPath,
-                         String armyPath) {
+      String armyPath) {
+    System.out.println("ServerSetup");
     GameServerJSON server = serverSetUp(port,
                                         terrPath,
                                         playerPath,
-                                        armyPath);
-        serverAcceptConnections(server);
-        while (server.getGameState() == 0) { // game still runs
-          serverAcceptOrders(server);
-          serverResolveCombats(server);
-        }
-        System.out.println("Server finishes game");
+        armyPath);
+    if (server == null) {
+      System.out.println("Server Setup Failed");
     }
+    serverAcceptConnections(server);
+    while (server.getGameState() == 0) { // game still runs
+      serverAcceptOrders(server);
+      serverResolveCombats(server);
+    }
+    System.out.println("Server finishes game");
+  }
 
   public static GameServerJSON serverSetUp(int port,
                                            String terrPath,

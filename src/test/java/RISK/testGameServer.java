@@ -1,14 +1,27 @@
 package RISK;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+
 import org.junit.jupiter.api.Test;
-import RISK.RiskGameClientText;
+
+import RISK.Utils.TxtReader;
 
 public class testGameServer {
 
+  @Test
+  void open_file_test() {
+    try {
+      String str = TxtReader.readStrFromFile("./src/main/resources/terr_test_3.txt");
+      System.out.println(str);
+    } catch (IOException e) {
+      System.out.println("IOException");
+    }
+  }
+  
   @Test
   public void test_3Client1ServerInteraction() {
     try {
@@ -26,6 +39,8 @@ public class testGameServer {
                                               armyPath);      
       sThread.start();
 
+      Thread.sleep(5000);
+      
       String connectionStr = "0.0.0.0\n" + Integer.toString(port) + "\n";
       
       // run client threads
@@ -40,11 +55,11 @@ public class testGameServer {
       clientThreads[0] = new ClientThread(orders[0], display);
       clientThreads[0].start();
 
-      //Thread.sleep(1); // insure order
+      Thread.sleep(5000); // insure order
       
       // player2: terr2(1)
       orders[1] = "";
-      orders[1] = connectionStr;
+      orders[1] += connectionStr;
       orders[1] += "u\n2\n0\n1\nn\n";   // upgrade one unit on terr2 from lv0 to lv1 (round1)
       orders[1] += "u\n2\n0\n1\nn\n";   // upgrade one unit on terr2 from lv0 to lv1 (round2)
       orders[1] += "u\n2\n0\n1\nn\n";   // upgrade one unit on terr2 from lv0 to lv1 (round3)
@@ -52,12 +67,13 @@ public class testGameServer {
       clientThreads[1].start();
 
 
-      //Thread.sleep(1); // insure order
-      orders[2] += "";
+      Thread.sleep(5000); // insure order
+
+      orders[2] = "";
       orders[2] += connectionStr;
-      orders[2] += "a\n3\n1\n5\n10\nn\nn\n"; // attack terr3 from terr1, with 10*lv5 (round1)
+      orders[2] += "a\n3\n1\n5\n200\nn\nn\n"; // attack terr1 from terr3, with 10*lv5 (round1)
       orders[2] += "m\n3\n1\n1\n1\ny\n4\n2\ny\n6\n10\nn\nn\n";  // move (round2)
-      orders[2] += "a\n1\n2\n5\n10\ny\n6\n10\nn\nn\n"; // attack terr2 from terr1 (round3)
+      orders[2] += "a\n1\n2\n5\n100\nn\nn\n"; // attack terr2 from terr1 (round3)
       clientThreads[2] = new ClientThread(orders[2], display);
       clientThreads[2].start();
 
@@ -79,6 +95,7 @@ public class testGameServer {
     
     public ClientThread(String orders, boolean display) {
       this.orders = orders;
+      this.display = display;
     }
 
     @Override
