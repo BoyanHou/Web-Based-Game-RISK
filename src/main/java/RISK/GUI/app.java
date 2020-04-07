@@ -12,6 +12,7 @@ import RISK.GUI.MapPanel;
 import RISK.GUI.TerritoryBlock;
 import RISK.Game.GameClient;
 import RISK.Game.GameClientJSON;
+import RISK.Game.GameInitial;
 import RISK.Order.OrderFactory;
 import RISK.Order.OrderFactoryEvo2;
 import RISK.Player.Player;
@@ -33,6 +34,7 @@ public class app extends JFrame {
     private static GameClient<JSONObject> gameClient;
     private static HashMap<Integer, Player> players;
     private static HashMap<Integer, Territory> territories;
+    private static ArrayList<TerritoryBlock> territoryBlocks;
     private static HashMap<Integer, Army> armies;
     private static String[] ownedTerrNames;
 
@@ -154,19 +156,27 @@ public class app extends JFrame {
 
     //MARK: - draw the map
     private static void setMapPanel() {
-        //TODO the map
-        TerritoryBlock tb = new TerritoryBlock(territories.get(0));
-        Block b = new Block(50, 50);
-        ArrayList<Block> bs = new ArrayList<>();
-        bs.add(b);
-        tb.setBlocks(bs);
-        ArrayList<TerritoryBlock> tbs = new ArrayList<>();
-        tbs.add(tb);
-        mapPanel = new MapPanel(tbs);
+        //initialize territoryBlocks
+        TerritoryBlockInitial initTB = new TerritoryBlockInitial();
+        HashMap<String, TerritoryBlock> territoryBlockMap = initTB.getTerritoryBlockMap();
 
+        territoryBlocks = new ArrayList<>();
+        HashMap<String, Rectangle> terrNamePos = initTB.getTerrNamePos();
+        for (Territory territory: territories.values()) {
+            TerritoryBlock territoryBlock = territoryBlockMap.get(territory.getName());
+            territoryBlock.setTerritory(territory);
+            territoryBlocks.add(territoryBlock);
+        }
+
+        mapPanel = new MapPanel(territoryBlocks);
         mapPanel.setLayout(null);
         mapPanel.setPreferredSize(mapPanelSize);
         mapPanel.setBackground(Color.white);
+
+        for (Territory territory: territories.values()) {
+            String name = territory.getName();
+            makeLabel(mapPanel, name, terrNamePos.get(name));
+        }
         mapPanel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -177,25 +187,37 @@ public class app extends JFrame {
                 System.out.print(" ");
                 System.out.println(y);
 
+                String selected = "";
+                TerritoryBlock selectedTerrBlock = getSelectedTerrBlock(new Point(x,y));
+                if (selectedTerrBlock == null) {
+                    System.out.println("Invalid");
+                } else {
+                    selected = selectedTerrBlock.getTerrName();
+                }
+
                 if (currentPanel == movePanel) {
                     if (moveTerrFrom.getText().equals("")) {
-                        moveTerrFrom.setText("(" + x + ", " + y + ")");
+                        moveTerrFrom.setText(selected);
+                        String[] armiesInfo = makeUnits(moveTerrFrom);
+                        choseMoveNums = makeMultiSelectionList(movePanel, armiesInfo, new Rectangle(290, 70, 100, 100));
                     } else if (moveTerrTo.getText().equals("")) {
-                        moveTerrTo.setText("(" + x + ", " + y + ")");
+                        moveTerrTo.setText(selected);
                     }
                 }
 
                 if (currentPanel == attackPanel) {
                     if (attackTerrFrom.getText().equals("")) {
-                        attackTerrFrom.setText("(" + x + ", " + y + ")");
+                        attackTerrFrom.setText(selected);
+                        String[] armiesInfo = makeUnits(attackTerrFrom);
+                        choseAttachNums = makeMultiSelectionList(attackPanel, armiesInfo, new Rectangle(290, 70, 100, 100));
                     } else if (attackTerrTo.getText().equals("")) {
-                        attackTerrTo.setText("(" + x + ", " + y + ")");
+                        attackTerrTo.setText(selected);
                     }
                 }
 
                 if (currentPanel == upgradePanel) {
                     if (upgradeTerr.getText().equals("")) {
-                        upgradeTerr.setText("(" + x + ", " + y + ")");
+                        upgradeTerr.setText(selected);
                     }
                 }
             }
@@ -221,6 +243,15 @@ public class app extends JFrame {
         frame.add(mapPanel, BorderLayout.CENTER);
     }
 
+    private static TerritoryBlock getSelectedTerrBlock(Point p) {
+        for (TerritoryBlock territoryBlock: territoryBlocks) {
+            if (territoryBlock.check(p)) {
+                return territoryBlock;
+            }
+        }
+        return null;
+    }
+
     private static void updateMapPanel() {
         //TODO
     }
@@ -234,6 +265,7 @@ public class app extends JFrame {
         makeLabel(playerPanel, "Food: ", foodPromptBounds);
         makeLabel(playerPanel, "Tech: ", techPromptBounds);
         updateArrtibute();
+        updatePlayerPanel();
 
         frame.add(playerPanel, BorderLayout.NORTH);
     }
@@ -477,19 +509,18 @@ public class app extends JFrame {
     private static void upgradeMovePanel() {
         moveTerrFrom = makeLabel(movePanel, "", moveFromBounds);
         moveTerrTo = makeLabel(movePanel, "", moveToBounds);
-        String[] armiesInfo = makeUnits();
+        String[] armiesInfo = makeUnits(moveTerrFrom);
         choseMoveNums = makeMultiSelectionList(movePanel, armiesInfo, new Rectangle(290, 70, 100, 100));
-
     }
 
     /*
     Make the units info list.
      */
-    private static String[] makeUnits() {
-        String fromTerr = moveTerrFrom.getText();
+    private static String[] makeUnits(JLabel label) {
+        String fromTerr = label.getText();
         Territory territory;
         if (fromTerr.equals("")) {
-            territory = territories.get(1);
+            return new String[0];
         } else {
             territory = getTerr(fromTerr);
         }
@@ -507,6 +538,10 @@ public class app extends JFrame {
         for (String s: unitsCheckBox) {
             results[index] = s;
             index++;
+        }
+        System.out.println("#########################elements");
+        for (String s: results) {
+            System.out.println(s);
         }
         return results;
     }
@@ -573,7 +608,7 @@ public class app extends JFrame {
     private static void updateAttackPanel() {
         attackTerrFrom = makeLabel(attackPanel, "", attackFromBounds);
         attackTerrTo = makeLabel(attackPanel, "", attackToBounds);
-        String[] armiesInfo = makeUnits();
+        String[] armiesInfo = makeUnits(attackTerrFrom);
         choseAttachNums = makeMultiSelectionList(attackPanel, armiesInfo, new Rectangle(290, 70, 100, 100));
     }
 
@@ -671,9 +706,9 @@ public class app extends JFrame {
         listArea.setCellRenderer(new CheckboxListCellRenderer());
         listArea.setVisibleRowCount(5);
         listScroller.setViewportView(listArea);
-        target.add(listScroller);
         listArea.setLayoutOrientation(JList.VERTICAL);
         listScroller.setBounds(position);
+        target.add(listScroller);
         return listArea;
     }
 

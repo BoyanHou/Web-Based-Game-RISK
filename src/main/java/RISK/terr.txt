@@ -1,5 +1,5 @@
 [
-    {"terrID":1,"name":"Terr1xx","owner":1,"attackArmyMap":[],"ownerArmy":1,"neighborMap":[2,3],"size":1,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
-    {"terrID":2,"name":"Terr2xx","owner":2,"attackArmyMap":[],"ownerArmy":2,"neighborMap":[1,3],"size":2,"food":50,"tech":50,"unitGenMap":{"0":1,"1":2}},
-    {"terrID":3,"name":"Terr3xx","owner":3,"attackArmyMap":[],"ownerArmy":3,"neighborMap":[1,2],"size":3,"food":50,"tech":50,"unitGenMap":{"6":10,"1":1}}
+    {"terrID":1,"name":"Narnia","owner":1,"attackArmyMap":[],"ownerArmy":1,"neighborMap":[2,3],"size":1,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":2,"name":"Midkemia","owner":2,"attackArmyMap":[],"ownerArmy":2,"neighborMap":[1,3],"size":2,"food":50,"tech":50,"unitGenMap":{"0":1,"1":2}},
+    {"terrID":3,"name":"Oz","owner":3,"attackArmyMap":[],"ownerArmy":3,"neighborMap":[1,2],"size":3,"food":50,"tech":50,"unitGenMap":{"6":10,"1":1}}
 ]
