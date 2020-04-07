@@ -5,7 +5,10 @@ import RISK.RISKGameServer;
 public class ServerTest {
     public static void main(String args[]) {
         RISKGameServer.run(8000,
-                    "/Users/liyating/Documents/651/ece651-spr20-g7/src/main/java/RISK/terr.txt",
-                  "/Users/liyating/Documents/651/ece651-spr20-g7/src/main/java/RISK/player.txt",
-                   "/Users/liyating/Documents/651/ece651-spr20-g7/src/main/java/RISK/army.txt"); }
+                "terr_test_3.txt",
+                "player_test_3.txt",
+                "army_test_3.txt"); }
+//                    "territoriesJSON_2.txt",
+//                  "playersJSON_2.txt",
+//                   "armiesJSON_2.txt"); }
 }

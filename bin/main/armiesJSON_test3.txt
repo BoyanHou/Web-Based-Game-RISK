@@ -1,6 +1,0 @@
-[
-    {"Army":{"owner":1,"armyID":1,"unitList":1}},
-    {"Army":{"owner":2,"armyID":2,"unitList":1}},
-    {"Army":{"owner":3,"armyID":3,"unitList":50}},
-    {"Army":{"owner":3,"armyID":4,"unitList":50}},
-]

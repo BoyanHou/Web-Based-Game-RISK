@@ -1,8 +1,7 @@
 package RISK.TextUI;
 import RISK.ClientOperator.ClientOperationException;
-import RISK.ClientOperator.ClientOperator;
-import RISK.Game.Game;
-import RISK.Game.GameClient;
+import RISK.ClientOperator.*;
+import RISK.Game.*;
 import RISK.Player.Player;
 import RISK.Territory.Territory;
 import RISK.Unit.Unit;
@@ -14,14 +13,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import org.json.*;
+
 public class TextUI {
     protected Scanner scanner;
     protected boolean display;
-    protected ClientOperator clientOperator;
+    protected ClientOperator<JSONObject> clientOperator;
     protected GameClient client;
     protected int playerID;
 
-    public TextUI(ClientOperator clientOperator,
+    public TextUI(ClientOperator<JSONObject> clientOperator,
                   Scanner scanner,
                   boolean display) {
         this.client = clientOperator.gameClient;
@@ -34,7 +35,12 @@ public class TextUI {
     public void run () throws ClientOperationException{
         this.connectionUI();
         while (this.client.getGameState() == 0) {
-            this.opUI();
+            String ans;
+            do {
+                this.opUI();
+                text("another? y/n");
+                ans = this.scanner.next();
+            } while (ans.equals("y"));
             this.clientOperator.stopMakingOrder();
             this.receiveUpdateUI();
         }
@@ -132,11 +138,7 @@ public class TextUI {
         } catch (IntFormatException e) {
             this.opUI();
         }
-        text("another? y/n");
-        String ans = this.scanner.next();
-        if (ans.equals("y")) {
-            this.opUI();
-        }
+
     }
 
     protected void receiveUpdateUI() throws ClientOperationException {

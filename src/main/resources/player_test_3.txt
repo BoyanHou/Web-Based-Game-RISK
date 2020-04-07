@@ -1,0 +1,5 @@
+[
+    {"name":"p1xx","playerID":1,"terrMap":[1],"food":20,"tech":20},
+    {"name":"p2xx","playerID":2,"terrMap":[2],"food":20,"tech":20},
+    {"name":"p3xx","playerID":3,"terrMap":[3],"food":20,"tech":20}
+]

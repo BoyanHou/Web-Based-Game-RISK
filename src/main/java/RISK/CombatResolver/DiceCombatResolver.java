@@ -51,6 +51,8 @@ public class DiceCombatResolver implements CombatResolver{
       }
       
     }
+    // clear attack army map
+    terr.setAttackArmyMap(new HashMap<>());
   }
 
   public int combatUnitResolver(Army defenderArmy, Army attackerArmy) {

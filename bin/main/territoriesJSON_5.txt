@@ -1,18 +1,17 @@
 [
-    {"Territory":{"owner":1,"attackArmyList":[],"ownerArmy":1,"name":"Mango","neighborList":[2,13],"terrID":1}},    
-    {"Territory":{"owner":1,"attackArmyList":[],"ownerArmy":2,"name":"Apple","neighborList":[1,3,13],"terrID":2}},
-    {"Territory":{"owner":1,"attackArmyList":[],"ownerArmy":3,"name":"Narnia","neighborList":[2,4,13],"terrID":3}},
-    {"Territory":{"owner":2,"attackArmyList":[],"ownerArmy":4,"name":"Midkemia","neighborList":[3,5,6,12,13],"terrID":4}},
-    {"Territory":{"owner":2,"attackArmyList":[],"ownerArmy":5,"name":"Oz","neighborList":[4,6,7,9,12],"terrID":5}},
-    {"Territory":{"owner":2,"attackArmyList":[],"ownerArmy":6,"name":"Banana","neighborList":[4,5,7],"terrID":6}},
-    {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":7,"name":"Gondor","neighborList":[5,6,8,9],"terrID":7}},
-    {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":8,"name":"Pear","neighborList":[7,9],"terrID":8}},
-    {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":9,"name":"Mordor","neighborList":[5,7,8,10,12],"terrID":9}},
-    {"Territory":{"owner":4,"attackArmyList":[],"ownerArmy":10,"name":"Hogwarts","neighborList":[9,12,11,14],"terrID":10}},
-    {"Territory":{"owner":4,"attackArmyList":[],"ownerArmy":11,"name":"Peach","neighborList":[10,14,15],"terrID":11}},
-    {"Territory":{"owner":4,"attackArmyList":[],"ownerArmy":12,"name":"Scadrial","neighborList":[13,4,5,9,10,14],"terrID":12}},
-    {"Territory":{"owner":5,"attackArmyList":[],"ownerArmy":13,"name":"Elantris","neighborList":[1,2,3,4,12,14],"terrID":13}},
-    {"Territory":{"owner":5,"attackArmyList":[],"ownerArmy":14,"name":"Roshar","neighborList":[13,12,10,15,11],"terrID":14}}
-    {"Territory":{"owner":5,"attackArmyList":[],"ownerArmy":15,"name":"Cherry","neighborList":[14,11],"terrID":15}}
-
+    {"terrID":1,"name":"Mango","owner":1,"attackArmyMap":[],"ownerArmy":1,"neighborMap":[2,13],"size":1,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":2,"name":"Apple","owner":1,"attackArmyMap":[],"ownerArmy":2,"neighborMap":[1,3,13],"size":3,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":3,"name":"Narnia","owner":1,"attackArmyMap":[],"ownerArmy":3,"neighborMap":[2,4,13],"size":5,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":4,"name":"Midkemia","owner":2,"attackArmyMap":[],"ownerArmy":4,"neighborMap":[3,5,6,12,13],"size":1,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":5,"name":"Oz","owner":2,"attackArmyMap":[],"ownerArmy":5,"neighborMap":[4,6,7,9,12],"size":3,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":6,"name":"Banana","owner":2,"attackArmyMap":[],"ownerArmy":6,"neighborMap":[4,5,7],"size":5,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":7,"name":"Gondor","owner":3,"attackArmyMap":[],"ownerArmy":7,"neighborMap":[5,6,8,9],"size":1,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":8,"name":"Pear","owner":3,"attackArmyMap":[],"ownerArmy":8,"neighborMap":[7,9],"size":3,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":9,"name":"Mordor","owner":3,"attackArmyMap":[],"ownerArmy":9,"neighborMap":[5,7,8,10,12],"size":5,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":10,"name":"Hogwarts","owner":4,"attackArmyMap":[],"ownerArmy":10,"neighborMap":[9,12,11,14],"size":1,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":11,"name":"Peach","owner":4,"attackArmyMap":[],"ownerArmy":11,"neighborMap":[10,14,15],"size":3,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":12,"name":"Scadrial","owner":4,"attackArmyMap":[],"ownerArmy":12,"neighborMap":[13,4,5,9,10,14],"size":5,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":13,"name":"Elantris","owner":5,"attackArmyMap":[],"ownerArmy":13,"neighborMap":[1,2,3,4,12,14],"size":1,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":14,"name":"Roshar","owner":5,"attackArmyMap":[],"ownerArmy":14,"neighborMap":[13,12,10,15,11],"size":3,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":15,"name":"Cherry","owner":5,"attackArmyMap":[],"ownerArmy":15,"neighborMap":[14,11],"size":5,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}}
 ]
