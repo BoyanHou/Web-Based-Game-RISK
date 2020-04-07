@@ -2,23 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e892aa69-5017-4bf2-b419-f9c96b331b84" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Army/Army.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Army/Army.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/Army/ArmyRO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/Army/ArmyRO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/ClassBuilder/ClassBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/ClassBuilder/ClassBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/CombatResolver/DiceCombatResolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/CombatResolver/DiceCombatResolver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/GUI/app.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/main/RISK/GUI/app.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/main/RISK/RISKGameClient.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/RISK/GUI/app.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RISK/GUI/app.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/RISK/Tests/ServerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RISK/Tests/ServerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/RISK/army.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RISK/army.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/RISK/player.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RISK/player.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/RISK/terr.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RISK/terr.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/RISK/GUI/app.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="123">
-              <caret line="129" column="28" selection-start-line="129" selection-start-column="28" selection-end-line="129" selection-end-column="28" />
+            <state relative-caret-position="-1274">
+              <caret line="682" column="74" selection-start-line="682" selection-start-column="74" selection-end-line="682" selection-end-column="74" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -124,7 +108,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/RISK/Tests/ServerTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="175">
@@ -150,6 +134,7 @@
       <find>getTerr</find>
       <find>makeUnits</find>
       <find>update</find>
+      <find>details</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -170,8 +155,8 @@
         <option value="$PROJECT_DIR$/src/main/java/RISK/army.txt" />
         <option value="$PROJECT_DIR$/src/main/java/RISK/terr.txt" />
         <option value="$PROJECT_DIR$/src/main/java/RISK/player.txt" />
-        <option value="$PROJECT_DIR$/src/main/java/RISK/GUI/app.java" />
         <option value="$PROJECT_DIR$/src/main/java/RISK/Tests/ServerTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/RISK/GUI/app.java" />
       </list>
     </option>
   </component>
@@ -227,7 +212,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="app" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="app" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="RISK.GUI.app" />
       <module name="main" />
       <extension name="coverage">
@@ -240,6 +225,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.app" />
+      <item itemvalue="Application.ServerTest" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.app" />
@@ -273,7 +262,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32959184" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32959184" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -591,16 +580,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/RISK/GUI/app.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="129" column="28" selection-start-line="129" selection-start-column="28" selection-end-line="129" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/RISK/terr.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
@@ -633,6 +612,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
           <caret line="7" column="86" selection-start-line="7" selection-start-column="86" selection-end-line="7" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/RISK/GUI/app.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1274">
+          <caret line="682" column="74" selection-start-line="682" selection-start-column="74" selection-end-line="682" selection-end-column="74" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -28,6 +28,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 public class app extends JFrame {
     private static ClientOperator<JSONObject> clientOperator;
@@ -335,13 +336,21 @@ public class app extends JFrame {
         }
         StringBuilder sb = new StringBuilder();
         Player owner = territory.getOwner();
-        sb.append("Owner: ");
+        sb.append("<html><pre>Owner: ");
         sb.append(owner.getName());
         sb.append("\n");
-
+        sb.append("Defend by: \n");
         Army army = territory.getOwnerArmy();
-        sb.append("Defend by: ");
-        sb.append("\n");
+        HashMap<Integer, ArrayList<Unit>> armyUnitMap = army.getUnitMap();
+        for (Integer level: armyUnitMap.keySet()) {
+            sb.append("    Level ");
+            sb.append(level);
+            sb.append(": ");
+            sb.append(armyUnitMap.get(level).size());
+            sb.append(" units");
+            sb.append("\n");
+        }
+        sb.append("</pre></html>");
         return sb.toString();
     }
 
@@ -440,6 +449,7 @@ public class app extends JFrame {
                             }
                             break;
                         case "CONTINUE": {
+                            JOptionPane.showMessageDialog(frame, "New Round");
                             updateArrtibute();
                             break;
                         }
@@ -498,7 +508,7 @@ public class app extends JFrame {
                     updateArrtibute();
                     updatePlayerPanel();
                 } catch (ClientOperationException ce) {
-
+                    JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
             }
         });
@@ -613,7 +623,7 @@ public class app extends JFrame {
                     updateArrtibute();
                     updatePlayerPanel();
                 } catch (ClientOperationException ce) {
-
+                    JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
 
             }
@@ -670,7 +680,7 @@ public class app extends JFrame {
                     updateArrtibute();
                     updatePlayerPanel();
                 }catch (ClientOperationException ce) {
-
+                    JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
             }
         });
