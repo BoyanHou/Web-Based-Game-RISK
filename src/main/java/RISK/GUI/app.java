@@ -496,6 +496,7 @@ public class app extends JFrame {
                     }
                     clientOperator.makeOrder("move", moveOrders);
                     updateArrtibute();
+                    updatePlayerPanel();
                 } catch (ClientOperationException ce) {
 
                 }
@@ -610,6 +611,7 @@ public class app extends JFrame {
                     }
                     clientOperator.makeOrder("attack", attackOrders);
                     updateArrtibute();
+                    updatePlayerPanel();
                 } catch (ClientOperationException ce) {
 
                 }
@@ -666,6 +668,7 @@ public class app extends JFrame {
                     upgradeOrder.put("toLevel", (String)chooseUpgradeTo.getSelectedItem());
                     clientOperator.makeOrder("upgrade", upgradeOrder);
                     updateArrtibute();
+                    updatePlayerPanel();
                 }catch (ClientOperationException ce) {
 
                 }
