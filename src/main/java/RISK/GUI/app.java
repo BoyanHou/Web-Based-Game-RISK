@@ -199,7 +199,6 @@ public class app extends JFrame {
                 JOptionPane.showMessageDialog(frame, "Please Close the Web now");
             }
         });
-        frame.add(makeChoicePanel, BorderLayout.SOUTH);
     }
 
     //MARK: - draw the map
@@ -302,6 +301,9 @@ public class app extends JFrame {
 
     private static void updateMapPanel() {
         for (TerritoryBlock territoryBlock: territoryBlocks) {
+            String terrName = territoryBlock.getTerrName();
+            Territory territory = getTerr(terrName);
+            territoryBlock.setTerritory(territory);
             territoryBlock.update();
         }
         mapPanel.revalidate();
@@ -488,7 +490,7 @@ public class app extends JFrame {
 
                                 JOptionPane.showMessageDialog(frame, "Lose");
                                 frame.remove(actionPanel);
-                                frame.add(makeChoicePanel);
+                                frame.add(makeChoicePanel, BorderLayout.SOUTH);
                                 frame.revalidate();
                                 frame.repaint();
                             break;
@@ -502,6 +504,7 @@ public class app extends JFrame {
                     }
                     updateArrtibute();
                     updateMapPanel();
+
                 } catch (ClientOperationException ce) {
                     JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
