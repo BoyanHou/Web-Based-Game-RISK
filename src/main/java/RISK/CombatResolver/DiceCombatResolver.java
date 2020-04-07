@@ -56,9 +56,19 @@ public class DiceCombatResolver implements CombatResolver{
   }
 
   public int combatUnitResolver(Army defenderArmy, Army attackerArmy) {
+    int toss = 1;
     while (true) {
-      ArrayList<Unit> defenderUnits = this.getUnits("highest", defenderArmy);
-      ArrayList<Unit> attackerUnits = this.getUnits("lowest", attackerArmy);
+      
+      ArrayList<Unit> defenderUnits ;
+      ArrayList<Unit> attackerUnits;
+      if (toss == -1) { 
+        defenderUnits = this.getUnits("highest", defenderArmy);
+        attackerUnits = this.getUnits("lowest", attackerArmy);
+      } else {
+        defenderUnits = this.getUnits("highest", defenderArmy);
+        attackerUnits = this.getUnits("lowest", attackerArmy);
+      }
+      toss *= -1;
       if (defenderUnits == null) {
         return attackerWin;
       }
