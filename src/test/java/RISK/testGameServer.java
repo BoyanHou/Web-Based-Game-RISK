@@ -4,11 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
-
 import org.junit.jupiter.api.Test;
-
-import RISK.Game.GameClientJSON;
-import RISK.Game.GameServerJSON;
+import RISK.RiskGameClientText;
 
 public class testGameServer {
 
@@ -16,109 +13,94 @@ public class testGameServer {
   public void test_3Client1ServerInteraction() {
     try {
       // run server thread
-      ServerThread serverThread = new ServerThread();
-      serverThread.start();
-    
+      int port = 8000;
+      boolean display = true;
+      
+      //server:
+      String terrPath = "./src/main/resources/terr_test_3.txt";
+      String playerPath = "./src/main/resources/player_test_3.txt";
+      String armyPath = "./src/main/resources/army_test_3.txt";
+      ServerThread sThread = new ServerThread(port,
+                                              terrPath,
+                                              playerPath,
+                                              armyPath);      
+      sThread.start();
+
+      String connectionStr = "0.0.0.0\n" + Integer.toString(port) + "\n";
+      
       // run client threads
       ClientThread clientThreads[] = new ClientThread[3];
       // player orders
       String orders[] = new String[3];
       // player1: terr1(1)
       orders[0] = "";
-      orders[0] += "A\n1\n4\n1\nN\n"; // attack terr4 from terr1 (round1)
-      orders[0] += "N\n";             // dies, no auditing (round2)
+      orders[0] += connectionStr;
+      orders[0] += "u\n1\n0\n1\nn\n"; // upgrade one unit one terr1 from lv1 to lv2 (round1)
+      orders[0] += "y\n";             // dies, auditing (round2)
+      clientThreads[0] = new ClientThread(orders[0], display);
+      clientThreads[0].start();
+
+      //Thread.sleep(1); // insure order
       
       // player2: terr2(1)
       orders[1] = "";
-      orders[1] += "A\n2\n4\n1\nN\n";   // attack terr4 from terr2 (round1)
-      orders[1] += "A\n2\n4\n1\nN\n";   // attack terr4 from terr2 (round2)
+      orders[1] = connectionStr;
+      orders[1] += "u\n2\n0\n1\nn\n";   // upgrade one unit on terr2 from lv0 to lv1 (round1)
+      orders[1] += "u\n2\n0\n1\nn\n";   // upgrade one unit on terr2 from lv0 to lv1 (round2)
+      orders[1] += "u\n2\n0\n1\nn\n";   // upgrade one unit on terr2 from lv0 to lv1 (round3)
+      clientThreads[1] = new ClientThread(orders[1], display);
+      clientThreads[1].start();
 
-      // player3: terr3(50), terr4(50)
-      orders[2] = "";
-      orders[2] += "A\n3\n1\n50\nY\n"; // attack terr1 from terr3 (round1)
-      orders[2] += "M\n4\n3\n1\nN\n";  // move 1 unit from terr4 to terr3 (round1)
-      orders[2] += "A\n1\n2\n30\nN\n"; // attack terr2 from terr1 (round2)
 
-      String strongOrder = orders[2];
-      InputStream is = new ByteArrayInputStream(strongOrder.getBytes(StandardCharsets.UTF_8));
-      Scanner strongPlayerScanner = new Scanner(is);
- 
-      
-      // player3 should have won the game after round2
-      
-      for (int i = 0; i < clientThreads.length; i++) {
-        GameClientJSON client;
-        if (i != clientThreads.length - 1) {
-      
-        ClientThread clientThread = new ClientThread(client, displayer);
-        clientThread.start();
-        clientThreads[i] = clientThread;
-      }
+      //Thread.sleep(1); // insure order
+      orders[2] += "";
+      orders[2] += connectionStr;
+      orders[2] += "a\n3\n1\n5\n10\nn\nn\n"; // attack terr3 from terr1, with 10*lv5 (round1)
+      orders[2] += "m\n3\n1\n1\n1\ny\n4\n2\ny\n6\n10\nn\nn\n";  // move (round2)
+      orders[2] += "a\n1\n2\n5\n10\ny\n6\n10\nn\nn\n"; // attack terr2 from terr1 (round3)
+      clientThreads[2] = new ClientThread(orders[2], display);
+      clientThreads[2].start();
 
+      // joins
       for (ClientThread clientThread : clientThreads) {
         clientThread.join();
       }
-      
-      serverThread.join();
+      sThread.join();
+
       
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
   }
 
-  public class ServerThread extends Thread {
-    Scanner scanner;
-
-    public ServerThread(Scanner scanner) {
-      this.scanner = scanner;
-    }
-
-    public void run() {
-      RISKGameServer.run();
-      System.out.println("Server finishes game");
-      //System.out.println("HHHH YEAH");
-    }
-  }
-
   public class ClientThread extends Thread {
-    GameClientJSON client;
-    Displayer displayer;
-
-    public ClientThread(GameClientJSON client, Displayer displayer) {
-      this.displayer = displayer;
-      this.client = client;
+    String orders;
+    boolean display;
+    
+    public ClientThread(String orders, boolean display) {
+      this.orders = orders;
     }
 
     @Override
-    public void run() {      
-      while (client.getGameState() != 2) { // while game hasn't ended
-        if (client.getGameState()!= 1) { // if not auditing
-          RISKGameClient.testClientChooseMoves(this.client, displayer);
-        }
-        RISKGameClient.testClientListenForUpdate(this.client, displayer);
-      }
-      System.out.println("Client finishes game");
+    public void run() {
+      //InputStream is = new ByteArrayInputStream(this.orders.getBytes());
+      InputStream is = new ByteArrayInputStream(this.orders.getBytes(StandardCharsets.UTF_8));
+      //InputStream in = new ByteArrayInputStream(orders.getBytes());
+      //System.setIn(in);
+      Scanner scanner = new Scanner(is);
+      
+      RiskGameClientText r = new RiskGameClientText(scanner);
+      r.run(display);
     }
   }
 
-  protected GameClientJSON getTestClient(int port, Scanner scanner, Displayer displayer) {
-    GameClientJSON client = RISKGameClient.setupClient("0.0.0.0", port, scanner, displayer);
-    return client;
-  }
-
-  protected GameServerJSON getTestServer(int port) {
-    GameServerJSON server = RISKGameServer.serverSetUp(port, "./src/main/resources/territoriesJSON_test3.txt",
-        "./src/main/resources/playersJSON_test3.txt", "./src/main/resources/armiesJSON_test3.txt");
-    return server;
-  }
-
-  protected class ServerRunThread extends Thread {
+  protected class ServerThread extends Thread {
     int port;
     String terrPath;
     String playerPath;
     String armyPath;
 
-    public ServerRunThread(int port, String terrPath, String playerPath, String armyPath) {
+    public ServerThread(int port, String terrPath, String playerPath, String armyPath) {
       this.port = port;
       this.terrPath = terrPath;
       this.playerPath = playerPath;
@@ -128,102 +110,6 @@ public class testGameServer {
     @Override
     public void run() {
       RISKGameServer.run(port, terrPath, playerPath, armyPath);
-    }
-  }
-  
-  
-  public void testRunFunc() {
-
-    int playerNum = 3;
-    String orders[] = new String[playerNum];
-    // player1: terr1(1)
-    orders[0] = "";
-    orders[0] += "A\n1\n4\n1\nN\n"; // attack terr4 from terr1 (round1)
-    orders[0] += "N\n";             // dies, no auditing (round2)
-      
-    // player2: terr2(1)
-    orders[1] = "";
-    orders[1] += "A\n2\n4\n1\nN\n";   // attack terr4 from terr2 (round1)
-    orders[1] += "A\n2\n4\n1\nN\n";   // attack terr4 from terr2 (round2)
-
-    // player3: terr3(50), terr4(50)
-    orders[2] = "";
-    orders[2] += "A\n3\n1\n50\nY\n"; // attack terr1 from terr3 (round1)
-    orders[2] += "M\n4\n3\n1\nN\n";  // move 1 unit from terr4 to terr3 (round1)
-    orders[2] += "A\n1\n2\n30\nN\n"; // attack terr2 from terr1 (round2)
-    
-    // the code below runs the game again,
-    // using the "run" funcion of client & server
-    int port2 = 8321;
-    //server:
-    String terrPath = "./src/main/resources/terr_test_3.txt";
-    String playerPath = "./src/main/resources/player_test_3.txt";
-    String armyPath = "./src/main/resources/army_test_3.txt";
-    ServerRunThread sThread = new ServerRunThread(port2,
-                                                  terrPath,
-                                                  playerPath,
-                                                  armyPath);
-    sThread.start();
-      
-    // client 1
-    InputStream is1 = new ByteArrayInputStream(orders[0].getBytes(StandardCharsets.UTF_8));
-    Scanner scanner1 = new Scanner(is1);
-    Displayer displayer1 = new DisplayerStub();
-    ClientRunThread cThread1 = new ClientRunThread("0.0.0.0",
-                                                   port2,
-                                                   scanner1,
-                                                   displayer1);
-    // client 2
-    InputStream is2 = new ByteArrayInputStream(orders[1].getBytes(StandardCharsets.UTF_8));
-    Scanner scanner2 = new Scanner(is2);
-    Displayer displayer2 = new DisplayerStub();
-    ClientRunThread cThread2 = new ClientRunThread("0.0.0.0",
-                                                   port2,
-                                                   scanner2,
-                                                   displayer2);
-    // clinet 3
-    InputStream is3 = new ByteArrayInputStream(orders[2].getBytes(StandardCharsets.UTF_8));
-    Scanner scanner3 = new Scanner(is3);
-    Displayer displayer3 = new DisplayerStub();
-    ClientRunThread cThread3 = new ClientRunThread("0.0.0.0",
-                                                   port2,
-                                                   scanner3,
-                                                   displayer3);
-    cThread1.start();
-    cThread2.start();
-    cThread3.start();
-
-    try {
-      cThread1.join();
-      cThread2.join();
-      cThread3.join();
-      sThread.join();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-  }
-  
-  protected class ClientRunThread extends Thread {
-    String serverIP;
-    int serverPort;
-    Scanner scanner;
-    Displayer displayer;
-
-    public ClientRunThread (String serverIP,
-                            int serverPort,
-                            Scanner scanner,
-                            Displayer displayer) {
-      
-      this.serverIP = serverIP;
-      this.serverPort = serverPort;
-      this.scanner = scanner;
-      this.displayer = displayer;
-    }
-    
-    @Override
-    public void run() {
-      RISKGameClient.run(serverIP, serverPort, scanner, displayer);
     }
   }
 }

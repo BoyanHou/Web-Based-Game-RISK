@@ -1,11 +1,8 @@
 [
-    {"Territory":{"owner":1,"attackArmyList":[],"ownerArmy":1,"name":"Narnia","neighborList":[2,7],"terrID":1}},
-    {"Territory":{"owner":1,"attackArmyList":[],"ownerArmy":2,"name":"Midkemia","neighborList":[1,7,8,3],"terrID":2}},
-    {"Territory":{"owner":1,"attackArmyList":[],"ownerArmy":3,"name":"Oz","neighborList":[2,8,5,4],"terrID":3}},
-    {"Territory":{"owner":2,"attackArmyList":[],"ownerArmy":4,"name":"Gondor","neighborList":[3,5],"terrID":4}},
-    {"Territory":{"owner":2,"attackArmyList":[],"ownerArmy":5,"name":"Mordor","neighborList":[4,3,8,6],"terrID":5}},
-    {"Territory":{"owner":2,"attackArmyList":[],"ownerArmy":6,"name":"Hogwarts","neighborList":[5,8,9],"terrID":6}},
-    {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":7,"name":"Elantris","neighborList":[1,2,8,9],"terrID":7}},
-    {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":8,"name":"Scadrial","neighborList":[7,2,3,5,6,9],"terrID":8}},
-    {"Territory":{"owner":3,"attackArmyList":[],"ownerArmy":9,"name":"Roshar","neighborList":[7,8,6],"terrID":9}}
+    {"terrID":3,"name":"Narnia","owner":1,"attackArmyMap":[],"ownerArmy":3,"neighborMap":[4,13],"size":2,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":4,"name":"Midkemia","owner":1,"attackArmyMap":[],"ownerArmy":4,"neighborMap":[3,5,12,13],"size":4,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":5,"name":"Oz","owner":2,"attackArmyMap":[],"ownerArmy":5,"neighborMap":[4,9,12],"size":2,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":9,"name":"Mordor","owner":2,"attackArmyMap":[],"ownerArmy":9,"neighborMap":[5,12],"size":4,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":12,"name":"Scadrial","owner":3,"attackArmyMap":[],"ownerArmy":12,"neighborMap":[13,4,5,9],"size":2,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+    {"terrID":13,"name":"Elantris","owner":3,"attackArmyMap":[],"ownerArmy":13,"neighborMap":[3,4,12],"size":4,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}}
 ]

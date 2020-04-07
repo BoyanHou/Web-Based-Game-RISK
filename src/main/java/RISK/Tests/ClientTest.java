@@ -18,6 +18,7 @@ import java.util.Scanner;
 public class ClientTest {
     public static void main(String args[]) {
         Scanner scanner = new Scanner(System.in);
-        RiskGameClientText.run(scanner, true); // run with text display
+        RiskGameClientText r = new RiskGameClientText(scanner);
+        r.run(true); // run with text display
     }
 }
