@@ -18,3 +18,12 @@
 ## Coverage
 [Detailed coverage](https://bh214.pages.oit.duke.edu/ece651-spr20-g7/dashboard.html)
 
+## How to use GUI:
+- after starting up the client, gui will automatically pop-up
+- choose your desired move on the bottom of the GUI: move, attack, upgrade
+- for choosing the desired territory for your orders, click on the map
+- for choosing units for your orders, click the checkboxes on the right; hold ctrl for multiple choices
+- when you finish this round, click finish, you will be prompt to wait until new round begins
+- For viewing any territory details, use the pull-down window on the right of the GUI to choose a territory, then click the details button to veiw details
+- If you loose the game, you will be prompt to continue to audit the game (choose "yes") or not (choose "no")
+- If somebody has won the game, the GUI will prompt you, then exit.
