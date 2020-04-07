@@ -58,9 +58,9 @@ public class TerritoryBlock {
         return false;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
+//    public void setColor(Color color) {
+//        this.color = color;
+//    }
 
     /*
     @param: p: a point
@@ -94,13 +94,22 @@ public class TerritoryBlock {
 
 
     public void update() {
-        String colorStr = territory.getOwner().getName();
-        switch (colorStr) {
-            case "Green":
+        int index = territory.getOwner().getPlayerID();
+        switch (index) {
+            case 1:
                 color = Color.green;
                 break;
-            case "Red":
+            case 2:
                 color = Color.red;
+                break;
+            case 3:
+                color = Color.yellow;
+                break;
+            case 4:
+                color = Color.pink;
+                break;
+            case 5:
+                color = Color.blue;
                 break;
             default:
                 color = Color.gray;
@@ -109,6 +118,7 @@ public class TerritoryBlock {
 
 
     public void paint(Graphics g) {
+        update();
         for (Block block : blocks) {
             g.setColor(color);
             Point p = block.getPosition();

@@ -47,7 +47,7 @@ public class app extends JFrame {
     private static JPanel informationPanel;
     private static JPanel mapPanel;
     private static JPanel playerPanel;
-    private static JOptionPane message;
+    private static JPanel makeChoicePanel;
 
     private static JPanel currentPanel;
 
@@ -141,6 +141,7 @@ public class app extends JFrame {
         upgradePanel = new JPanel();
         informationPanel = new JPanel();
         playerPanel = new JPanel();
+        makeChoicePanel = new JPanel();
         try {
             setActionPanel();
             setMovePanel();
@@ -149,10 +150,51 @@ public class app extends JFrame {
             setInfoPanel();
             setMapPanel();
             setPlayerPanel();
+            setMakeChoicePanel();
         } catch (ClientOperationException ce) {
 
         }
         frame.setVisible(true);
+    }
+
+    private static void setMakeChoicePanel() {
+        makeChoicePanel.setLayout(null);
+        makeChoicePanel.setPreferredSize(actionPanelSize);
+
+        makeLabel(makeChoicePanel, "Do you want to aduit?", new Rectangle(50, 50, 200, 30));
+        JButton yesButton = makeButton(makeChoicePanel, "Yes", new Rectangle(100, 100, 100, 30));
+        yesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    clientOperator.AuditOrNot("YES");
+                    String message = clientOperator.listenForUpdates();
+                    while (message.equals("CONTINUE")) {
+                        JOptionPane.showMessageDialog(frame, "Next Round");
+                        updateArrtibute();
+                        updateMapPanel();
+                        message = clientOperator.listenForUpdates();
+                    }
+                    JOptionPane.showMessageDialog(frame, message);
+                }catch (ClientOperationException ce) {
+                    JOptionPane.showMessageDialog(frame, ce.getMessage());
+                }
+
+            }
+        });
+
+        JButton noButton = makeButton(makeChoicePanel, "No", new Rectangle(200, 100, 100, 30));
+        noButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    clientOperator.AuditOrNot("NO");
+                }catch (ClientOperationException ce) {
+                    JOptionPane.showMessageDialog(frame, ce.getMessage());
+                }
+                JOptionPane.showMessageDialog(frame, "Please Close the Web now");
+            }
+        });
     }
 
     //MARK: - draw the map
@@ -201,7 +243,6 @@ public class app extends JFrame {
                         moveTerrFrom.setText(selected);
                         String[] armiesInfo = makeUnits(moveTerrFrom);
                         choseMoveNums.setListData(armiesInfo);
-                        updateMapPanel();
                     } else if (moveTerrTo.getText().equals("")) {
                         moveTerrTo.setText(selected);
                     }
@@ -255,7 +296,6 @@ public class app extends JFrame {
     }
 
     private static void updateMapPanel() {
-        //TODO
         for (TerritoryBlock territoryBlock: territoryBlocks) {
             territoryBlock.update();
         }
@@ -270,7 +310,9 @@ public class app extends JFrame {
         makeLabel(playerPanel, "Your ID: " + String.valueOf(playerID), playerIDBounds);
 
         makeLabel(playerPanel, "Food: ", foodPromptBounds);
+        foodLabel = makeLabel(playerPanel, "", foodLabelBounds);
         makeLabel(playerPanel, "Tech: ", techPromptBounds);
+        techLabel = makeLabel(playerPanel, String.valueOf(""), techLabelBounds);
         updateArrtibute();
         updatePlayerPanel();
 
@@ -282,9 +324,9 @@ public class app extends JFrame {
      */
     private static void updatePlayerPanel() {
         int food = players.get(playerID).getFood();
-        foodLabel = makeLabel(playerPanel, String.valueOf(food), foodLabelBounds);
+        foodLabel.setText(String.valueOf(food));
         int tech = players.get(playerID).getTech();
-        techLabel = makeLabel(playerPanel, String.valueOf(tech), techLabelBounds);
+        techLabel.setText(String.valueOf(tech));
     }
 
 
@@ -337,7 +379,7 @@ public class app extends JFrame {
         StringBuilder sb = new StringBuilder();
         Player owner = territory.getOwner();
         sb.append("<html><pre>Owner: ");
-        sb.append(owner.getName());
+        sb.append(owner.getPlayerID());
         sb.append("\n");
         sb.append("Defend by: \n");
         Army army = territory.getOwnerArmy();
@@ -360,6 +402,7 @@ public class app extends JFrame {
     Return the territory with the corresponding name.
      */
     private static Territory getTerr(String name) {
+        updateArrtibute();
         for (Territory territory : territories.values()) {
             if (territory.getName().equals(name)) {
                 return territory;
@@ -388,6 +431,8 @@ public class app extends JFrame {
                 currentPanel = movePanel;
                 moveTerrFrom.setText("");
                 moveTerrTo.setText("");
+                String[] armiesInfo = makeUnits(moveTerrFrom);
+                choseMoveNums.setListData(armiesInfo);
             }
         });
 
@@ -403,6 +448,9 @@ public class app extends JFrame {
                 currentPanel = attackPanel;
                 attackTerrFrom.setText("");
                 attackTerrTo.setText("");
+                String[] armiesInfo = makeUnits(attackTerrFrom);
+                choseAttachNums.setListData(armiesInfo);
+
             }
         });
 
@@ -425,28 +473,19 @@ public class app extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(frame, "Waiting");
                 try {
+                    clientOperator.stopMakingOrder();
                     String message = clientOperator.listenForUpdates();
                     //    "LOSE": player has lost the game --> should decide & call willAudit() function to inform server, to audit or not
                     //    "CONTINUE": player can proceed to next round
                     //     otherwise: someone has won, print this String and exit game
                     switch (message) {
                         case "LOSE":
-                            try {
-                                JOptionPane.showMessageDialog(frame, "You are audit now. If you wish to leave, please close the window.");
-                                clientOperator.AuditOrNot("YES");
-                                message = clientOperator.listenForUpdates();
-                                frame.remove(actionPanel);
-                                while (!message.equals("CONTINUE") && !message.equals("LOSE")) {
-                                    if (message.equals("CONTINUE")) {
-                                        JOptionPane.showMessageDialog(frame, "Next Round");
-                                        updateArrtibute();
-                                    }
-                                    message = clientOperator.listenForUpdates();
-                                }
-                                JOptionPane.showMessageDialog(frame, message);
-                            } catch (ClientOperationException ce) {
 
-                            }
+                                JOptionPane.showMessageDialog(frame, "Lose");
+                                frame.remove(actionPanel);
+                                frame.add(makeChoicePanel);
+                                frame.revalidate();
+                                frame.repaint();
                             break;
                         case "CONTINUE": {
                             JOptionPane.showMessageDialog(frame, "New Round");
@@ -457,8 +496,9 @@ public class app extends JFrame {
                             JOptionPane.showMessageDialog(frame, message);
                     }
                     updateArrtibute();
+                    updateMapPanel();
                 } catch (ClientOperationException ce) {
-
+                    JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
             }
         });
@@ -535,7 +575,7 @@ public class app extends JFrame {
         moveTerrFrom = makeLabel(movePanel, "", moveFromBounds);
         moveTerrTo = makeLabel(movePanel, "", moveToBounds);
         String[] armiesInfo = makeUnits(moveTerrFrom);
-        choseMoveNums = makeMultiSelectionList(movePanel, armiesInfo, new Rectangle(290, 70, 100, 100));
+        choseMoveNums = makeMultiSelectionList(movePanel, armiesInfo, new Rectangle(290, 70, 200, 100));
     }
 
     /*
@@ -545,7 +585,6 @@ public class app extends JFrame {
         String fromTerr = label.getText();
         Territory territory;
         if (fromTerr.equals("")) {
-            //territory = territories.get(1);
             return new String[0];
         } else {
             territory = getTerr(fromTerr);
@@ -613,7 +652,7 @@ public class app extends JFrame {
                     ArrayList<String> selected = new ArrayList<>(choseAttachNums.getSelectedValuesList());
                     HashMap<String, String> attackOrders = new HashMap<>();
                     attackOrders.put("myTerrName", attackTerrFrom.getText());
-                    attackOrders.put("targetName", attackTerrTo.getText());
+                    attackOrders.put("targetTerrName", attackTerrTo.getText());
                     HashMap<String, Integer> orders = count(selected);
                     for (String key: orders.keySet()) {
                         attackOrders.put(key, String.valueOf(orders.get(key)));
@@ -636,7 +675,7 @@ public class app extends JFrame {
         attackTerrFrom = makeLabel(attackPanel, "", attackFromBounds);
         attackTerrTo = makeLabel(attackPanel, "", attackToBounds);
         String[] armiesInfo = makeUnits(attackTerrFrom);
-        choseAttachNums = makeMultiSelectionList(attackPanel, armiesInfo, new Rectangle(290, 70, 100, 100));
+        choseAttachNums = makeMultiSelectionList(attackPanel, armiesInfo, new Rectangle(290, 70, 200, 100));
     }
 
     //TODO
@@ -644,12 +683,12 @@ public class app extends JFrame {
         upgradePanel.setLayout(null);
         upgradePanel.setPreferredSize(new Dimension(1000, 250));
 
-        makeLabel(upgradePanel, "Your Armies: ", new Rectangle(50, 20, 100, 30));
-        armiesSituation = makeLabel(upgradePanel, "current", new Rectangle(60, 60, 300, 30));
+        //makeLabel(upgradePanel, "Your Armies: ", new Rectangle(50, 20, 100, 30));
+        //armiesSituation = makeLabel(upgradePanel, "current", new Rectangle(60, 60, 300, 30));
 
-        makeLabel(upgradePanel, "UpgradeTerr", new Rectangle(50, 110, 100, 30));
-        upgradeTerr = makeLabel(upgradePanel, "", new Rectangle(50, 150, 100, 30));
-        makeLabel(upgradePanel, "From", new Rectangle(170, 110, 100, 30));
+        makeLabel(upgradePanel, "UpgradeTerr", new Rectangle(50, 20, 100, 30));
+        upgradeTerr = makeLabel(upgradePanel, "", new Rectangle(200, 20, 100, 30));
+        makeLabel(upgradePanel, "From", new Rectangle(50, 110, 100, 30));
         makeLabel(upgradePanel, "to", new Rectangle(290, 110, 50, 30));
 
         String[] upgradeString = {"1", "2", "3", "4", "5", "6", "7"};

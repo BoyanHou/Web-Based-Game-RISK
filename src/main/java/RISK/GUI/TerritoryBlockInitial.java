@@ -40,7 +40,6 @@ public class TerritoryBlockInitial {
 
 				// terrBlck2
 				TerritoryBlock terrBlck2 = new TerritoryBlock();
-				terrBlck2.setColor(Color.gray);
 				
 				ArrayList<Block> terr2 = new ArrayList<Block>();
 				for (int i = 10; i <= 16; i ++) {
@@ -66,7 +65,6 @@ public class TerritoryBlockInitial {
 				
 				// terrBlock3
 				TerritoryBlock terrBlck3 = new TerritoryBlock();
-				terrBlck3.setColor(Color.blue);
 				
 				ArrayList<Block> terr3 = new ArrayList<Block>();
 				for (int i = 12; i <= 13; i ++) {
@@ -98,7 +96,6 @@ public class TerritoryBlockInitial {
 				
 				// terrBlock4
 				TerritoryBlock terrBlck4 = new TerritoryBlock();
-				terrBlck4.setColor(Color.cyan);
 				
 				ArrayList<Block> terr4 = new ArrayList<Block>();
 				for (int i = 23; i <= 30; i ++) {
@@ -144,7 +141,6 @@ public class TerritoryBlockInitial {
 				
 				// terrBlock5
 				TerritoryBlock terrBlck5 = new TerritoryBlock();
-				terrBlck5.setColor(Color.darkGray);
 				
 				ArrayList<Block> terr5 = new ArrayList<Block>();
 				for (int i = 29; i <= 30; i ++) {
@@ -185,7 +181,6 @@ public class TerritoryBlockInitial {
 				
 				// terrBlock6
 				TerritoryBlock terrBlck6 = new TerritoryBlock();
-				terrBlck6.setColor(Color.gray);
 				
 				ArrayList<Block> terr6 = new ArrayList<Block>();
 				for (int i = 41; i <= 48; i ++) {
@@ -211,7 +206,6 @@ public class TerritoryBlockInitial {
 				
 				// terrBlock7
 				TerritoryBlock terrBlck7 = new TerritoryBlock();
-				terrBlck7.setColor(Color.green);
 				
 				ArrayList<Block> terr7 = new ArrayList<Block>();
 				for (int i = 49; i <= 54; i ++) {
@@ -239,7 +233,6 @@ public class TerritoryBlockInitial {
 				
 				// terrBlock8
 				TerritoryBlock terrBlck8 = new TerritoryBlock();
-				terrBlck8.setColor(Color.lightGray);
 				
 				ArrayList<Block> terr8 = new ArrayList<Block>();
 				for (int i = 55; i <= 58; i ++) {
@@ -267,7 +260,6 @@ public class TerritoryBlockInitial {
 				
 				// terrBlock9
 				TerritoryBlock terrBlck9 = new TerritoryBlock();
-				terrBlck9.setColor(Color.magenta);
 				
 				ArrayList<Block> terr9 = new ArrayList<Block>();
 				for (int i = 49; i <= 52; i ++) {
@@ -300,7 +292,6 @@ public class TerritoryBlockInitial {
 				
 				// terrBlock10
 				TerritoryBlock terrBlck10 = new TerritoryBlock();
-				terrBlck10.setColor(Color.orange);
 				
 				ArrayList<Block> terr10 = new ArrayList<Block>();
 				for (int i = 41; i <= 55; i ++) {
@@ -338,7 +329,6 @@ public class TerritoryBlockInitial {
 				
 				// terrBlock11
 				TerritoryBlock terrBlck11 = new TerritoryBlock();
-				terrBlck11.setColor(Color.pink);
 				
 				ArrayList<Block> terr11 = new ArrayList<Block>();
 				for (int i = 27; i <= 33; i ++) {
@@ -371,7 +361,6 @@ public class TerritoryBlockInitial {
 				
 				// terrBlock12
 				TerritoryBlock terrBlck12 = new TerritoryBlock();
-				terrBlck12.setColor(Color.red);
 				
 				ArrayList<Block> terr12 = new ArrayList<Block>();
 				for (int i = 23; i <= 40; i ++) {
@@ -396,7 +385,6 @@ public class TerritoryBlockInitial {
 				
 				// terrBlock13
 				TerritoryBlock terrBlck13 = new TerritoryBlock();
-				terrBlck13.setColor(Color.yellow);
 				
 				ArrayList<Block> terr13 = new ArrayList<Block>();
 				for (int i = 13; i <= 20; i ++) {
@@ -443,7 +431,6 @@ public class TerritoryBlockInitial {
 				
 				// terrBlock14
 				TerritoryBlock terrBlck14 = new TerritoryBlock();
-				terrBlck14.setColor(Color.blue);
 				
 				ArrayList<Block> terr14 = new ArrayList<Block>();
 				for (int i = 21; i <= 26; i ++) {
@@ -481,7 +468,6 @@ public class TerritoryBlockInitial {
 				
 				// terrBlock15
 				TerritoryBlock terrBlck15 = new TerritoryBlock();
-				terrBlck15.setColor(Color.magenta);
 				
 				ArrayList<Block> terr15 = new ArrayList<Block>();
 				for (int i = 23; i <= 28; i ++) {
