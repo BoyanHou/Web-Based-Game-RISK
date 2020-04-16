@@ -13,7 +13,7 @@ public abstract class GameClient<T> extends GameDisplayable {
   protected ClassBuilder<T> classBuilder;
 
   public GameClient(ClassBuilder<T> classBuilder) {
-    this.visibleTerrMap = new HashMap<>();
+    this.outdatedTerrInfoMap = new HashMap<>();
     this.classBuilder = classBuilder;
     this.gameState = 0; // set to be in-game
     this.messenger = null;

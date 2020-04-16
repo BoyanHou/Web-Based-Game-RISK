@@ -33,20 +33,30 @@ public class ClassBuilderEvo2 extends ClassBuilder<JSONObject> {
   }
 
   protected class TerrObjectFieldsEvo2 implements TerrObjectFields {
-    public JSONArray neighborMap;     // neighbor terrIDs
     public int owner;                 // owner ID
     public int ownerArmy;             // owner armyID
-    public JSONArray attackArmyMap;   // attacking armyIDs
+    public JSONArray neighborMap;     // neighbor terrIDs
+    // no need to build attack army map!
+    // build spyMap directly, not here!
 
     public TerrObjectFieldsEvo2(JSONObject terrJO) {
-      this.neighborMap = terrJO.getJSONArray("neighborMap");
       this.owner = terrJO.getInt("owner");
       this.ownerArmy = terrJO.getInt("ownerArmy");
-      this.attackArmyMap = terrJO.getJSONArray("attackArmyMap");
+      this.neighborMap = terrJO.getJSONArray("neighborMap");
+      // no need to build attack army map!
+      // build spyMap directly, not here!
     }
 
     @Override
     public void getConnected(Game game, Territory terr) {
+      // owner
+      Player owner = game.getPlayerMap().get(this.owner);
+      terr.setOwner(owner);
+
+      // ownerArmy
+      Army ownerArmy = game.getArmyMap().get(this.ownerArmy);
+      terr.setOwnerArmy(ownerArmy);
+
       // neighborMap
       HashMap<Integer, Territory> neighborMapTemp = new HashMap<>();
       for (int i = 0; i < this.neighborMap.length(); i++) {
@@ -56,22 +66,17 @@ public class ClassBuilderEvo2 extends ClassBuilder<JSONObject> {
       }
       terr.setNeighborMap(neighborMapTemp);
 
-      // owner
-      Player owner = game.getPlayerMap().get(this.owner);
-      terr.setOwner(owner);
-
-      // ownerArmy
-      Army ownerArmy = game.getArmyMap().get(this.ownerArmy);
-      terr.setOwnerArmy(ownerArmy);
-
+      // no need to build attack army map!
       // attackArmyMap
-      HashMap<Integer, Army> attackArmyMapTemp = new HashMap<>();
-      for (int i = 0; i < this.attackArmyMap.length(); i++) {
-        int attackArmyID = this.attackArmyMap.getInt(i);
-        Army attackArmy = game.getArmyMap().get(attackArmyID);
-        attackArmyMapTemp.put(attackArmyID, attackArmy);
-      }
-      terr.setAttackArmyMap(attackArmyMapTemp);
+//      HashMap<Integer, Army> attackArmyMapTemp = new HashMap<>();
+//      for (int i = 0; i < this.attackArmyMap.length(); i++) {
+//        int attackArmyID = this.attackArmyMap.getInt(i);
+//        Army attackArmy = game.getArmyMap().get(attackArmyID);
+//        attackArmyMapTemp.put(attackArmyID, attackArmy);
+//      }
+//      terr.setAttackArmyMap(attackArmyMapTemp);
+
+      // build spyMap directly, not here!
     }
   }
 

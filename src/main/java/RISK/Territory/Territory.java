@@ -19,55 +19,48 @@ public abstract class Territory<T> extends TerritoryRO<T> implements BattleField
   public Territory() {}
 
   public Territory(int terrID, String name) {
-    this.name = name;
     this.terrID = terrID;
-    this.neighborMap =  new HashMap<>();
-    this.ownerArmy = null;
-    this.owner = null;
-    this.attackArmyMap = new HashMap<>();
-    this.unitGenMap = new HashMap<>();
+    this.name = name;
+    this.size = 0;
     this.food = 0;
     this.tech = 0;
-    this.size = 0;
-  }
+    this.outdated = false;
+    this.fogged = false;
+    this.unitGenMap = new HashMap<>();
 
-  public void setOwner(Player owner) {
-    this.owner = owner;
+    this.owner = null;
+    this.ownerArmy = null;
+    this.neighborMap =  new HashMap<>();
+    this.attackArmyMap = new HashMap<>();
+    this.spyMap = new HashMap<>();
   }
-  public void setOwnerArmy(Army ownerArmy) {
-    this.ownerArmy = ownerArmy;
-  }
-
-  public void setNeighborMap(HashMap<Integer, Territory> neighborMap) {
-    this.neighborMap = (HashMap)(neighborMap);
-  }
-  public HashMap<Integer, Territory> getNeighborMap() {
-    return this.neighborMap;
-  }
-
-  public void setUnitGenMap(Map<Integer, Integer> unitGenMap) {
-    this.unitGenMap = (HashMap)unitGenMap;
-  }
+  //////////////
+  /// getters
+  //////////////
   public HashMap<Integer, Integer> getUnitGenMap() {return this.unitGenMap;}
 
-  public void setAttackArmyMap(Map<Integer, Army> attackArmyMap) {
-    this.attackArmyMap = (HashMap)(attackArmyMap);
-  }
-  public HashMap<Integer, Army> getAttackArmyMap() {
-    return this.attackArmyMap;
-  }
-
-  public void setSpyMap(Map<Integer, Spy> spyMap) {this.spyMap = (HashMap)spyMap;}
+  public Player getOwner() {return this.owner;}
+  public Army getOwnerArmy() {return this.ownerArmy;}
+  public HashMap<Integer, Territory> getNeighborMap() {return this.neighborMap;}
+  public HashMap<Integer, Army> getAttackArmyMap() {return this.attackArmyMap;}
   public HashMap<Integer, ArrayList<Spy>> getSpyMap() {return this.spyMap;}
 
+  ///////////////
+  ///  setters
+  ///////////////
   public void setSize(int size) {this.size = size;}
   public void setFood(int food) {this.food = food;}
   public void setTech(int tech) {this.tech = tech;}
+  public void setOutdated(boolean outdated) {this.outdated = outdated;}
+  public void setFogged(boolean fogged) {this.fogged = fogged;}
+  public void setUnitGenMap(Map<Integer, Integer> unitGenMap) {this.unitGenMap = (HashMap)unitGenMap;}
 
-  public Army getOwnerArmy() {
-    return this.ownerArmy;
-  }
-  public Player getOwner() {return this.owner;}
+  public void setOwner(Player owner) {this.owner = owner;}
+  public void setOwnerArmy(Army ownerArmy) {this.ownerArmy = ownerArmy;}
+  public void setNeighborMap(HashMap<Integer, Territory> neighborMap) {this.neighborMap = (HashMap)(neighborMap);}
+  public void setAttackArmyMap(Map<Integer, Army> attackArmyMap) {this.attackArmyMap = (HashMap)(attackArmyMap);}
+  public void setSpyMap(Map<Integer, Spy> spyMap) {this.spyMap = (HashMap)spyMap;}
+
 
   @Override
   public void resolveCombat(CombatResolver combatResolver) {
@@ -140,18 +133,28 @@ public abstract class Territory<T> extends TerritoryRO<T> implements BattleField
   public abstract T pton();
 
   public boolean isVisible(int playerID) {
-    // visible because is owner
+    // 1: visible because is owner
     if (this.owner.getPlayerID() == playerID) {
       return true;
     }
 
-    // visible because of neighbor
-    if (this.neighborMap.containsKey(playerID)) {
+    // 2: visible because of spy
+    if (this.spyMap.containsKey(playerID) && this.spyMap.get(playerID).size() != 0) {
       return true;
     }
 
-    // visible because of spy
-    if (this.spyMap.containsKey(playerID) && this.spyMap.get(playerID).size() != 0) {
+    // 3: visible because of attack army
+    if (this.attackArmyMap.containsKey(playerID)) {
+      return true;
+    }
+
+    // 4: NOT visible because of fog
+    if (this.fogged) {
+      return false;
+    }
+
+    // 5: visible because of neighbor
+    if (this.neighborMap.containsKey(playerID)) {
       return true;
     }
 
@@ -160,12 +163,28 @@ public abstract class Territory<T> extends TerritoryRO<T> implements BattleField
   }
 
   // for making spy
+  public boolean ownerArmyHasAnyUnit() {
+    return this.ownerArmy.hasAnyUnit();
+  }
+
+  // for making spy
   public void reduceOneLowestLevelUnit() throws InvalidOptionException {
     this.ownerArmy.reduceOneLowestLevelUnit();
   }
 
   // for moving spy
-  public void addSpy(int ownerID, Spy spy) {
+  public boolean hasAnySpyOfPlayer(int ownerID) {
+    // if this player does not have any spy here
+    if (!this.spyMap.containsKey(ownerID) ||
+            this.spyMap.get(ownerID).size() == 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  // for moving spy
+  public void addOneSpy(int ownerID, Spy spy) {
     if (!this.spyMap.containsKey(ownerID)) {
       ArrayList<Spy> spyList = new ArrayList<>();
       this.spyMap.put(ownerID, spyList);
@@ -173,23 +192,22 @@ public abstract class Territory<T> extends TerritoryRO<T> implements BattleField
     this.spyMap.get(ownerID).add(spy);
   }
 
-  public void reduceSpy(int ownerID) throws InvalidOptionException{
-    // if this player does not have any spy here
-    if (!this.spyMap.containsKey(ownerID) ||
-        this.spyMap.get(ownerID).size() == 0) {
-      throw new InvalidOptionException("You don't have any spy on " + this.getName());
+  // for moving spy
+  public Spy reduceOneSpy(int ownerID) throws InvalidOptionException{
+    if (!this.hasAnySpyOfPlayer(ownerID)) {
+      throw new InvalidOptionException("You do not have any spy on territory:" + this.getName());
     }
-
     // reduce one spy
     ArrayList<Spy> spyList = this.spyMap.get(ownerID);
+    Spy spy = spyList.get(spyList.size() - 1);
     spyList.remove(spyList.size() - 1);
+
     if (spyList.size() == 0) {
       spyMap.remove(ownerID);
     }
 
-    return;
+    return spy;
   }
-
 
   public abstract Territory getCopy() throws UnitLevelException;
 }

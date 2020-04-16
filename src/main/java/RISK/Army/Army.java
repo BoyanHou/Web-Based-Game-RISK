@@ -83,17 +83,36 @@ public abstract class Army<T> extends ArmyRO<T> {
   public abstract T pton();
 
   // for making spy
+  public boolean hasAnyUnit() {
+    for (int level : this.unitMap.keySet()) {
+      ArrayList<Unit> unitList = this.unitMap.get(level);
+      if (unitList.size() != 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  // for making spy
   public void reduceOneLowestLevelUnit() throws InvalidOptionException {
+    String errorMsg = "There is no existing unit available in this army";
+    if (!this.hasAnyUnit()) {
+      throw new InvalidOptionException(errorMsg);
+    }
     for (int i = 0; ;i++) {
       try {
         UnitLevelMapper.mapName(i);
       } catch (UnitLevelException e) {
-        throw new InvalidOptionException("There is no existing unit available in this army");
+        throw new InvalidOptionException(errorMsg);
       }
       if (this.unitMap.containsKey(i) &&
               this.unitMap.get(i).size() != 0) {
         ArrayList<Unit> unitList = this.unitMap.get(i);
         unitList.remove(unitList.size() - 1);
+        if (unitList.size() == 0) {
+          this.unitMap.remove(i);
+        }
         break;
       }
     }

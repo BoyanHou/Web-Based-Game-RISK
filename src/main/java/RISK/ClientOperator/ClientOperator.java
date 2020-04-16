@@ -44,6 +44,13 @@ public abstract class ClientOperator<T> {
     //   "onTerrName" : "XXX"
     //   "fromLevel":"1"
     //   "toLevel":"3"
+    // fog order: enter "fog" for orderType
+    //   "onTerrName": "XXX"
+    // convertSpy order: enter "convertSpy" for orderType
+    //   "onTerrName": "XXX"
+    // moveSpy order: enter "moveSpy" for orderType
+    //   fromTerrName: "XXX"
+    //   toTerrName: "XXX"
     public abstract void makeOrder(String orderType, HashMap<String, String> parameterMap)
             throws ClientOperationException;
 

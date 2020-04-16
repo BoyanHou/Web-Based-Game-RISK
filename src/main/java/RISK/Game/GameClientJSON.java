@@ -80,6 +80,10 @@ public class GameClientJSON extends GameClient<JSONObject> {
     } catch (IOException e) {
       throw new MessengerException("Cannot send order to server for verification!");
     }
+
+    // first backup all currently visible terrs as outdated terrs
+    this.backupCurrentlyVisibleTerrs();
+
     // execute the order
     order.execute();
   }
@@ -106,6 +110,10 @@ public class GameClientJSON extends GameClient<JSONObject> {
       String str = this.messenger.recv();
       // keep updating classes
       while (!str.equals("ENDOFTURN")) {
+        // first backup all currently visible terrs as outdated terrs
+        this.backupCurrentlyVisibleTerrs();
+
+        // then rebuild all terrs using JSONObject
         JSONObject classes = new JSONObject(str);
         classBuilder.buildAllClasses(classes, this);
         str = this.messenger.recv();

@@ -32,6 +32,30 @@ public class OrderFactoryEvo2 extends OrderFactory<JSONObject> {
         return new UpgradeOrderEvo2(game, playerID, parameterMap);
     }
 
+    public FogOrder makeFogOrder(Game game,
+                                             int playerID,
+                                             HashMap<String, String> parameterMap)
+            throws InvalidOptionException,
+            WrongOrderVersionException {
+        return new FogOrderEvo3(game, playerID, parameterMap);
+    }
+
+    public ConvertSpyOrder makeConvertSpyOrder(Game game,
+                                 int playerID,
+                                 HashMap<String, String> parameterMap)
+            throws InvalidOptionException,
+            WrongOrderVersionException {
+        return new ConvertSpyOrderEvo3(game, playerID, parameterMap);
+    }
+
+    public MoveSpyOrder makeMoveSpyOrder(Game game,
+                                               int playerID,
+                                               HashMap<String, String> parameterMap)
+            throws InvalidOptionException,
+            WrongOrderVersionException {
+        return new MoveSpyOrderEvo3(game, playerID, parameterMap);
+    }
+
     @Override
     public Order makeOrderByNtop(Game game, String orderN)
             throws ProtocolException,
@@ -53,6 +77,12 @@ public class OrderFactoryEvo2 extends OrderFactory<JSONObject> {
             return new AttackOrderEvo2(game, orderJSON);
         } else if (orderType.equals("upgrade")) {
             return new UpgradeOrderEvo2(game, orderJSON);
+        } else if (orderType.equals("fog")) {
+            return new FogOrderEvo3(game, orderJSON);
+        } else if (orderType.equals("convertSpy")) {
+            return new ConvertSpyOrderEvo3(game, orderJSON);
+        } else if (orderType.equals("moveSpy")) {
+            return new MoveSpyOrderEvo3(game, orderJSON);
         } else {
             throw new ProtocolException("Protocol Exception: cannot match the order type: " + orderType + " in the given network-form order");
         }
@@ -70,6 +100,12 @@ public class OrderFactoryEvo2 extends OrderFactory<JSONObject> {
             return this.makeAttackOrder(game, playerID, parameterMap);
         } else if (orderType.equals("upgrade")) {
             return this.makeUpgradeOrder(game, playerID, parameterMap);
+        } else if (orderType.equals("fog")) {
+            return this.makeFogOrder(game, playerID, parameterMap);
+        } else if (orderType.equals("convertSpy")) {
+            return this.makeConvertSpyOrder(game, playerID, parameterMap);
+        } else if (orderType.equals("moveSpy")) {
+            return this.makeMoveSpyOrder(game, playerID, parameterMap);
         } else {
             throw new InvalidOptionException("Order Factory cannot that order type: " + orderType);
         }

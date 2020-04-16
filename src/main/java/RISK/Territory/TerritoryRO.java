@@ -25,12 +25,14 @@ public class TerritoryRO<T> {
     protected int size;
     protected int food;
     protected int tech;
+    protected boolean outdated;
+    protected boolean fogged;
+    protected HashMap<Integer, Integer> unitGenMap; // level:number -- units to generate each round (for owner)
 
     protected Player owner;
     protected Army ownerArmy;
-    protected HashMap<Integer, Territory> neighborMap; // terrID:Territory
-    protected HashMap<Integer, Army> attackArmyMap; // ownerID:Army
-    protected HashMap<Integer, Integer> unitGenMap; // level:number -- units to generate each round (for owner)
+    protected HashMap<Integer, Territory> neighborMap;         // terrID:Territory
+    protected HashMap<Integer, Army> attackArmyMap;            // ownerID:Army
     protected HashMap<Integer, ArrayList<Spy>> spyMap;         // ownerID:Spy
 
     public int getTerrID() {return this.terrID;}
@@ -38,13 +40,18 @@ public class TerritoryRO<T> {
     public int getSize() {return this.size;}
     public int getFood() {return this.food;}
     public int getTech() {return this.tech;}
-
-
+    public boolean isOutDated() {return this.outdated;};
+    public boolean isFogged() {return this.fogged;};
+    public HashMap<Integer, Integer> getUnitGenMapCopy() {
+        HashMap<Integer, Integer> unitGenMapCopy = new HashMap<>();
+        for (int level : this.unitGenMap.keySet()) {
+           unitGenMapCopy.put(level, this.unitGenMap.get(level));
+        }
+        return unitGenMapCopy;
+    }
 
     public PlayerRO getOwnerRO() {return this.owner;}
-
     public ArmyRO getOwnerArmyRO() {return this.ownerArmy;}
-
     public HashMap<Integer, TerritoryRO> getNeighborMapRO() {
         if (this.neighborMap == null) {
             return null;
@@ -55,7 +62,6 @@ public class TerritoryRO<T> {
         }
         return neighborMapRO;
     }
-
     public HashMap<Integer, ArmyRO> getAttackArmyMapRO() {
         if (attackArmyMap == null) {
             return null;
@@ -66,7 +72,6 @@ public class TerritoryRO<T> {
         }
         return attackArmyMapRO;
     }
-
     public HashMap<Integer, ArrayList<Spy>> getSpyMapCopy() throws UnitLevelException {
         HashMap<Integer, ArrayList<Spy>> spyMapCopy = new HashMap<>();
         for (int ownerID : this.spyMap.keySet()) {
