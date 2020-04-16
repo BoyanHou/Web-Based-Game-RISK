@@ -3,6 +3,8 @@ package RISK.Army;
 import RISK.Player.Player;
 import RISK.Player.PlayerRO;
 import RISK.Unit.Unit;
+import RISK.Unit.UnitLevelException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,7 +27,18 @@ public abstract class ArmyRO<T> {
         return armyID;
     }
 
-    public HashMap<Integer, ArrayList<Unit>> getUnitMap() {
-        return this.unitMap;
+    public HashMap<Integer, ArrayList<Unit>> getUnitMapCopy() throws UnitLevelException {
+        HashMap<Integer, ArrayList<Unit>> unitMapCopy = new HashMap<>();
+        for (int ownerID : this.unitMap.keySet()) {
+            ArrayList<Unit> unitListCopy = new ArrayList<>();
+            unitMapCopy.put(ownerID, unitListCopy);
+            ArrayList<Unit> unitList = this.unitMap.get(ownerID);
+            for (Unit unit : unitList) {
+                Unit unitCopy = unit.getCopy();
+                unitListCopy.add(unitCopy);
+            }
+            unitMapCopy.put(ownerID, unitListCopy);
+        }
+        return unitMapCopy;
     }
 }

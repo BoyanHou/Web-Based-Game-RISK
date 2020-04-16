@@ -4,6 +4,8 @@ import RISK.ClassBuilder.ClassBuilder;
 import RISK.Order.*;
 
 import java.io.IOException;
+import java.util.HashMap;
+
 public abstract class GameClient<T> extends GameDisplayable {
 
   protected Messenger messenger;
@@ -11,6 +13,7 @@ public abstract class GameClient<T> extends GameDisplayable {
   protected ClassBuilder<T> classBuilder;
 
   public GameClient(ClassBuilder<T> classBuilder) {
+    this.visibleTerrMap = new HashMap<>();
     this.classBuilder = classBuilder;
     this.gameState = 0; // set to be in-game
     this.messenger = null;

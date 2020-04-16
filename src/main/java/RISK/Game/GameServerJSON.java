@@ -30,23 +30,15 @@ public class GameServerJSON extends GameServer<JSONObject> {
                         String armyPath,
                         OrderFactory<JSONObject>orderFactory)
     throws IOException, BuildClassesException {
+
+    // construct game
+    super(terrPath,
+          playerPath,
+          armyPath,
+          classBuilder);
+
     this.gameState = 0; // set gameState as running
     this.orderFactory = orderFactory;
-    String terrStr = TxtReader.readStrFromFile(terrPath);
-    JSONArray terrJOs = new JSONArray(terrStr);
-
-    String playerStr = TxtReader.readStrFromFile(playerPath);
-    JSONArray playerJOs = new JSONArray(playerStr);
-    
-    String armyStr = TxtReader.readStrFromFile(armyPath);
-    JSONArray armyJOs = new JSONArray(armyStr);
-    
-    JSONObject classes = new JSONObject();
-    classes.put("Terr", terrJOs);
-    classes.put("Player", playerJOs);
-    classes.put("Army", armyJOs);
-    
-    classBuilder.buildAllClasses(classes, this);
 
     this.serverSocket = new ServerSocket(port);
     this.socketMap = new HashMap<>();

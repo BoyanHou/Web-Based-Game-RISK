@@ -18,4 +18,6 @@ public abstract class Unit {
     public int getLevel() {return this.level;}
     public int getBonus() {return this.bonus;}
     public String getName() {return this.name;}
+
+    public abstract Unit getCopy() throws UnitLevelException;
 }

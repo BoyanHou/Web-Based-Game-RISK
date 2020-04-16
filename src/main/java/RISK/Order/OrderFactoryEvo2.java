@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 public class OrderFactoryEvo2 extends OrderFactory<JSONObject> {
-    @Override
+
     public MoveOrder makeMoveOrder(Game game,
                                    int playerID,
                                    HashMap<String, String> parameterMap)
@@ -16,7 +16,6 @@ public class OrderFactoryEvo2 extends OrderFactory<JSONObject> {
         return new MoveOrderEvo2(game, playerID ,parameterMap);
     }
 
-    @Override
     public AttackOrder makeAttackOrder(Game game,
                                        int playerID,
                                        HashMap<String, String> parameterMap)
@@ -25,7 +24,6 @@ public class OrderFactoryEvo2 extends OrderFactory<JSONObject> {
         return new AttackOrderEvo2(game, playerID, parameterMap);
     }
 
-    @Override
     public UpgradeOrder makeUpgradeOrder(Game game,
                                          int playerID,
                                          HashMap<String, String> parameterMap)
@@ -59,4 +57,22 @@ public class OrderFactoryEvo2 extends OrderFactory<JSONObject> {
             throw new ProtocolException("Protocol Exception: cannot match the order type: " + orderType + " in the given network-form order");
         }
     }
+
+    @Override
+    public Order makeOrderByStrings(Game game,
+                                    int playerID,
+                                    HashMap<String, String> parameterMap,
+                                    String orderType)
+            throws InvalidOptionException, WrongOrderVersionException {
+        if (orderType.equals("move")) {
+            return this.makeMoveOrder(game, playerID, parameterMap);
+        } else if (orderType.equals("attack")) {
+            return this.makeAttackOrder(game, playerID, parameterMap);
+        } else if (orderType.equals("upgrade")) {
+            return this.makeUpgradeOrder(game, playerID, parameterMap);
+        } else {
+            throw new InvalidOptionException("Order Factory cannot that order type: " + orderType);
+        }
+    }
+
 }

@@ -1,5 +1,7 @@
 package RISK.Game;
 
+import RISK.ClassBuilder.BuildClassesException;
+import RISK.ClassBuilder.ClassBuilder;
 import RISK.CombatResolver.CombatResolver;
 import RISK.Order.OrderFactory;
 import RISK.Unit.UnitLevelException;
@@ -11,6 +13,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class GameServer<T> extends Game {
+
+  public GameServer (String terrPath,
+                     String playerPath,
+                     String armyPath,
+                     ClassBuilder classBuilder) throws IOException, BuildClassesException {
+    super(terrPath,
+          playerPath,
+          armyPath,
+          classBuilder);
+  }
+
   protected int gameState; // 0 for running, 1 for stop
   protected ServerSocket serverSocket;
   protected Map<Integer, Socket> socketMap;

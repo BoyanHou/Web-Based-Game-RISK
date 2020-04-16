@@ -8,4 +8,10 @@ public class Soldier extends Unit {
     public Soldier(int level) throws UnitLevelException{
        this.setLevel(level);
     }
+
+    @Override
+    public Unit getCopy() throws UnitLevelException {
+        Soldier soldierCopy = new Soldier();
+        return soldierCopy;
+    }
 }

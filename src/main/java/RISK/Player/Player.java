@@ -16,6 +16,8 @@ import java.util.Map;
 
 public abstract class Player<T> extends PlayerRO<T> {
 
+    public Player() {}
+
     public Player(int playerID, String name) {
         this.playerID = playerID;
         this.name = name;
@@ -65,4 +67,5 @@ public abstract class Player<T> extends PlayerRO<T> {
 
     public abstract T pton();
 
+    public abstract Player getCopy();
 }

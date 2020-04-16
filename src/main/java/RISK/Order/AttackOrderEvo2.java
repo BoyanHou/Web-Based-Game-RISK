@@ -19,10 +19,10 @@ public class AttackOrderEvo2 extends AttackOrder<JSONObject> {
     // construct by strings
     public AttackOrderEvo2(Game game,
                            int playerID,
-                           HashMap<String, String> unitMapStr)
+                           HashMap<String, String> parameterMap)
     throws WrongOrderVersionException,
             InvalidOptionException{
-        super(game, playerID, unitMapStr);
+        super(game, playerID, parameterMap);
     }
     // construct by ntop
     public AttackOrderEvo2(Game game, JSONObject orderN)

@@ -10,6 +10,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 public class ArmyJSON extends Army<JSONObject> {
+
+    public ArmyJSON() {}
+
     public ArmyJSON(int armyID) {
         super(armyID);
     }
@@ -54,5 +57,16 @@ public class ArmyJSON extends Army<JSONObject> {
         armyJO.put("unitMap", unitMapJO);
 
         return armyJO;
+    }
+
+    @Override
+    public Army getCopy() throws UnitLevelException {
+        ArmyJSON armyCopy = new ArmyJSON();
+
+        armyCopy.armyID = this.armyID;
+        armyCopy.unitMap = this.getUnitMapCopy();
+        armyCopy.owner = this.owner.getCopy();
+
+        return armyCopy;
     }
 }

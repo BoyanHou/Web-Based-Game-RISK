@@ -1,9 +1,15 @@
 package RISK.Player;
 
+import RISK.Territory.Territory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 public class PlayerJSON extends Player<JSONObject> {
+
+    public PlayerJSON() {}
+
     //    "playerID": int
     //    "name": string
     //    "status": int
@@ -33,4 +39,18 @@ public class PlayerJSON extends Player<JSONObject> {
         return playerJO;
     }
 
+    @Override
+    public Player getCopy() {
+        PlayerJSON playerCopy = new PlayerJSON();
+
+        playerCopy.playerID = this.playerID;
+        playerCopy.name = this.name;
+        playerCopy.status = this.status;
+        playerCopy.tech = this.tech;
+        playerCopy.food = this.food;
+        playerCopy.tech = this.tech;
+        playerCopy.terrMap = new HashMap<>();
+
+        return playerCopy;
+    }
 }

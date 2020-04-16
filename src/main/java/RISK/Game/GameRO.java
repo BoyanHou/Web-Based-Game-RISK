@@ -14,6 +14,7 @@ public abstract class GameRO {
   protected HashMap<Integer, Player> playerMap;
   protected HashMap<Integer, Army> armyMap;
 
+
   public HashMap<Integer, TerritoryRO> getTerrMapRO() {
     HashMap<Integer, TerritoryRO> res = new HashMap<>();
     for (int key : this.terrMap.keySet()) {

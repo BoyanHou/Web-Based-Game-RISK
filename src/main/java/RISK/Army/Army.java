@@ -1,12 +1,17 @@
 //code reviewed by Zian Li
 package RISK.Army;
 
+import RISK.Order.InvalidOptionException;
 import RISK.Player.Player;
+import RISK.Unit.Spy;
 import RISK.Unit.Unit;
+import RISK.Unit.UnitLevelException;
+import RISK.Unit.UnitLevelMapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 
 
 /*
@@ -14,6 +19,8 @@ import java.util.Map;
     ArmyRO: the group to attack or defend
 */
 public abstract class Army<T> extends ArmyRO<T> {
+
+  public Army() {}
 
   public Army(int armyID) {
     this.owner = null;
@@ -35,6 +42,9 @@ public abstract class Army<T> extends ArmyRO<T> {
 
   public Player getOwner() {
     return this.owner;
+  }
+  public HashMap<Integer, ArrayList<Unit>> getUnitMap() {
+    return this.unitMap;
   }
   public void setOwner(Player owner) {
     this.owner = owner;
@@ -71,4 +81,23 @@ public abstract class Army<T> extends ArmyRO<T> {
   }
 
   public abstract T pton();
+
+  // for making spy
+  public void reduceOneLowestLevelUnit() throws InvalidOptionException {
+    for (int i = 0; ;i++) {
+      try {
+        UnitLevelMapper.mapName(i);
+      } catch (UnitLevelException e) {
+        throw new InvalidOptionException("There is no existing unit available in this army");
+      }
+      if (this.unitMap.containsKey(i) &&
+              this.unitMap.get(i).size() != 0) {
+        ArrayList<Unit> unitList = this.unitMap.get(i);
+        unitList.remove(unitList.size() - 1);
+        break;
+      }
+    }
+  }
+
+  public abstract Army getCopy() throws UnitLevelException;
 }

@@ -10,12 +10,14 @@ import RISK.CombatResolver.BattleField;
 import RISK.CombatResolver.CombatResolver;
 import RISK.Order.InvalidOptionException;
 import RISK.Player.Player;
-import RISK.Unit.Soldier;
-import RISK.Unit.Unit;
-import RISK.Unit.UnitLevelException;
+import RISK.Unit.*;
 import RISK.Utils.TerritoryNames;
+import org.json.JSONObject;
 
 public abstract class Territory<T> extends TerritoryRO<T> implements BattleField{
+
+  public Territory() {}
+
   public Territory(int terrID, String name) {
     this.name = name;
     this.terrID = terrID;
@@ -54,6 +56,9 @@ public abstract class Territory<T> extends TerritoryRO<T> implements BattleField
   public HashMap<Integer, Army> getAttackArmyMap() {
     return this.attackArmyMap;
   }
+
+  public void setSpyMap(Map<Integer, Spy> spyMap) {this.spyMap = (HashMap)spyMap;}
+  public HashMap<Integer, ArrayList<Spy>> getSpyMap() {return this.spyMap;}
 
   public void setSize(int size) {this.size = size;}
   public void setFood(int food) {this.food = food;}
@@ -131,5 +136,60 @@ public abstract class Territory<T> extends TerritoryRO<T> implements BattleField
     }
     return;
   }
+
   public abstract T pton();
+
+  public boolean isVisible(int playerID) {
+    // visible because is owner
+    if (this.owner.getPlayerID() == playerID) {
+      return true;
+    }
+
+    // visible because of neighbor
+    if (this.neighborMap.containsKey(playerID)) {
+      return true;
+    }
+
+    // visible because of spy
+    if (this.spyMap.containsKey(playerID) && this.spyMap.get(playerID).size() != 0) {
+      return true;
+    }
+
+    // otherwise: not visible to this playerID
+    return false;
+  }
+
+  // for making spy
+  public void reduceOneLowestLevelUnit() throws InvalidOptionException {
+    this.ownerArmy.reduceOneLowestLevelUnit();
+  }
+
+  // for moving spy
+  public void addSpy(int ownerID, Spy spy) {
+    if (!this.spyMap.containsKey(ownerID)) {
+      ArrayList<Spy> spyList = new ArrayList<>();
+      this.spyMap.put(ownerID, spyList);
+    }
+    this.spyMap.get(ownerID).add(spy);
+  }
+
+  public void reduceSpy(int ownerID) throws InvalidOptionException{
+    // if this player does not have any spy here
+    if (!this.spyMap.containsKey(ownerID) ||
+        this.spyMap.get(ownerID).size() == 0) {
+      throw new InvalidOptionException("You don't have any spy on " + this.getName());
+    }
+
+    // reduce one spy
+    ArrayList<Spy> spyList = this.spyMap.get(ownerID);
+    spyList.remove(spyList.size() - 1);
+    if (spyList.size() == 0) {
+      spyMap.remove(ownerID);
+    }
+
+    return;
+  }
+
+
+  public abstract Territory getCopy() throws UnitLevelException;
 }

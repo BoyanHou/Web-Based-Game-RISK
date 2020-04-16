@@ -16,9 +16,10 @@ public class PlayerRO<T> {
     protected int playerID;
     protected String name;
     protected int status; // 0 for in-game, 1 for audit, 2 for exit
-    protected HashMap<Integer, Territory> terrMap;
     protected int food;  // food resources
     protected int tech;  // tech resources
+    protected HashMap<Integer, Territory> terrMap;
+
 
     public int getPlayerID() {
         return playerID;

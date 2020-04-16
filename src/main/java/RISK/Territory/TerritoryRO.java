@@ -8,6 +8,8 @@ import RISK.Army.Army;
 import RISK.Army.ArmyRO;
 import RISK.Player.Player;
 import RISK.Player.PlayerRO;
+import RISK.Unit.Spy;
+import RISK.Unit.UnitLevelException;
 import RISK.Utils.TerritoryNames;
 
 import java.util.ArrayList;
@@ -19,35 +21,29 @@ import java.util.HashMap;
 public class TerritoryRO<T> {
 
     protected int terrID;
-    protected HashMap<Integer, Territory> neighborMap; // terrID:Territory
     protected String name;
-    protected Player owner;
-    protected Army ownerArmy;
-    protected HashMap<Integer, Army> attackArmyMap; // ownerID:Army
     protected int size;
     protected int food;
     protected int tech;
+
+    protected Player owner;
+    protected Army ownerArmy;
+    protected HashMap<Integer, Territory> neighborMap; // terrID:Territory
+    protected HashMap<Integer, Army> attackArmyMap; // ownerID:Army
     protected HashMap<Integer, Integer> unitGenMap; // level:number -- units to generate each round (for owner)
+    protected HashMap<Integer, ArrayList<Spy>> spyMap;         // ownerID:Spy
 
-    public int getTerrID() {
-        return this.terrID;
-    }
-
+    public int getTerrID() {return this.terrID;}
+    public String getName() {return this.name;}
     public int getSize() {return this.size;}
     public int getFood() {return this.food;}
     public int getTech() {return this.tech;}
 
-    public String getName() {
-        return this.name;
-    }
 
-    public PlayerRO getOwnerRO() {
-        return owner;
-    }
 
-    public ArmyRO getOwnerArmyRO() {
-        return ownerArmy;
-    }
+    public PlayerRO getOwnerRO() {return this.owner;}
+
+    public ArmyRO getOwnerArmyRO() {return this.ownerArmy;}
 
     public HashMap<Integer, TerritoryRO> getNeighborMapRO() {
         if (this.neighborMap == null) {
@@ -69,5 +65,19 @@ public class TerritoryRO<T> {
             attackArmyMapRO.put(armyID, this.attackArmyMap.get(armyID));
         }
         return attackArmyMapRO;
+    }
+
+    public HashMap<Integer, ArrayList<Spy>> getSpyMapCopy() throws UnitLevelException {
+        HashMap<Integer, ArrayList<Spy>> spyMapCopy = new HashMap<>();
+        for (int ownerID : this.spyMap.keySet()) {
+            ArrayList<Spy> spyList = this.spyMap.get(ownerID);
+            ArrayList<Spy> spyListCopy = new ArrayList<>();
+            for (Spy spy : spyList) {
+                Spy spyCopy = (Spy)spy.getCopy();
+                spyListCopy.add(spyCopy);
+            }
+            spyMapCopy.put(ownerID, spyListCopy);
+        }
+        return spyMapCopy;
     }
 }
