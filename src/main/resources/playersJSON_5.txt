@@ -1,7 +1,21 @@
 [
-        {"name":"Green","playerID":1,"terrMap":[1,2,3],"food":20,"tech":20},
-        {"name":"Red","playerID":2,"terrMap":[4,5,6],"food":20,"tech":20},
-        {"name":"Blue","playerID":3,"terrMap":[7,8,9],"food":20,"tech":20},
-        {"name":"Yellow","playerID":4,"terrMap":[10,11,12],"food":20,"tech":20},
-        {"name":"Orange","playerID":5,"terrMap":[13,14,15],"food":20,"tech":20}
+    {"name":"Green","playerID":1,
+    "terrMap":[1,2,3],
+    "food":20,"tech":20},
+
+    {"name":"Red","playerID":2,
+    "terrMap":[4,5,6],
+    "food":20,"tech":20},
+
+    {"name":"Blue","playerID":3,
+    "terrMap":[7,8,9],
+    "food":20,"tech":20},
+
+    {"name":"Yellow","playerID":4,
+    "terrMap":[10,11,12],
+    "food":20,"tech":20},
+
+    {"name":"Orange","playerID":5,
+    "terrMap":[13,14,15],
+    "food":20,"tech":20}
 ]

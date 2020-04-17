@@ -1,6 +1,29 @@
 [
-    {"terrID":4,"name":"Midkemia","owner":1,"attackArmyMap":[],"ownerArmy":4,"neighborMap":[5,12],"size":4,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
-    {"terrID":5,"name":"Oz","owner":1,"attackArmyMap":[],"ownerArmy":5,"neighborMap":[4,9,12],"size":2,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
-    {"terrID":9,"name":"Mordor","owner":2,"attackArmyMap":[],"ownerArmy":9,"neighborMap":[5,12],"size":4,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
-    {"terrID":12,"name":"Scadrial","owner":2,"attackArmyMap":[],"ownerArmy":12,"neighborMap":[4,5,9],"size":2,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}}
+    {"owner":1,
+    "name":"Midkemia",
+    "terrID":4,"ownerArmy":4,
+    "neighborMap":[5,12],
+    "fogged":false,"spyMap":{},
+    "size":4,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+
+    {"owner":1,
+    "name":"Oz",
+    "terrID":5,"ownerArmy":5,
+    "neighborMap":[4,9,12],
+    "fogged":false,"spyMap":{},
+    "size":2,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+
+    {"owner":2,
+    "name":"Mordor",
+    "terrID":9,"ownerArmy":9,
+    "neighborMap":[5,12],
+    "fogged":false,"spyMap":{},
+    "size":4,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+
+    {"owner":2,
+    "name":"Scadrial",
+    "terrID":12,"ownerArmy":12,
+    "neighborMap":[4,5,9],
+    "fogged":false,"spyMap":{},
+    "size":2,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}}
 ]

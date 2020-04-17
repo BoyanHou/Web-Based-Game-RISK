@@ -1,11 +1,28 @@
 [
-    {"owner":1,"armyID":1,"unitMap":{"1":1}},
-    {"owner":1,"armyID":2,"unitMap":{"2":1}},
-    {"owner":1,"armyID":3,"unitMap":{"3":1}},
-    {"owner":1,"armyID":4,"unitMap":{"4":1}},
-    {"owner":2,"armyID":5,"unitMap":{"5":1}},
-    {"owner":2,"armyID":6,"unitMap":{"6":1}},
-    {"owner":2,"armyID":7,"unitMap":{"7":1}},
-    {"owner":2,"armyID":8,"unitMap":{"8":1}},
-    {"owner":2,"armyID":9,"unitMap":{"9":1}}
+    {"armyID":1,"owner":1,
+    "unitMap":{"1":1}},
+
+    {"armyID":2,"owner":1,
+    "unitMap":{"2":1}},
+
+    {"armyID":3,"owner":1,
+    "unitMap":{"3":1}},
+
+    {"armyID":4,"owner":1,
+    "unitMap":{"4":1}},
+
+    {"armyID":5,"owner":2,
+    "unitMap":{"1":1}},
+
+    {"armyID":6,"owner":2,
+    "unitMap":{"2":1}},
+
+    {"armyID":7,"owner":2,
+    "unitMap":{"3":1}},
+
+    {"armyID":8,"owner":2,
+    "unitMap":{"4":1}},
+
+    {"armyID":9,"owner":2,
+    "unitMap":{"5":1}}
 ]
