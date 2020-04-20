@@ -41,7 +41,7 @@ public class app extends JFrame {
     private static JPanel movePanel;
     private static JPanel attackPanel;
     private static JPanel upgradePanel;
-    private static JPanel informationPanel;
+  //    private static JPanel informationPanel;
     private static JPanel mapPanel;
     private static JPanel playerPanel;
     private static JPanel makeChoicePanel;
@@ -59,10 +59,12 @@ public class app extends JFrame {
     private static JLabel foodLabel;
     private static JLabel techLabel;
 
+  /*
     //the informationPanel
     private static JLabel details;
     private static JComboBox<String> choseTerrInfo;
-
+  */
+  
     //the movePanel
     private static JLabel moveTerrFrom;
     private static JLabel moveTerrTo;
@@ -98,24 +100,28 @@ public class app extends JFrame {
     private static Rectangle displayButtonBounds = new Rectangle(200, 50, 100, 30);
 
     private static Dimension actionPanelSize = new Dimension(1000, 250);
-    private static Rectangle chooseActionBounds = new Rectangle(50, 20, 200, 30);
-    private static Rectangle moveButtonBounds = new Rectangle(100, 50, 80, 30);
-    private static Rectangle attackButtonBounds = new Rectangle(200, 50, 80, 30);
-    private static Rectangle upgradeButtonBounds = new Rectangle(300, 50, 80, 30);
-    private static Rectangle finishButtonBounds = new Rectangle(400, 50, 80, 30);
+    private static Rectangle chooseActionBounds = new Rectangle(50, 40, 200, 30);
+    private static Rectangle moveButtonBounds = new Rectangle(100, 110, 90, 40);
+    private static Rectangle attackButtonBounds = new Rectangle(320, 110,90, 40);
+    private static Rectangle upgradeButtonBounds = new Rectangle(540, 110, 90, 40);
+    private static Rectangle finishButtonBounds = new Rectangle(760, 110, 90, 40);
 
     private static Dimension movePanelSize = new Dimension(1000, 250);
     private static Rectangle moveFromPromptBounds = new Rectangle(50, 20, 50, 30);
     private static Rectangle moveFromBounds = new Rectangle(50, 70, 100, 30);
     private static Rectangle moveToPromptsBounds = new Rectangle(170, 20, 50, 30);
     private static Rectangle moveToBounds = new Rectangle(170, 70, 100, 30);
-    private static Rectangle moveConfirmButton = new Rectangle(410, 20, 150, 30);
+    private static Rectangle moveConfirmButton = new Rectangle(270, 190, 150, 30);
 
     private static Dimension attackPanelSize = new Dimension(1000, 250);
     private static Rectangle attackFromPromptBounds = new Rectangle(50, 20, 50, 30);
     private static Rectangle attackFromBounds = new Rectangle(50, 70, 100, 30);
     private static Rectangle attackToPromptBounds = new Rectangle(170, 20, 50, 30);
     private static Rectangle attackToBounds = new Rectangle(170, 70, 100, 30);
+    private static Rectangle attackConfirmButton =  new Rectangle(270, 190, 150, 30);
+
+    // cancel button
+    private static Rectangle cancelConfirmButton = new Rectangle(510, 190, 150, 30);
 
 
     public app(ClientOperator<JSONObject> co) {
@@ -142,7 +148,7 @@ public class app extends JFrame {
         movePanel = new JPanel();
         attackPanel = new JPanel();
         upgradePanel = new JPanel();
-        informationPanel = new JPanel();
+        //informationPanel = new JPanel();
         playerPanel = new JPanel();
         makeChoicePanel = new JPanel();
         terrInfoPanel = new JPanel();
@@ -151,7 +157,8 @@ public class app extends JFrame {
             setMovePanel();
             setAttackPanel();
             setUpgradePanel();
-            setInfoPanel();
+            //Eva3 ********no longer need it**********
+            //setInfoPanel();
             setMapPanel();
             setPlayerPanel();
             setMakeChoicePanel();
@@ -392,7 +399,7 @@ public class app extends JFrame {
         techLabel.setText(String.valueOf(tech));
     }
 
-
+  /* Eva3 ********no longer need it**********
     //MARK: - SetUp information Display --------------------------------------------------------------------------------
     private static void setInfoPanel() {
         informationPanel.setLayout(null);
@@ -413,8 +420,9 @@ public class app extends JFrame {
         });
         frame.add(informationPanel, BorderLayout.EAST);
     }
-
-    /*
+  */
+  /*
+    
     @param: territories: an arrayList of territories
     @return: String[]
     Make a String array of all given territory.
@@ -484,6 +492,7 @@ public class app extends JFrame {
 
         // Creating button
         JButton moveButton = makeButton(actionPanel, "Move", moveButtonBounds);
+        
         moveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -585,6 +594,7 @@ public class app extends JFrame {
         upgradeMovePanel();
 
         JButton moveButton = makeButton(movePanel, "Move", moveConfirmButton);
+        JButton cancelButton = makeButton(movePanel, "Cancel", cancelConfirmButton);
         moveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -698,7 +708,8 @@ public class app extends JFrame {
         makeLabel(attackPanel, "Units", new Rectangle(290, 20, 50, 30));
         updateAttackPanel();
 
-        JButton button = makeButton(attackPanel, "Attack", new Rectangle(410, 20, 150, 30));
+        JButton button = makeButton(attackPanel, "Attack", attackConfirmButton);
+        JButton cancelButton = makeButton(attackPanel, "Cancel", cancelConfirmButton);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -760,7 +771,9 @@ public class app extends JFrame {
 
         chooseUpgradeTo = makeDropDown(upgradePanel, upgradeString, new Rectangle(360, 110, 100, 30));
 
-        JButton makeUpgradeButton = makeButton(upgradePanel, "Upgrade", new Rectangle(480, 110, 100, 30));
+        JButton makeUpgradeButton = makeButton(upgradePanel, "Upgrade", new Rectangle(270, 190, 150, 30));
+        
+        JButton cancelButton = makeButton(upgradePanel, "Cancel", cancelConfirmButton);
         makeUpgradeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -803,6 +816,12 @@ public class app extends JFrame {
      */
     private static JButton makeButton(JPanel panel, String title, Rectangle position) {
         JButton button = new JButton(title);
+        button.setBackground(new Color(59, 89, 182));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setFont(new Font("Serif", Font.BOLD, 12));
+        //button.setIcon(new ImageIcon("ButtonImage.jpg"));
+
         button.setBounds(position);
         panel.add(button);
         return button;
@@ -817,6 +836,9 @@ public class app extends JFrame {
      */
     private static JLabel makeLabel(JPanel panel, String title, Rectangle position) {
         JLabel label = new JLabel(title);
+        label.setBackground(new Color(59, 89, 182));
+        label.setForeground(Color.BLACK);
+        label.setFont(new Font("Serif", Font.BOLD, 12));
         label.setBounds(position);
         panel.add(label);
         return label;
