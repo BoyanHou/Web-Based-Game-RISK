@@ -22,10 +22,7 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -48,6 +45,11 @@ public class app extends JFrame {
     private static JPanel mapPanel;
     private static JPanel playerPanel;
     private static JPanel makeChoicePanel;
+
+    private static JPanel terrInfoPanel;
+    private static JLabel terrInfo;
+    private static String currentTerr;
+    private static JLayeredPane mapInfoPanel;
 
     private static JPanel currentPanel;
 
@@ -134,6 +136,7 @@ public class app extends JFrame {
         frame = new JFrame("RISK");
         frame.setSize(frameSize);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mapInfoPanel = frame.getLayeredPane();
 
         actionPanel = new JPanel();
         movePanel = new JPanel();
@@ -142,6 +145,7 @@ public class app extends JFrame {
         informationPanel = new JPanel();
         playerPanel = new JPanel();
         makeChoicePanel = new JPanel();
+        terrInfoPanel = new JPanel();
         try {
             setActionPanel();
             setMovePanel();
@@ -151,10 +155,23 @@ public class app extends JFrame {
             setMapPanel();
             setPlayerPanel();
             setMakeChoicePanel();
+            setTerrInfoPanel();
         } catch (ClientOperationException ce) {
 
         }
         frame.setVisible(true);
+    }
+
+    private static void setTerrInfoPanel() {
+        //terrInfoPanel.setLayout(null);
+        //terrInfoPanel.setPreferredSize(new Dimension(100, 200));
+        terrInfo = makeLabel(mapPanel, "Terr Info", new Rectangle(0, 0, 150, 150));
+        mapPanel.remove(terrInfo);
+        mapInfoPanel.add(terrInfo);
+        terrInfo.setBackground(Color.white);
+        terrInfo.setVisible(false);
+        terrInfo.setBackground(Color.yellow);
+        currentTerr = "";
     }
 
     private static void setMakeChoicePanel() {
@@ -203,6 +220,8 @@ public class app extends JFrame {
 
     //MARK: - draw the map
     private static void setMapPanel() {
+        //mapInfoPanel = frame.getLayeredPane();
+
         //initialize territoryBlocks
         TerritoryBlockInitial initTB = new TerritoryBlockInitial();
         HashMap<String, TerritoryBlock> territoryBlockMap = initTB.getTerritoryBlockMap();
@@ -216,8 +235,10 @@ public class app extends JFrame {
         }
 
         mapPanel = new MapPanel(territoryBlocks);
+        //mapInfoPanel.add(mapPanel);
         mapPanel.setLayout(null);
         mapPanel.setPreferredSize(mapPanelSize);
+        //mapPanel.setBounds(new Rectangle(0, 100, 650, 500));
         mapPanel.setBackground(Color.white);
 
         for (Territory territory: territories.values()) {
@@ -285,6 +306,41 @@ public class app extends JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 //TODO when released, the territory change to normal
+            }
+        });
+        mapPanel.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e){
+                int x = e.getX();
+                int y = e.getY();
+                TerritoryBlock selectedTerrBlock = getSelectedTerrBlock(new Point(x,y));
+                if (selectedTerrBlock == null) {
+                    //not inside the terr
+                    currentTerr = "";
+                    //terrInfo.setVisible(false);
+                    mapInfoPanel.remove(terrInfo);
+                    frame.revalidate();
+                    frame.repaint();
+
+                } else {
+                    String currentName = selectedTerrBlock.getTerrName();
+                    if (!currentTerr.equals(currentName)) {
+                        //the info should be updated to display new terrInfo
+                        currentTerr = currentName;
+                        String info = getInfo(selectedTerrBlock.getTerrName());
+                        terrInfo.setText(info);
+                        terrInfo.setVisible(true);
+                        mapInfoPanel.add(terrInfo, 2);
+                        terrInfoPanel.setBounds(x+10, y+10, 150, 150);
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                }
             }
         });
         frame.add(mapPanel, BorderLayout.CENTER);
@@ -811,7 +867,7 @@ public class app extends JFrame {
         ClientOperator clientOperator = new ClientOperatorEvo2(client, orderFactory);
         // make text GUI
         try {
-            clientOperator.initConnection("3.15.215.167", "8000");
+            clientOperator.initConnection("0.0.0.0", "8000");
         } catch (ClientOperationException ce) {
 
         }
