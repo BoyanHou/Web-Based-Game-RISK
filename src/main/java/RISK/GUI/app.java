@@ -37,18 +37,23 @@ public class app extends JFrame {
     private static JPanel upgradePanel;
     private static JPanel fogPanel;
     private static JPanel spyPanel;
-    //    private static JPanel informationPanel;
+    private static JPanel spyCoverPanel;
+    private static JPanel spyRemovePanel;
+    private static JPanel informationPanel;
     private static JPanel mapPanel;
     private static JPanel playerPanel;
     private static JPanel makeChoicePanel;
 
     private static JPanel terrInfoPanel;
     private static JLabel terrInfo;
-    private static String currentTerr;
     private static JLayeredPane mapInfoPane;
 
     private static JPanel currentPanel;
     private static JLabel currentSelectedLabel;
+    private static JComboBox<String> currentSelectedComboBox;
+    private static Territory currentSelectedTerr;
+    private static TerritoryBlock currentSelectedTerrBlock;
+    private static Point currentSelectedPoint;
 
     //Mark: the information that will be updated or kept track of
     //the playerPanel, the north one
@@ -60,11 +65,8 @@ public class app extends JFrame {
     private static ArrayList<JLabel> fogLabels;
     private static ArrayList<JLabel> spyLabels;
 
-  /*
     //the informationPanel
     private static JLabel details;
-    private static JComboBox<String> choseTerrInfo;
-  */
 
     //the movePanel
     private static JLabel moveTerrFrom;
@@ -92,7 +94,7 @@ public class app extends JFrame {
     //position parameter settings
     private static Dimension frameSize = new Dimension(1000, 800);
 
-    private static Dimension mapPanelSize = new Dimension(1000, 500);
+    private static Dimension mapPanelSize = new Dimension(700, 500);
 
     private static Dimension playerPanelSize = new Dimension(500, 100);
     private static Rectangle playerIDBounds = new Rectangle(50, 50, 150, 30);
@@ -101,7 +103,7 @@ public class app extends JFrame {
     private static Rectangle techPromptBounds = new Rectangle(330, 50, 50, 30);
     private static Rectangle techLabelBounds = new Rectangle(380, 50, 50, 30);
 
-    private static Dimension informationPanelSize = new Dimension(350, 500);
+    private static Dimension informationPanelSize = new Dimension(300, 500);
     private static Rectangle chooseTerrLabelBounds = new Rectangle(0, 50, 150, 30);
     private static Rectangle chooseTerrDropDownBounds = new Rectangle(0, 100, 200, 30);
     private static Rectangle detailsBounds = new Rectangle(50, 150, 200, 300);
@@ -157,7 +159,9 @@ public class app extends JFrame {
         upgradePanel = new JPanel();
         fogPanel = new JPanel();
         spyPanel = new JPanel();
-        //informationPanel = new JPanel();
+        spyCoverPanel = new JPanel();
+        spyRemovePanel = new JPanel();
+        informationPanel = new JPanel();
         playerPanel = new JPanel();
         makeChoicePanel = new JPanel();
         terrInfoPanel = new JPanel();
@@ -167,9 +171,10 @@ public class app extends JFrame {
             setAttackPanel();
             setUpgradePanel();
             setFogPanel();
-
-            //Eva3 ********no longer need it**********
-            //setInfoPanel();
+            setSpyPanel();
+            setSpyCoverPanel();
+            setSpyRemovePanel();
+            setInfoPanel();
             setMapPane();
             setPlayerPanel();
             setMakeChoicePanel();
@@ -185,7 +190,7 @@ public class app extends JFrame {
         terrInfoPanel.setPreferredSize(new Dimension(150, 150));
         terrInfo = makeLabel(terrInfoPanel, "Terr Info", new Rectangle(0, 0, 150, 150), false);
         terrInfo.setBackground(Color.white);
-        currentTerr = "";
+        currentSelectedTerrBlock = null;
     }
 
     private static void setMakeChoicePanel() {
@@ -284,7 +289,17 @@ public class app extends JFrame {
                 } else {
                     selected = selectedTerrBlock.getTerrName();
                 }
-                currentSelectedLabel.setText(selected);
+                if (currentPanel != actionPanel) {
+                    currentSelectedLabel.setText(selected);
+                }
+                String[] armiesInfo = makeUnits(currentSelectedLabel);
+                if (currentPanel == movePanel) {
+                    choseMoveNums.setListData(armiesInfo);
+                }
+                if (currentPanel == attackPanel) {
+                    choseAttachNums.setListData(armiesInfo);
+                }
+
             }
 
             @Override
@@ -318,29 +333,26 @@ public class app extends JFrame {
                 TerritoryBlock selectedTerrBlock = getSelectedTerrBlock(new Point(x, y));
                 if (selectedTerrBlock == null) {
                     //not inside the terr
-                    if (!currentTerr.equals("")) {
-                        //TODO
-                        currentTerr = "";
+                    if (currentSelectedTerrBlock != null) {
+                        updateTerrBlock(currentSelectedTerrBlock, gameClient.getOutdatedTerrMap());
+                        currentSelectedTerrBlock = null;
+                        mapPanel.revalidate();
+                        mapPanel.repaint();
                     }
-                    mapInfoPane.remove(terrInfoPanel);
                     frame.revalidate();
                     frame.repaint();
 
                 } else {
-                    String currentName = selectedTerrBlock.getTerrName();
-                    if (!currentTerr.equals(currentName)) {
+                    TerritoryBlock territoryBlockNow = selectedTerrBlock;
+                    if (currentSelectedTerrBlock == null || !currentSelectedTerrBlock.getTerrName().equals(territoryBlockNow.getTerrName())) {
                         //the info should be updated to display new terrInfo
-                        currentTerr = currentName;
+                        updateTerrBlock(currentSelectedTerrBlock, gameClient.getOutdatedTerrMap());
+                        currentSelectedTerrBlock = territoryBlockNow;
+                        currentSelectedTerrBlock.setColor(Color.yellow);
+                        mapPanel.revalidate();
+                        mapPanel.repaint();
                         String info = getDisplayInfo(selectedTerrBlock.getTerrName());
-                        terrInfo.setText(info);
-
-                        terrInfoPanel.setBounds(x, y, 120, 120);
-                        try {
-                            mapInfoPane.add(terrInfoPanel, 2);
-                        } catch (IllegalArgumentException exp) {
-                            System.out.println(terrInfoPanel.getX());
-                            System.out.println(x);
-                        }
+                        details.setText(info);
                         frame.revalidate();
                     }
                 }
@@ -370,20 +382,21 @@ public class app extends JFrame {
 
     //update one Terr
     private static void updateTerrBlock(TerritoryBlock territoryBlock, HashMap<Integer, Territory> outdatedTerrMap) {
+        if (territoryBlock == null) {
+            return;
+        }
         String terrName = territoryBlock.getTerrName();
         Territory territory = getTerr(terrName);
         territoryBlock.setTerritory(territory);
         if (territory.isVisible(playerID)) {
             //normal
             territoryBlock.update();
-        } else {
-            if (outdatedTerrMap.containsKey(territory.getTerrID())) {
+        } else if (outdatedTerrMap.containsKey(territory.getTerrID())) {
                 //display outdated
                 territoryBlock.setColor(Color.GRAY);
-            } else {
+        } else {
                 //not display information
                 territoryBlock.setColor(Color.WHITE);
-            }
         }
     }
 
@@ -421,28 +434,14 @@ public class app extends JFrame {
         techLabel.setText(String.valueOf(tech));
     }
 
-    /* Eva3 ********no longer need it**********
       //MARK: - SetUp information Display --------------------------------------------------------------------------------
       private static void setInfoPanel() {
           informationPanel.setLayout(null);
           informationPanel.setPreferredSize(informationPanelSize);
-          makeLabel(informationPanel, "Choose a Territory:", chooseTerrLabelBounds);
-          String[] territoryNames = getTerrNames(new ArrayList<>(territories.values()));
-          choseTerrInfo = makeDropDown(informationPanel, territoryNames, chooseTerrDropDownBounds);
-          details = makeLabel(informationPanel, "Details Information", detailsBounds);
-          JButton button = makeButton(informationPanel, "Display", displayButtonBounds);
-          button.addActionListener(new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent e) {
-                  String selected = (String) choseTerrInfo.getSelectedItem();
-                  updateArrtibute();
-                  String result = getInfo(selected);
-                  details.setText(result);
-              }
-          });
+          details = makeLabel(informationPanel, "Details Information", detailsBounds, false);
           frame.add(informationPanel, BorderLayout.EAST);
       }
-    */
+
   /*
     
     @param: territories: an arrayList of territories
@@ -651,18 +650,123 @@ public class app extends JFrame {
 
     public static void setSpyPanel() {
         spyPanel.setLayout(null);
-        spyPanel.setPreferredSize(new Dimension(600, 200));
-        //TODO
-        makeCancelButton(fogPanel, cancelConfirmButton);
+        spyPanel.setPreferredSize(movePanelSize);
+
+        JButton coverSpy = makeButton(spyPanel, "Cover Spy", new Rectangle(50, 50, 50, 30));
+        coverSpy.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(spyPanel);
+                frame.add(spyCoverPanel, BorderLayout.SOUTH);
+                frame.revalidate();
+                frame.repaint();
+                currentPanel = spyCoverPanel;
+                currentSelectedLabel = coverSpyOnLabel;
+                coverSpyOnLabel.setText("");
+            }
+        });
+
+        JButton removeSpy = makeButton(spyPanel, "Remove Spy", new Rectangle(150, 50, 50, 30));
+        removeSpy.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(spyPanel);
+                frame.add(spyRemovePanel, BorderLayout.SOUTH);
+                frame.revalidate();
+                frame.repaint();
+                currentPanel = spyRemovePanel;
+                currentSelectedLabel = fromSpyTerrLabel;
+                fromSpyTerrLabel.setText("");
+                toSpyTerrLabel.setText("");
+            }
+        });
+
+        makeCancelButton(spyPanel, cancelConfirmButton);
+    }
+
+    public static void setSpyCoverPanel() {
+        spyCoverPanel.setLayout(null);
+        spyCoverPanel.setPreferredSize(movePanelSize);
+
+        makeLabel(spyCoverPanel, "Put Spy On:", new Rectangle(10, 50, 100, 30), false);
+        coverSpyOnLabel = makeLabel(spyCoverPanel, "", new Rectangle(200, 50, 100, 30), true);
+
+        JButton button = makeButton(spyCoverPanel, "Make Spy", new Rectangle(200, 100, 100, 30));
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(spyCoverPanel);
+                frame.add(actionPanel, BorderLayout.SOUTH);
+                frame.revalidate();
+                frame.repaint();
+                currentPanel = actionPanel;
+                try {
+                    // convertSpy order: enter "convertSpy" for orderType
+                    //   "onTerrName": "XXX"
+                    HashMap<String, String> convertSpyOrders = new HashMap<>();
+                    convertSpyOrders.put("onTerrName", coverSpyOnLabel.getText());
+                    clientOperator.makeOrder("convertSpy", convertSpyOrders);
+                    updateArrtibute();
+                    updatePlayerPanel();
+                } catch (ClientOperationException ce) {
+                    JOptionPane.showMessageDialog(frame, ce.getMessage());
+                }
+            }
+        });
+
+        makeCancelButton(spyCoverPanel, cancelConfirmButton);
+    }
+
+    public static void setSpyRemovePanel() {
+        spyRemovePanel.setLayout(null);
+        spyRemovePanel.setPreferredSize(movePanelSize);
+
+        makeLabel(spyRemovePanel, "Move Spy From:", new Rectangle(10, 50, 100, 30), false);
+        makeLabel(spyRemovePanel, "To", new Rectangle(10, 100, 100, 30), false);
+        fromSpyTerrLabel = makeLabel(spyRemovePanel, "", new Rectangle(200, 50, 100, 30), true);
+        toSpyTerrLabel = makeLabel(spyRemovePanel, "", new Rectangle(200, 100, 100, 30), true);
+
+        JButton button = makeButton(spyRemovePanel, "Move Spy", new Rectangle(300, 150, 100, 30));
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(spyRemovePanel);
+                frame.add(actionPanel, BorderLayout.SOUTH);
+                frame.revalidate();
+                frame.repaint();
+                currentPanel = actionPanel;
+                try {
+                    // moveSpy order: enter "moveSpy" for orderType
+                    //   fromTerrName: "XXX"
+                    //   toTerrName: "XXX"
+                    HashMap<String, String> moveSpyOrders = new HashMap<>();
+                    moveSpyOrders.put("fromTerrName", fromSpyTerrLabel.getText());
+                    moveSpyOrders.put("toTerrName", toSpyTerrLabel.getText());
+                    clientOperator.makeOrder("moveSpy", moveSpyOrders);
+                    updateArrtibute();
+                    updatePlayerPanel();
+                } catch (ClientOperationException ce) {
+                    JOptionPane.showMessageDialog(frame, ce.getMessage());
+                }
+            }
+        });
+
+        makeCancelButton(spyRemovePanel, cancelConfirmButton);
     }
 
     public static void setFogPanel() {
         fogPanel.setLayout(null);
         fogPanel.setPreferredSize(movePanelSize);
+<<<<<<< HEAD
 
         makeLabel(fogPanel, "Put fog on: ", new Rectangle(10, 30, 200, 30), false);
         addedFogTerrLabel = makeLabel(fogPanel, "fog on: ", new Rectangle(210, 30, 500, 30), true);
         JButton fogButton = makeButton(fogPanel, "Fog", new Rectangle(310, 190, 150, 30));
+=======
+        makeLabel(fogPanel, "Put fog on: ", new Rectangle(10, 30, 50, 30), false);
+        addedFogTerrLabel = makeLabel(fogPanel, "fog on: ", new Rectangle(10, 10, 50, 30), true);
+        JButton fogButton = makeButton(fogPanel, "Fog", new Rectangle(100, 10, 50, 30));
+>>>>>>> ccd254fe083c52b7479681d61337ae46df48f0a9
         fogButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -6,13 +6,19 @@ before_script:
   - docker --version
 
 stages:
+   - permit
    - build
    - test
    - coverage
    - deploy
    - test-deployment
 
-   
+permit:
+  tags:
+    - ece651
+  stage: permit
+  script: chmod +x gradlew
+  
 build:
   tags:
      - ece651
