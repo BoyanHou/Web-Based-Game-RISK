@@ -92,15 +92,11 @@ public class Block {
         int pX = p.getX();
         int pY = p.getY();
         ArrayList<Point> neighbors = getNeighbors();
-        System.out.println("pX and pY");
-        System.out.println(pX);
-        System.out.println(pY);
         boolean ifNeiBlockPoint = false;
         for (Point neiP : neighbors) {
             int neiPX = p.getX();
             int neiPY = p.getY();
             if (pX == neiPX && pY == neiPY) {
-                System.out.println("find !");
                 ifNeiBlockPoint = true;
             }
         }

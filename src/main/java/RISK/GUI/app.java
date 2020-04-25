@@ -6,13 +6,8 @@ import RISK.ClassBuilder.ClassBuilderEvo2;
 import RISK.ClientOperator.ClientOperationException;
 import RISK.ClientOperator.ClientOperator;
 import RISK.ClientOperator.ClientOperatorEvo2;
-import RISK.GUI.Block;
-import RISK.GUI.CheckboxListCellRenderer;
-import RISK.GUI.MapPanel;
-import RISK.GUI.TerritoryBlock;
 import RISK.Game.GameClient;
 import RISK.Game.GameClientJSON;
-import RISK.Game.GameInitial;
 import RISK.Order.OrderFactory;
 import RISK.Order.OrderFactoryEvo2;
 import RISK.Player.Player;
@@ -25,7 +20,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
 
 public class app extends JFrame {
     private static ClientOperator<JSONObject> clientOperator;
@@ -49,7 +43,7 @@ public class app extends JFrame {
     private static JPanel terrInfoPanel;
     private static JLabel terrInfo;
     private static String currentTerr;
-    private static JLayeredPane mapInfoPanel;
+    private static JLayeredPane mapInfoPane;
 
     private static JPanel currentPanel;
 
@@ -84,7 +78,7 @@ public class app extends JFrame {
     //position parameter settings
     private static Dimension frameSize = new Dimension(1000, 800);
 
-    private static Dimension mapPanelSize = new Dimension(650, 500);
+    private static Dimension mapPanelSize = new Dimension(1000, 500);
 
     private static Dimension playerPanelSize = new Dimension(500, 100);
     private static Rectangle playerIDBounds = new Rectangle(50, 50, 150, 30);
@@ -142,7 +136,6 @@ public class app extends JFrame {
         frame = new JFrame("RISK");
         frame.setSize(frameSize);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mapInfoPanel = frame.getLayeredPane();
 
         actionPanel = new JPanel();
         movePanel = new JPanel();
@@ -159,7 +152,7 @@ public class app extends JFrame {
             setUpgradePanel();
             //Eva3 ********no longer need it**********
             //setInfoPanel();
-            setMapPanel();
+            setMapPane();
             setPlayerPanel();
             setMakeChoicePanel();
             setTerrInfoPanel();
@@ -170,15 +163,12 @@ public class app extends JFrame {
     }
 
     private static void setTerrInfoPanel() {
-        //terrInfoPanel.setLayout(null);
-        //terrInfoPanel.setPreferredSize(new Dimension(100, 200));
-        terrInfo = makeLabel(mapPanel, "Terr Info", new Rectangle(0, 0, 150, 150));
-        mapPanel.remove(terrInfo);
-        mapInfoPanel.add(terrInfo);
+        terrInfoPanel.setLayout(null);
+        terrInfoPanel.setPreferredSize(new Dimension(150, 150));
+        terrInfo = makeLabel(terrInfoPanel, "Terr Info", new Rectangle(0, 0, 150, 150));
         terrInfo.setBackground(Color.white);
-        terrInfo.setVisible(false);
-        terrInfo.setBackground(Color.yellow);
         currentTerr = "";
+//        terrInfoPanel.setVisible(false);
     }
 
     private static void setMakeChoicePanel() {
@@ -226,9 +216,10 @@ public class app extends JFrame {
     }
 
     //MARK: - draw the map
-    private static void setMapPanel() {
-        //mapInfoPanel = frame.getLayeredPane();
-
+    private static void setMapPane() {
+        mapInfoPane = new JLayeredPane();
+        mapInfoPane.setLayout(null);
+        mapInfoPane.setPreferredSize(mapPanelSize);
         //initialize territoryBlocks
         TerritoryBlockInitial initTB = new TerritoryBlockInitial();
         HashMap<String, TerritoryBlock> territoryBlockMap = initTB.getTerritoryBlockMap();
@@ -242,11 +233,13 @@ public class app extends JFrame {
         }
 
         mapPanel = new MapPanel(territoryBlocks);
-        //mapInfoPanel.add(mapPanel);
+        mapInfoPane.add(terrInfoPanel, 2);
+        mapInfoPane.add(mapPanel, 0);
         mapPanel.setLayout(null);
         mapPanel.setPreferredSize(mapPanelSize);
-        //mapPanel.setBounds(new Rectangle(0, 100, 650, 500));
+        mapPanel.setBounds(0, 0, mapPanelSize.width, mapPanelSize.height);
         mapPanel.setBackground(Color.white);
+//        mapPanel.setOpaque(false);
 
         for (Territory territory: territories.values()) {
             String name = territory.getName();
@@ -268,6 +261,7 @@ public class app extends JFrame {
                     System.out.println("Invalid");
                 } else {
                     selected = selectedTerrBlock.getTerrName();
+                    updateMapPanel();
                 }
 
                 if (currentPanel == movePanel) {
@@ -329,28 +323,37 @@ public class app extends JFrame {
                 if (selectedTerrBlock == null) {
                     //not inside the terr
                     currentTerr = "";
-                    //terrInfo.setVisible(false);
-                    mapInfoPanel.remove(terrInfo);
+//                    terrInfoPanel.setVisible(false);
+                    mapInfoPane.remove(terrInfoPanel);
                     frame.revalidate();
                     frame.repaint();
 
                 } else {
+                    System.out.println(selectedTerrBlock.getTerrName());
                     String currentName = selectedTerrBlock.getTerrName();
                     if (!currentTerr.equals(currentName)) {
                         //the info should be updated to display new terrInfo
                         currentTerr = currentName;
                         String info = getInfo(selectedTerrBlock.getTerrName());
                         terrInfo.setText(info);
-                        terrInfo.setVisible(true);
-                        mapInfoPanel.add(terrInfo, 2);
-                        terrInfoPanel.setBounds(x+10, y+10, 150, 150);
+
+                        terrInfoPanel.setBounds(x, y, 120, 120);
+//                        terrInfo.setVisible(true);
+                        try{
+                            mapInfoPane.add(terrInfoPanel, 2);
+                        } catch (IllegalArgumentException exp){
+                            System.out.println(terrInfoPanel.getX());
+                            System.out.println(x);
+                        }
+
+
                         frame.revalidate();
-                        frame.repaint();
+//                        frame.repaint();
                     }
                 }
             }
         });
-        frame.add(mapPanel, BorderLayout.CENTER);
+        frame.add(mapInfoPane, BorderLayout.CENTER);
     }
 
     private static TerritoryBlock getSelectedTerrBlock(Point p) {

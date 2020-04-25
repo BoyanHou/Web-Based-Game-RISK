@@ -2,6 +2,7 @@ package RISK.GUI;
 
 import RISK.Player.Player;
 import RISK.Territory.Territory;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,9 +59,9 @@ public class TerritoryBlock {
         return false;
     }
 
-//    public void setColor(Color color) {
-//        this.color = color;
-//    }
+    public void setColor(Color color) {
+        this.color = color;
+    }
 
     /*
     @param: p: a point
@@ -72,8 +73,6 @@ public class TerritoryBlock {
 
         int xPoint = p.getX();
         int yPoint = p.getY();
-        //System.out.println(xPoint);
-        //System.out.println(yPoint);
         int weight = 10;
         int height = 10;
         for (Block blk : blocks) {
@@ -117,15 +116,16 @@ public class TerritoryBlock {
     }
 
 
-    public void paint(Graphics g) {
-        update();
+    public void paint(Graphics g, Boolean isUpdate) {
+        if (isUpdate) {
+            update();
+        }
         for (Block block : blocks) {
             g.setColor(color);
             Point p = block.getPosition();
             g.fillRect(p.getX(), p.getY(),
                     block.getWidth(), block.getHeight());
         }
-        System.out.println("Paint1");
 
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.BLACK);
@@ -137,7 +137,6 @@ public class TerritoryBlock {
             g2.draw(new Line2D.Float(start.getX(), start.getY(), end.getX(), end.getY()));
 
         }
-        System.out.println("Paint2");
     }
 
 
