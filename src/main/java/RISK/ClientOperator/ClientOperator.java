@@ -35,11 +35,13 @@ public abstract class ClientOperator<T> {
     //   "targetTerrName" : "XXX"
     //   "2":"1" <-- level2 units: 1
     //   "5":"3" <-- level5 units: 3
+
     // move order: enter "move" for orderType
     //   "fromTerrName" : "XXX"
     //   "toTerrName" : "XXX"
     //   "2":"1" <-- level2 units: 1
     //   "5":"3" <-- level5 units: 3
+
     // upgrade order: enter "upgrade" for orderType
     //   "onTerrName" : "XXX"
     //   "fromLevel":"1"
