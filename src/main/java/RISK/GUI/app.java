@@ -464,12 +464,13 @@ public class app extends JFrame {
     Get the detail info of the selected name(The correct info to display).
      */
     private static String getDisplayInfo(String name) {
+
         Territory territory = getTerr(name);
         if (territory == null) {
             return "Invalid Name";
         }
         String info;
-        HashMap<Integer, Territory> outdatedTerrMap = new HashMap<>();
+        HashMap<Integer, Territory> outdatedTerrMap = gameClient.getOutdatedTerrMap();
         if (territory.isVisible(playerID)) {
             //normal
             info = getTerrInfo(territory);
