@@ -50,7 +50,7 @@ public class MoveSpyOrderEvo3 extends MoveSpyOrder<JSONObject>{
         }
         String fromTerrName = parameterMap.get("fromTerrName");
         try {
-            this.fromTerr = this.lookupTerrByName(fromTerrName, myTerrMap);
+            this.fromTerr = this.lookupTerrByName(fromTerrName, game.getTerrMap());
         } catch (InvalidOptionException e) {
             errorStr += "Invalid Option: " + e.getMessage() + "\n";
         }
