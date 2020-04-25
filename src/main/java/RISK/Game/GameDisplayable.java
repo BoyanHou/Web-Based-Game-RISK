@@ -44,4 +44,8 @@ public class GameDisplayable extends Game{
     }
     return;
   }
+
+  public HashMap<Integer, Territory> getOutdatedTerrMap() {
+    return outdatedTerrMap;
+  }
 }

@@ -35,6 +35,8 @@ public class app extends JFrame {
     private static JPanel movePanel;
     private static JPanel attackPanel;
     private static JPanel upgradePanel;
+    private static JPanel makeFogPanel;
+    private static JPanel makeSpyPanel;
   //    private static JPanel informationPanel;
     private static JPanel mapPanel;
     private static JPanel playerPanel;
@@ -53,6 +55,10 @@ public class app extends JFrame {
     private static JLabel foodLabel;
     private static JLabel techLabel;
 
+    //map panel
+    private static ArrayList<JLabel> fogLabels;
+    private static ArrayList<JLabel> spyLabels;
+
   /*
     //the informationPanel
     private static JLabel details;
@@ -70,10 +76,13 @@ public class app extends JFrame {
     private static JList<String> choseAttachNums;
 
     //the upgradePanel
-    private static JLabel armiesSituation;
     private static JLabel upgradeTerr;
     private static JComboBox<String> chooseUpgradeFrom;
     private static JComboBox<String> chooseUpgradeTo;
+
+    //the fog panel
+
+    //the spy panel
 
     //position parameter settings
     private static Dimension frameSize = new Dimension(1000, 800);
@@ -219,6 +228,11 @@ public class app extends JFrame {
         mapInfoPane = new JLayeredPane();
         mapInfoPane.setLayout(null);
         mapInfoPane.setPreferredSize(mapPanelSize);
+
+        //initialize fog and spy
+        fogLabels = new ArrayList<>();
+        spyLabels = new ArrayList<>();
+
         //initialize territoryBlocks
         TerritoryBlockInitial initTB = new TerritoryBlockInitial();
         HashMap<String, TerritoryBlock> territoryBlockMap = initTB.getTerritoryBlockMap();
@@ -332,7 +346,7 @@ public class app extends JFrame {
                     if (!currentTerr.equals(currentName)) {
                         //the info should be updated to display new terrInfo
                         currentTerr = currentName;
-                        String info = getInfo(selectedTerrBlock.getTerrName());
+                        String info = getDisplayInfo(selectedTerrBlock.getTerrName());
                         terrInfo.setText(info);
 
                         terrInfoPanel.setBounds(x, y, 120, 120);
@@ -362,14 +376,34 @@ public class app extends JFrame {
     }
 
     private static void updateMapPanel() {
+        HashMap<Integer, Territory> outdatedTerrMap = gameClient.getOutdatedTerrMap();
         for (TerritoryBlock territoryBlock: territoryBlocks) {
             String terrName = territoryBlock.getTerrName();
             Territory territory = getTerr(terrName);
             territoryBlock.setTerritory(territory);
-            territoryBlock.update();
+            if (territory.isVisible(playerID)) {
+                //normal
+                territoryBlock.update();
+            } else {
+                if (outdatedTerrMap.containsKey(territory.getTerrID())) {
+                    //display outdated
+                    territoryBlock.setColor(Color.GRAY);
+                }  else {
+                    //not display information
+                    territoryBlock.setColor(Color.WHITE);
+                }
+            }
         }
         mapPanel.revalidate();
         mapPanel.repaint();
+    }
+
+    private static void updatedFog() {
+        //TODO
+    }
+
+    private static void updateSpy() {
+        //TODO
     }
 
     //Mark: - setup the player info
@@ -439,13 +473,28 @@ public class app extends JFrame {
     /*
     @param: name: the territory name
     @return: String
-    Get the detail info of the selected name.
+    Get the detail info of the selected name(The correct info to display).
      */
-    private static String getInfo(String name) {
+    private static String getDisplayInfo(String name) {
         Territory territory = getTerr(name);
         if (territory == null) {
             return "Invalid Name";
         }
+        String info;
+        HashMap<Integer, Territory> outdatedTerrMap = new HashMap<>();
+        if (territory.isVisible(playerID)) {
+            //normal
+            info = getTerrInfo(territory);
+        } else if (outdatedTerrMap.containsKey(territory.getTerrID())) {
+            Territory oldTerr = outdatedTerrMap.get(territory.getTerrID());
+            info = getTerrInfo(oldTerr);
+        } else {
+            info = "No Available Information";
+        }
+        return info;
+    }
+
+    public static String getTerrInfo(Territory territory) {
         StringBuilder sb = new StringBuilder();
         Player owner = territory.getOwner();
         sb.append("<html><pre>Owner: ");
@@ -454,7 +503,7 @@ public class app extends JFrame {
         sb.append("Defend by: \n");
         Army army = territory.getOwnerArmy();
         HashMap<Integer, ArrayList<Unit>> armyUnitMap = army.getUnitMap();
-        for (Integer level: armyUnitMap.keySet()) {
+        for (Integer level : armyUnitMap.keySet()) {
             sb.append("    Level ");
             sb.append(level);
             sb.append(": ");
