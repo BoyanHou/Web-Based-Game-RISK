@@ -652,7 +652,7 @@ public class app extends JFrame {
         spyPanel.setLayout(null);
         spyPanel.setPreferredSize(movePanelSize);
 
-        JButton coverSpy = makeButton(spyPanel, "Cover Spy", new Rectangle(50, 50, 50, 30));
+        JButton coverSpy = makeButton(spyPanel, "Cover Spy", new Rectangle(50, 190, 150, 30));
         coverSpy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -666,7 +666,7 @@ public class app extends JFrame {
             }
         });
 
-        JButton removeSpy = makeButton(spyPanel, "Remove Spy", new Rectangle(150, 50, 50, 30));
+        JButton removeSpy = makeButton(spyPanel, "Remove Spy", new Rectangle(250, 190, 150, 30));
         removeSpy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -691,7 +691,7 @@ public class app extends JFrame {
         makeLabel(spyCoverPanel, "Put Spy On:", new Rectangle(10, 50, 100, 30), false);
         coverSpyOnLabel = makeLabel(spyCoverPanel, "", new Rectangle(200, 50, 100, 30), true);
 
-        JButton button = makeButton(spyCoverPanel, "Make Spy", new Rectangle(200, 100, 100, 30));
+        JButton button = makeButton(spyCoverPanel, "Make Spy", new Rectangle(250, 190, 150, 30));
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -721,12 +721,12 @@ public class app extends JFrame {
         spyRemovePanel.setLayout(null);
         spyRemovePanel.setPreferredSize(movePanelSize);
 
-        makeLabel(spyRemovePanel, "Move Spy From:", new Rectangle(10, 50, 100, 30), false);
+        makeLabel(spyRemovePanel, "Move Spy From:", new Rectangle(10, 50, 200, 30), false);
         makeLabel(spyRemovePanel, "To", new Rectangle(10, 100, 100, 30), false);
         fromSpyTerrLabel = makeLabel(spyRemovePanel, "", new Rectangle(200, 50, 100, 30), true);
         toSpyTerrLabel = makeLabel(spyRemovePanel, "", new Rectangle(200, 100, 100, 30), true);
 
-        JButton button = makeButton(spyRemovePanel, "Move Spy", new Rectangle(300, 150, 100, 30));
+        JButton button = makeButton(spyRemovePanel, "Move Spy", new Rectangle(250, 190, 150, 30));
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
