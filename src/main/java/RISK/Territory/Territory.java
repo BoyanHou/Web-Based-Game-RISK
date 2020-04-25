@@ -154,8 +154,11 @@ public abstract class Territory<T> extends TerritoryRO<T> implements BattleField
     }
 
     // 5: visible because of neighbor
-    if (this.neighborMap.containsKey(playerID)) {
-      return true;
+    for (int neighTerrID : this.neighborMap.keySet()) {
+      Territory neighbor = this.neighborMap.get(neighTerrID);
+      if (neighbor.getOwner().getPlayerID() == playerID) {
+        return true;
+      }
     }
 
     // otherwise: not visible to this playerID
