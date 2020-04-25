@@ -17,6 +17,9 @@ public class TerritoryBlock {
     private Territory territory;
     private ArrayList<Block> blocks;
     private ArrayList<Line> borders;
+    private Point fogPos;
+    private Point spyImgPos;
+    private Point spyNumPos;
     private int width = 650;
     private int height = 500;
 
@@ -26,6 +29,16 @@ public class TerritoryBlock {
     public void setTerritory(Territory territory) {
         this.territory = territory;
         update();
+    }
+
+    public void setFogPos(Point p) {
+        fogPos = p;
+    }
+
+    //TODO change
+    public void setSpyPos(Point p) {
+        spyImgPos = p;
+        spyNumPos = p;
     }
 
     public void setBlocks(ArrayList<Block> blocks) {

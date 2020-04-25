@@ -37,6 +37,8 @@ public class app extends JFrame {
     private static JPanel upgradePanel;
     private static JPanel fogPanel;
     private static JPanel spyPanel;
+    private static JPanel spyCoverPanel;
+    private static JPanel spyRemovePanel;
     private static JPanel informationPanel;
     private static JPanel mapPanel;
     private static JPanel playerPanel;
@@ -62,7 +64,6 @@ public class app extends JFrame {
     //map panel
     private static ArrayList<JLabel> fogLabels;
     private static ArrayList<JLabel> spyLabels;
-
 
     //the informationPanel
     private static JLabel details;
@@ -158,6 +159,8 @@ public class app extends JFrame {
         upgradePanel = new JPanel();
         fogPanel = new JPanel();
         spyPanel = new JPanel();
+        spyCoverPanel = new JPanel();
+        spyRemovePanel = new JPanel();
         informationPanel = new JPanel();
         playerPanel = new JPanel();
         makeChoicePanel = new JPanel();
@@ -168,8 +171,9 @@ public class app extends JFrame {
             setAttackPanel();
             setUpgradePanel();
             setFogPanel();
-
-            //Eva3 ********no longer need it**********
+            setSpyPanel();
+            setSpyCoverPanel();
+            setSpyRemovePanel();
             setInfoPanel();
             setMapPane();
             setPlayerPanel();
@@ -349,13 +353,6 @@ public class app extends JFrame {
                         mapPanel.repaint();
                         String info = getDisplayInfo(selectedTerrBlock.getTerrName());
                         details.setText(info);
-//                        terrInfoPanel.setBounds(x, y, 120, 120);
-//                        try {
-//                            mapInfoPane.add(terrInfoPanel, 2);
-//                        } catch (IllegalArgumentException exp) {
-//                            System.out.println(terrInfoPanel.getX());
-//                            System.out.println(x);
-//                        }
                         frame.revalidate();
                     }
                 }
@@ -653,15 +650,113 @@ public class app extends JFrame {
 
     public static void setSpyPanel() {
         spyPanel.setLayout(null);
-        spyPanel.setPreferredSize(new Dimension(600, 200));
-        //TODO
-        makeCancelButton(fogPanel, cancelConfirmButton);
+        spyPanel.setPreferredSize(movePanelSize);
+
+        JButton coverSpy = makeButton(spyPanel, "Cover Spy", new Rectangle(50, 50, 50, 30));
+        coverSpy.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(spyPanel);
+                frame.add(spyCoverPanel, BorderLayout.SOUTH);
+                frame.revalidate();
+                frame.repaint();
+                currentPanel = spyCoverPanel;
+                currentSelectedLabel = coverSpyOnLabel;
+                coverSpyOnLabel.setText("");
+            }
+        });
+
+        JButton removeSpy = makeButton(spyPanel, "Remove Spy", new Rectangle(150, 50, 50, 30));
+        removeSpy.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(spyPanel);
+                frame.add(spyRemovePanel, BorderLayout.SOUTH);
+                frame.revalidate();
+                frame.repaint();
+                currentPanel = spyRemovePanel;
+                currentSelectedLabel = fromSpyTerrLabel;
+                fromSpyTerrLabel.setText("");
+                toSpyTerrLabel.setText("");
+            }
+        });
+
+        makeCancelButton(spyPanel, cancelConfirmButton);
+    }
+
+    public static void setSpyCoverPanel() {
+        spyCoverPanel.setLayout(null);
+        spyCoverPanel.setPreferredSize(movePanelSize);
+
+        makeLabel(spyCoverPanel, "Put Spy On:", new Rectangle(10, 50, 100, 30), false);
+        coverSpyOnLabel = makeLabel(spyCoverPanel, "", new Rectangle(200, 50, 100, 30), true);
+
+        JButton button = makeButton(spyCoverPanel, "Make Spy", new Rectangle(200, 100, 100, 30));
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(spyCoverPanel);
+                frame.add(actionPanel, BorderLayout.SOUTH);
+                frame.revalidate();
+                frame.repaint();
+                currentPanel = actionPanel;
+                try {
+                    // convertSpy order: enter "convertSpy" for orderType
+                    //   "onTerrName": "XXX"
+                    HashMap<String, String> convertSpyOrders = new HashMap<>();
+                    convertSpyOrders.put("onTerrName", coverSpyOnLabel.getText());
+                    clientOperator.makeOrder("convertSpy", convertSpyOrders);
+                    updateArrtibute();
+                    updatePlayerPanel();
+                } catch (ClientOperationException ce) {
+                    JOptionPane.showMessageDialog(frame, ce.getMessage());
+                }
+            }
+        });
+
+        makeCancelButton(spyCoverPanel, cancelConfirmButton);
+    }
+
+    public static void setSpyRemovePanel() {
+        spyRemovePanel.setLayout(null);
+        spyRemovePanel.setPreferredSize(movePanelSize);
+
+        makeLabel(spyRemovePanel, "Move Spy From:", new Rectangle(10, 50, 100, 30), false);
+        makeLabel(spyRemovePanel, "To", new Rectangle(10, 100, 100, 30), false);
+        fromSpyTerrLabel = makeLabel(spyRemovePanel, "", new Rectangle(200, 50, 100, 30), true);
+        toSpyTerrLabel = makeLabel(spyRemovePanel, "", new Rectangle(200, 100, 100, 30), true);
+
+        JButton button = makeButton(spyRemovePanel, "Move Spy", new Rectangle(300, 150, 100, 30));
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(spyRemovePanel);
+                frame.add(actionPanel, BorderLayout.SOUTH);
+                frame.revalidate();
+                frame.repaint();
+                currentPanel = actionPanel;
+                try {
+                    // moveSpy order: enter "moveSpy" for orderType
+                    //   fromTerrName: "XXX"
+                    //   toTerrName: "XXX"
+                    HashMap<String, String> moveSpyOrders = new HashMap<>();
+                    moveSpyOrders.put("fromTerrName", fromSpyTerrLabel.getText());
+                    moveSpyOrders.put("toTerrName", toSpyTerrLabel.getText());
+                    clientOperator.makeOrder("moveSpy", moveSpyOrders);
+                    updateArrtibute();
+                    updatePlayerPanel();
+                } catch (ClientOperationException ce) {
+                    JOptionPane.showMessageDialog(frame, ce.getMessage());
+                }
+            }
+        });
+
+        makeCancelButton(spyRemovePanel, cancelConfirmButton);
     }
 
     public static void setFogPanel() {
         fogPanel.setLayout(null);
         fogPanel.setPreferredSize(movePanelSize);
-
         makeLabel(fogPanel, "Put fog on: ", new Rectangle(10, 30, 50, 30), false);
         addedFogTerrLabel = makeLabel(fogPanel, "fog on: ", new Rectangle(10, 10, 50, 30), true);
         JButton fogButton = makeButton(fogPanel, "Fog", new Rectangle(100, 10, 50, 30));

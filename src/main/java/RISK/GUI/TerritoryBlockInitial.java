@@ -36,7 +36,9 @@ public class TerritoryBlockInitial {
 					}
 				}	
 				terrBlck1.setBlocks(terr1);
-				
+				//TODO
+				terrBlck1.setFogPos(new Point(0, 0));
+				terrBlck1.setSpyPos(new Point(0, 0));
 
 				// terrBlck2
 				TerritoryBlock terrBlck2 = new TerritoryBlock();
