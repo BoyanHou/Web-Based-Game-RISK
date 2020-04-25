@@ -46,6 +46,10 @@ public class TerritoryBlock {
         }
     }
 
+    public Color getColor() {
+        return this.color;
+    }
+
     public String getTerrName() {
         return territory.getName();
     }
@@ -60,6 +64,9 @@ public class TerritoryBlock {
     }
 
     public void setColor(Color color) {
+        if (color == Color.yellow) {
+            //TODO bian qian
+        }
         this.color = color;
     }
 
