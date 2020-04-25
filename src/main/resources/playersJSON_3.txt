@@ -1,13 +1,13 @@
 [
     {"name":"Green","playerID":1,
     "terrMap":[3,4],
-    "food":20,"tech":20},
+    "food":20,"tech":200},
 
     {"name":"Red","playerID":2,
     "terrMap":[5,9],
-    "food":20,"tech":20},
+    "food":20,"tech":200},
 
     {"name":"Blue","playerID":3,
     "terrMap":[12,13],
-    "food":20,"tech":20}
+    "food":20,"tech":200}
 ]

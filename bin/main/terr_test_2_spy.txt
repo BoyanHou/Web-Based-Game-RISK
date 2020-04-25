@@ -1,0 +1,57 @@
+[
+    {"terrID":1,"name":"Terr1xx",
+    "fogged":false,
+    "owner":1,"ownerArmy":1,
+    "neighborMap":[2,5,7],
+    "spyMap":{},
+    "size":1,"food":50,"tech":50,"unitGenMap":{"0":1,"1":1}},
+
+    {"terrID":2,"name":"Terr2xx",
+    "fogged":false,
+    "owner":1,"ownerArmy":2,
+    "neighborMap":[1,3],
+    "spyMap":{},
+    "size":2,"food":50,"tech":50,"unitGenMap":{"0":1,"1":2}},
+
+    {"terrID":3,"name":"Terr3xx",
+    "fogged":false,
+    "owner":1,"ownerArmy":3,
+    "spyMap":{},
+    "neighborMap":[2],"size":3,"food":50,"tech":50,"unitGenMap":{"0":1,"1":2}},
+
+    {"terrID":4,"name":"Terr4xx",
+    "fogged":false,
+    "owner":1,"ownerArmy":4,
+    "spyMap":{},
+    "neighborMap":[5],"size":3,"food":50,"tech":50,"unitGenMap":{"0":1,"1":2}},
+
+    {"terrID":5,"name":"Terr5xx",
+    "fogged":false,
+    "owner":2,"ownerArmy":5,
+    "spyMap":{},
+    "neighborMap":[1,4,6],"size":3,"food":50,"tech":50,"unitGenMap":{"0":1,"1":2}},
+
+    {"terrID":6,"name":"Terr6xx",
+    "fogged":false,
+    "owner":2,"ownerArmy":6,
+    "spyMap":{},
+    "neighborMap":[5,7,8],"size":3,"food":50,"tech":50,"unitGenMap":{"0":1,"1":2}},
+
+    {"terrID":7,"name":"Terr7xx",
+    "fogged":false,
+    "owner":2,"ownerArmy":7,
+    "spyMap":{},
+    "neighborMap":[1,6],"size":3,"food":50,"tech":50,"unitGenMap":{"0":1,"1":2}},
+
+    {"terrID":8,"name":"Terr8xx",
+    "fogged":false,
+    "owner":2,"ownerArmy":8,
+    "spyMap":{},
+    "neighborMap":[6,9],"size":3,"food":50,"tech":50,"unitGenMap":{"0":1,"1":2}},
+
+    {"terrID":9,"name":"Terr9xx",
+    "fogged":false,
+    "owner":2,"ownerArmy":9,
+    "spyMap":{},
+    "neighborMap":[8],"size":3,"food":50,"tech":50,"unitGenMap":{"0":1,"1":2}}
+]

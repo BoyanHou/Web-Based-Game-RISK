@@ -112,7 +112,7 @@ public class app extends JFrame {
     private static Rectangle moveButtonBounds = new Rectangle(100, 110, 90, 40);
     private static Rectangle attackButtonBounds = new Rectangle(320, 110, 90, 40);
     private static Rectangle upgradeButtonBounds = new Rectangle(540, 110, 90, 40);
-    private static Rectangle finishButtonBounds = new Rectangle(760, 110, 90, 40);
+    private static Rectangle finishButtonBounds = new Rectangle(760, 145, 90, 40);
 
     private static Dimension movePanelSize = new Dimension(1000, 250);
     private static Rectangle moveFromPromptBounds = new Rectangle(50, 20, 50, 30);
@@ -579,7 +579,7 @@ public class app extends JFrame {
             }
         });
 
-        JButton spyButton = makeButton(actionPanel, "Spy", new Rectangle(10, 10, 50, 30));
+        JButton spyButton = makeButton(actionPanel, "Spy", new Rectangle(440, 180, 90, 40));
         spyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -595,7 +595,7 @@ public class app extends JFrame {
             }
         });
 
-        JButton fogButton = makeButton(actionPanel, "Fog", new Rectangle(20, 30, 50, 30));
+        JButton fogButton = makeButton(actionPanel, "Fog", new Rectangle(210, 180, 90, 40));
         fogButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -660,9 +660,9 @@ public class app extends JFrame {
         fogPanel.setLayout(null);
         fogPanel.setPreferredSize(movePanelSize);
 
-        makeLabel(fogPanel, "Put fog on: ", new Rectangle(10, 30, 50, 30), false);
-        addedFogTerrLabel = makeLabel(fogPanel, "fog on: ", new Rectangle(10, 10, 50, 30), true);
-        JButton fogButton = makeButton(fogPanel, "Fog", new Rectangle(100, 10, 50, 30));
+        makeLabel(fogPanel, "Put fog on: ", new Rectangle(10, 30, 200, 30), false);
+        addedFogTerrLabel = makeLabel(fogPanel, "fog on: ", new Rectangle(210, 30, 500, 30), true);
+        JButton fogButton = makeButton(fogPanel, "Fog", new Rectangle(310, 190, 150, 30));
         fogButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -676,7 +676,7 @@ public class app extends JFrame {
                     //   "onTerrName": "XXX"
                     HashMap<String, String> fogOrders = new HashMap<>();
                     fogOrders.put("onTerrName", addedFogTerrLabel.getText());
-                    clientOperator.makeOrder("move", fogOrders);
+                    clientOperator.makeOrder("fog", fogOrders);
                     updateArrtibute();
                     updatePlayerPanel();
                 } catch (ClientOperationException ce) {
@@ -909,6 +909,22 @@ public class app extends JFrame {
     Make a button and put it in the given panel.
      */
     private static JButton makeButton(JPanel panel, String title, Rectangle position) {
+        JButton button = new JButton(title);
+        button.setBackground(new Color(59, 89, 182));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setFont(new Font("Serif", Font.BOLD, 12));
+        //button.setBorder(new RoundedBorder(20));
+        //button.setIcon(new ImageIcon("ButtonImage.jpg"));
+
+        button.setBounds(position);
+        panel.add(button);
+        return button;
+    }
+
+
+    // This method is only used for changing finsh button
+    private static JButton makeFinishButton(JPanel panel, String title, Rectangle position) {
         JButton button = new JButton(title);
         button.setBackground(new Color(59, 89, 182));
         button.setForeground(Color.WHITE);
