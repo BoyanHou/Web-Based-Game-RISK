@@ -1,5 +1,7 @@
 [
     {"owner":1,"armyID":1,"unitMap":{"0":2,"1":1}},
+
     {"owner":2,"armyID":2,"unitMap":{"0":1,"1":2}},
+
     {"owner":3,"armyID":3,"unitMap":{"4":2,"5":200}},
 ]

@@ -1,6 +1,7 @@
 [
-    {"owner":1,"armyID":4,"unitMap":{"0":2,"1":1}},
-    {"owner":1,"armyID":5,"unitMap":{"0":2,"1":1,"3":1}},
-    {"owner":2,"armyID":9,"unitMap":{"0":2,"1":1}},
-    {"owner":2,"armyID":12,"unitMap":{"0":2,"1":1,"3":1}}
+    {"owner":1,"armyID":4,"unitMap":{"0":1}},
+    {"owner":1,"armyID":5,"unitMap":{"0":1}},
+
+    {"owner":2,"armyID":9,"unitMap":{"0":1,"1":1,"3":1}},
+    {"owner":2,"armyID":12,"unitMap":{"0":1,"1":1,"3":1}}
 ]
