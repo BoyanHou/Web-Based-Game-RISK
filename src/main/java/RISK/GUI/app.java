@@ -318,7 +318,10 @@ public class app extends JFrame {
                 TerritoryBlock selectedTerrBlock = getSelectedTerrBlock(new Point(x, y));
                 if (selectedTerrBlock == null) {
                     //not inside the terr
-                    currentTerr = "";
+                    if (!currentTerr.equals("")) {
+                        //TODO
+                        currentTerr = "";
+                    }
                     mapInfoPane.remove(terrInfoPanel);
                     frame.revalidate();
                     frame.repaint();
@@ -359,24 +362,29 @@ public class app extends JFrame {
     private static void updateMapPanel() {
         HashMap<Integer, Territory> outdatedTerrMap = gameClient.getOutdatedTerrMap();
         for (TerritoryBlock territoryBlock : territoryBlocks) {
-            String terrName = territoryBlock.getTerrName();
-            Territory territory = getTerr(terrName);
-            territoryBlock.setTerritory(territory);
-            if (territory.isVisible(playerID)) {
-                //normal
-                territoryBlock.update();
-            } else {
-                if (outdatedTerrMap.containsKey(territory.getTerrID())) {
-                    //display outdated
-                    territoryBlock.setColor(Color.GRAY);
-                } else {
-                    //not display information
-                    territoryBlock.setColor(Color.WHITE);
-                }
-            }
+            updateTerrBlock(territoryBlock, outdatedTerrMap);
         }
         mapPanel.revalidate();
         mapPanel.repaint();
+    }
+
+    //update one Terr
+    private static void updateTerrBlock(TerritoryBlock territoryBlock, HashMap<Integer, Territory> outdatedTerrMap) {
+        String terrName = territoryBlock.getTerrName();
+        Territory territory = getTerr(terrName);
+        territoryBlock.setTerritory(territory);
+        if (territory.isVisible(playerID)) {
+            //normal
+            territoryBlock.update();
+        } else {
+            if (outdatedTerrMap.containsKey(territory.getTerrID())) {
+                //display outdated
+                territoryBlock.setColor(Color.GRAY);
+            } else {
+                //not display information
+                territoryBlock.setColor(Color.WHITE);
+            }
+        }
     }
 
     private static void updatedFog() {
@@ -650,9 +658,10 @@ public class app extends JFrame {
 
     public static void setFogPanel() {
         fogPanel.setLayout(null);
-        fogPanel.setPreferredSize(new Dimension(600, 200));
+        fogPanel.setPreferredSize(movePanelSize);
 
-        addedFogTerrLabel = makeLabel(fogPanel, "Put Fog on: ", new Rectangle(10, 10, 50, 30), true);
+        makeLabel(fogPanel, "Put fog on: ", new Rectangle(10, 30, 50, 30), false);
+        addedFogTerrLabel = makeLabel(fogPanel, "fog on: ", new Rectangle(10, 10, 50, 30), true);
         JButton fogButton = makeButton(fogPanel, "Fog", new Rectangle(100, 10, 50, 30));
         fogButton.addActionListener(new ActionListener() {
             @Override
@@ -676,21 +685,8 @@ public class app extends JFrame {
             }
         });
 
-//        JButton cancelButton = makeButton(fogPanel, "Cancel", cancelConfirmButton);
-//        cancelButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                frame.remove(fogPanel);
-//                frame.add(actionPanel, BorderLayout.SOUTH);
-//                frame.revalidate();
-//                frame.repaint();
-//                currentPanel = actionPanel;
-//            }
-//        });
         makeCancelButton(fogPanel, cancelConfirmButton);
     }
-
-
 
 
     public static void setMovePanel() {
@@ -743,17 +739,6 @@ public class app extends JFrame {
             }
         });
 
-//        JButton cancelButton = makeButton(movePanel, "Cancel", cancelConfirmButton);
-//        cancelButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                frame.remove(movePanel);
-//                frame.add(actionPanel, BorderLayout.SOUTH);
-//                frame.revalidate();
-//                frame.repaint();
-//                currentPanel = actionPanel;
-//            }
-//        });
         makeCancelButton(movePanel, cancelConfirmButton);
 
     }
@@ -864,17 +849,6 @@ public class app extends JFrame {
             }
         });
 
-//        JButton cancelButton = makeButton(attackPanel, "Cancel", cancelConfirmButton);
-//        cancelButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                frame.remove(attackPanel);
-//                frame.add(actionPanel, BorderLayout.SOUTH);
-//                frame.revalidate();
-//                frame.repaint();
-//                currentPanel = actionPanel;
-//            }
-//        });
         makeCancelButton(attackPanel, cancelConfirmButton);
     }
 
@@ -923,17 +897,6 @@ public class app extends JFrame {
             }
         });
 
-//        JButton cancelButton = makeButton(upgradePanel, "Cancel", cancelConfirmButton);
-//        cancelButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                frame.remove(upgradePanel);
-//                frame.add(actionPanel, BorderLayout.SOUTH);
-//                frame.revalidate();
-//                frame.repaint();
-//                currentPanel = actionPanel;
-//            }
-//        });
         makeCancelButton(upgradePanel, cancelConfirmButton);
     }
 
@@ -987,10 +950,8 @@ public class app extends JFrame {
         label.setFont(new Font("Serif", Font.BOLD, 12));
         label.setBounds(position);
         if (addListener) {
-            label.addMouseListener(new MouseAdapter()
-            {
-                public void mouseClicked(MouseEvent e)
-                {
+            label.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
                     currentSelectedLabel = label;
                 }
             });
