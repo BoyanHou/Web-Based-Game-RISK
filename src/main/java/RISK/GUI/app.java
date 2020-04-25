@@ -757,16 +757,11 @@ public class app extends JFrame {
     public static void setFogPanel() {
         fogPanel.setLayout(null);
         fogPanel.setPreferredSize(movePanelSize);
-<<<<<<< HEAD
 
         makeLabel(fogPanel, "Put fog on: ", new Rectangle(10, 30, 200, 30), false);
         addedFogTerrLabel = makeLabel(fogPanel, "fog on: ", new Rectangle(210, 30, 500, 30), true);
         JButton fogButton = makeButton(fogPanel, "Fog", new Rectangle(310, 190, 150, 30));
-=======
-        makeLabel(fogPanel, "Put fog on: ", new Rectangle(10, 30, 50, 30), false);
-        addedFogTerrLabel = makeLabel(fogPanel, "fog on: ", new Rectangle(10, 10, 50, 30), true);
-        JButton fogButton = makeButton(fogPanel, "Fog", new Rectangle(100, 10, 50, 30));
->>>>>>> ccd254fe083c52b7479681d61337ae46df48f0a9
+
         fogButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
