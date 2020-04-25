@@ -528,7 +528,6 @@ public class app extends JFrame {
 
         // Creating button
         JButton moveButton = makeButton(actionPanel, "Move", moveButtonBounds);
-
         moveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -560,7 +559,6 @@ public class app extends JFrame {
                 attackTerrTo.setText("");
                 String[] armiesInfo = makeUnits(attackTerrFrom);
                 choseAttachNums.setListData(armiesInfo);
-
             }
         });
 
@@ -708,6 +706,7 @@ public class app extends JFrame {
                     clientOperator.makeOrder("convertSpy", convertSpyOrders);
                     updateArrtibute();
                     updatePlayerPanel();
+                    updateMapPanel();
                 } catch (ClientOperationException ce) {
                     JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
@@ -745,6 +744,7 @@ public class app extends JFrame {
                     clientOperator.makeOrder("moveSpy", moveSpyOrders);
                     updateArrtibute();
                     updatePlayerPanel();
+                    updateMapPanel();
                 } catch (ClientOperationException ce) {
                     JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
@@ -941,10 +941,10 @@ public class app extends JFrame {
                     clientOperator.makeOrder("attack", attackOrders);
                     updateArrtibute();
                     updatePlayerPanel();
+                    updateMapPanel();
                 } catch (ClientOperationException ce) {
                     JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
-
             }
         });
 
@@ -990,6 +990,7 @@ public class app extends JFrame {
                     clientOperator.makeOrder("upgrade", upgradeOrder);
                     updateArrtibute();
                     updatePlayerPanel();
+                    updateMapPanel();
                 } catch (ClientOperationException ce) {
                     JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
@@ -1015,7 +1016,6 @@ public class app extends JFrame {
         button.setFont(new Font("Serif", Font.BOLD, 12));
         //button.setBorder(new RoundedBorder(20));
         //button.setIcon(new ImageIcon("ButtonImage.jpg"));
-
         button.setBounds(position);
         panel.add(button);
         return button;
@@ -1110,6 +1110,10 @@ public class app extends JFrame {
         return dropDownList;
     }
 
+    public static void close() {
+        frame.dispose();
+    }
+
 
     public static void main(String[] args) {
         // make client
@@ -1120,7 +1124,7 @@ public class app extends JFrame {
         ClientOperator clientOperator = new ClientOperatorEvo2(client, orderFactory);
         // make text GUI
         try {
-            clientOperator.initConnection("0.0.0.0", "8000");
+            clientOperator.initConnection("0.0.0.0", "9000");
         } catch (ClientOperationException ce) {
 
         }
