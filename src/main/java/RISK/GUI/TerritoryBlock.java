@@ -102,7 +102,7 @@ public class TerritoryBlock {
                 color = Color.red;
                 break;
             case 3:
-                color = Color.yellow;
+                color = Color.orange;
                 break;
             case 4:
                 color = Color.pink;
