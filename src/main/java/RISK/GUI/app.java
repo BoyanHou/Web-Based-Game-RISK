@@ -48,6 +48,7 @@ public class app extends JFrame {
 
     private static JPanel currentPanel;
     private static JLabel currentSelectedLabel;
+    private static JComboBox<String> currentSelectedComboBox;
     private static Territory currentSelectedTerr;
     private static TerritoryBlock currentSelectedTerrBlock;
     private static Point currentSelectedPoint;
@@ -287,6 +288,14 @@ public class app extends JFrame {
                 if (currentPanel != actionPanel) {
                     currentSelectedLabel.setText(selected);
                 }
+                String[] armiesInfo = makeUnits(currentSelectedLabel);
+                if (currentPanel == movePanel) {
+                    choseMoveNums.setListData(armiesInfo);
+                }
+                if (currentPanel == attackPanel) {
+                    choseAttachNums.setListData(armiesInfo);
+                }
+
             }
 
             @Override

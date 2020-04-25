@@ -66,6 +66,7 @@ public class TerritoryBlock {
     public void setColor(Color color) {
         if (color == Color.yellow) {
             //TODO bian qian
+
         }
         this.color = color;
     }
