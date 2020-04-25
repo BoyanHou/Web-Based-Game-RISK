@@ -212,5 +212,15 @@ public abstract class Territory<T> extends TerritoryRO<T> implements BattleField
     return spy;
   }
 
+  public ArrayList<Spy> getSpyList(int playerID) {
+    if (!this.spyMap.containsKey(playerID)) {
+      ArrayList<Spy> spyList = new ArrayList<>();
+      this.spyMap.put(playerID, spyList);
+    }
+
+    return this.spyMap.get(playerID);
+  }
+
+
   public abstract Territory getCopy() throws UnitLevelException;
 }
