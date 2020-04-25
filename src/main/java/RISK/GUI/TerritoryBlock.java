@@ -116,10 +116,7 @@ public class TerritoryBlock {
     }
 
 
-    public void paint(Graphics g, Boolean isUpdate) {
-        if (isUpdate) {
-            update();
-        }
+    public void paint(Graphics g) {
         for (Block block : blocks) {
             g.setColor(color);
             Point p = block.getPosition();

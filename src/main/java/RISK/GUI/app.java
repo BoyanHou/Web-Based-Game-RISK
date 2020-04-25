@@ -168,7 +168,6 @@ public class app extends JFrame {
         terrInfo = makeLabel(terrInfoPanel, "Terr Info", new Rectangle(0, 0, 150, 150));
         terrInfo.setBackground(Color.white);
         currentTerr = "";
-//        terrInfoPanel.setVisible(false);
     }
 
     private static void setMakeChoicePanel() {
@@ -323,7 +322,6 @@ public class app extends JFrame {
                 if (selectedTerrBlock == null) {
                     //not inside the terr
                     currentTerr = "";
-//                    terrInfoPanel.setVisible(false);
                     mapInfoPane.remove(terrInfoPanel);
                     frame.revalidate();
                     frame.repaint();
@@ -338,7 +336,6 @@ public class app extends JFrame {
                         terrInfo.setText(info);
 
                         terrInfoPanel.setBounds(x, y, 120, 120);
-//                        terrInfo.setVisible(true);
                         try{
                             mapInfoPane.add(terrInfoPanel, 2);
                         } catch (IllegalArgumentException exp){
@@ -348,7 +345,6 @@ public class app extends JFrame {
 
 
                         frame.revalidate();
-//                        frame.repaint();
                     }
                 }
             }
@@ -597,7 +593,6 @@ public class app extends JFrame {
         upgradeMovePanel();
 
         JButton moveButton = makeButton(movePanel, "Move", moveConfirmButton);
-        JButton cancelButton = makeButton(movePanel, "Cancel", cancelConfirmButton);
         moveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -605,7 +600,7 @@ public class app extends JFrame {
                 frame.add(actionPanel, BorderLayout.SOUTH);
                 frame.revalidate();
                 frame.repaint();
-                currentPanel = attackPanel;
+                currentPanel = actionPanel;
                 try {
                     // move order: enter "move" for orderType
                     //   "fromTerrName" : "XXX"
@@ -631,6 +626,18 @@ public class app extends JFrame {
         });
 
         //TODO cancel button
+        JButton cancelButton = makeButton(movePanel, "Cancel", cancelConfirmButton);
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(movePanel);
+                frame.add(actionPanel, BorderLayout.SOUTH);
+                frame.revalidate();
+                frame.repaint();
+                currentPanel = actionPanel;
+            }
+        });
+
 
     }
 
@@ -712,7 +719,6 @@ public class app extends JFrame {
         updateAttackPanel();
 
         JButton button = makeButton(attackPanel, "Attack", attackConfirmButton);
-        JButton cancelButton = makeButton(attackPanel, "Cancel", cancelConfirmButton);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -720,7 +726,7 @@ public class app extends JFrame {
                 frame.add(actionPanel, BorderLayout.SOUTH);
                 frame.revalidate();
                 frame.repaint();
-                currentPanel = attackPanel;
+                currentPanel = actionPanel;
                 try {
                     // attack order: enter "attack" for orderType
                     //   "myTerrName" : "XXX"
@@ -746,7 +752,17 @@ public class app extends JFrame {
             }
         });
 
-        //TODO cancel button
+        JButton cancelButton = makeButton(attackPanel, "Cancel", cancelConfirmButton);
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(attackPanel);
+                frame.add(actionPanel, BorderLayout.SOUTH);
+                frame.revalidate();
+                frame.repaint();
+                currentPanel = actionPanel;
+            }
+        });
     }
 
     private static void updateAttackPanel() {
@@ -756,7 +772,6 @@ public class app extends JFrame {
         choseAttachNums = makeMultiSelectionList(attackPanel, armiesInfo, new Rectangle(290, 70, 200, 100));
     }
 
-    //TODO
     public static void setUpgradePanel() {
         upgradePanel.setLayout(null);
         upgradePanel.setPreferredSize(new Dimension(1000, 250));
@@ -775,8 +790,6 @@ public class app extends JFrame {
         chooseUpgradeTo = makeDropDown(upgradePanel, upgradeString, new Rectangle(360, 110, 100, 30));
 
         JButton makeUpgradeButton = makeButton(upgradePanel, "Upgrade", new Rectangle(270, 190, 150, 30));
-        
-        JButton cancelButton = makeButton(upgradePanel, "Cancel", cancelConfirmButton);
         makeUpgradeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -784,8 +797,7 @@ public class app extends JFrame {
                 frame.add(actionPanel, BorderLayout.SOUTH);
                 frame.revalidate();
                 frame.repaint();
-                currentPanel = attackPanel;
-                //TODO send
+                currentPanel = actionPanel;
                 try{
                     // upgrade order: enter "upgrade" for orderType
                     //   "onTerrName" : "XXX"
@@ -803,7 +815,18 @@ public class app extends JFrame {
                 }
             }
         });
-        //TODO cancel button
+
+        JButton cancelButton = makeButton(upgradePanel, "Cancel", cancelConfirmButton);
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(upgradePanel);
+                frame.add(actionPanel, BorderLayout.SOUTH);
+                frame.revalidate();
+                frame.repaint();
+                currentPanel = actionPanel;
+            }
+        });
     }
 
     private static void updateUpgradePanel() {

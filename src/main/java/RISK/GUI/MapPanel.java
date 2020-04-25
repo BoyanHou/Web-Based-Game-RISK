@@ -22,6 +22,4 @@ public class MapPanel extends JPanel {
             territoryBlock.paint(g);
         }
     }
-
-
 }
