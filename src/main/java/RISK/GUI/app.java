@@ -30,8 +30,9 @@ public class app extends JFrame {
     private static HashMap<Integer, Player> players;
     private static HashMap<Integer, Territory> territories;
     private static ArrayList<TerritoryBlock> territoryBlocks;
-    private static HashMap<String, JLabel> spyLabels;
-    private static HashMap<String, JLabel> fogLabels;
+    private static HashMap<String, Rectangle> fogPos;
+    private static HashMap<String, Rectangle> spyPos;
+    private static HashMap<String, Rectangle> spyNumPos;
     private static HashMap<Integer, Army> armies;
     private static String[] ownedTerrNames;
 
@@ -66,7 +67,9 @@ public class app extends JFrame {
     private static JLabel foodLabel;
     private static JLabel techLabel;
 
-
+    //mapPanel
+    private static ArrayList<JLabel> spyLabels;
+    private static ArrayList<JLabel> fogLabels;
 
     //the informationPanel
     private static JLabel details;
@@ -258,14 +261,6 @@ public class app extends JFrame {
 
     //MARK: - draw the map
     private static void setMapPane() {
-        mapInfoPane = new JLayeredPane();
-        mapInfoPane.setLayout(null);
-        mapInfoPane.setPreferredSize(mapPanelSize);
-
-        //initialize fog and spy
-        fogLabels = new HashMap<>();
-        spyLabels = new HashMap<>();
-
         //initialize territoryBlocks
         TerritoryBlockInitial initTB = new TerritoryBlockInitial();
         HashMap<String, TerritoryBlock> territoryBlockMap = initTB.getTerritoryBlockMap();
@@ -279,22 +274,14 @@ public class app extends JFrame {
             territoryBlocks.add(territoryBlock);
         }
 
+        //initialize fog and spy
+        fogLabels = new ArrayList<>();
+        spyLabels = new ArrayList<>();
+        fogPos = initTB.getFogPos();
+        spyPos = initTB.getSpyPos();
+        spyNumPos = initTB.getSpyNumPos();
+
         mapPanel = new MapPanel(territoryBlocks);
-
-        //initial the fogLables and spyLabels
-        HashMap<String, Rectangle> spyPos = initTB.getSpyPos();
-        for (Territory territory : territories.values()) {
-            String name = territory.getName();
-            //makeImgLabel(mapPanel, spyPos.get(name));
-            JLabel label = makeLabel(mapPanel,"[S]",spyPos.get(name),false);
-            spyLabels.put(name,label);
-            mapPanel.remove(label);
-        }
-
-
-
-        mapInfoPane.add(terrInfoPanel, 2);
-        mapInfoPane.add(mapPanel, 0);
         mapPanel.setLayout(null);
         mapPanel.setPreferredSize(mapPanelSize);
         mapPanel.setBounds(0, 0, mapPanelSize.width, mapPanelSize.height);
@@ -304,6 +291,7 @@ public class app extends JFrame {
             String name = territory.getName();
             makeLabel(mapPanel, name, terrNamePos.get(name), false);
         }
+
         mapPanel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -325,10 +313,10 @@ public class app extends JFrame {
                     currentSelectedLabel.setText(selected);
                 }
                 String[] armiesInfo = makeUnits(currentSelectedLabel);
-                if (currentPanel == movePanel) {
+                if (currentPanel == movePanel && currentSelectedLabel == moveTerrFrom) {
                     choseMoveNums.setListData(armiesInfo);
                 }
-                if (currentPanel == attackPanel) {
+                if (currentPanel == attackPanel && currentSelectedLabel == attackTerrFrom) {
                     choseAttachNums.setListData(armiesInfo);
                 }
 
@@ -391,9 +379,7 @@ public class app extends JFrame {
             }
         });
         updateMapPanel();
-        Spy spy = new Spy("1", new Point(10, 10),new Point(20, 10),  2);
-        mapPanel.add(spy);
-        frame.add(mapInfoPane, BorderLayout.CENTER);
+        frame.add(mapPanel, BorderLayout.CENTER);
     }
 
     private static TerritoryBlock getSelectedTerrBlock(Point p) {
@@ -406,6 +392,7 @@ public class app extends JFrame {
     }
 
     private static void updateMapPanel() {
+        updateArrtibute();
         HashMap<Integer, Territory> outdatedTerrMap = gameClient.getOutdatedTerrMap();
         for (TerritoryBlock territoryBlock : territoryBlocks) {
             updateTerrBlock(territoryBlock, outdatedTerrMap);
@@ -414,7 +401,6 @@ public class app extends JFrame {
         updateFog();
         mapPanel.revalidate();
         mapPanel.repaint();
-
     }
 
     //update one Terr
@@ -438,32 +424,34 @@ public class app extends JFrame {
     }
 
     private static void updateFog() {
-        //TODO add if to check when have to display 
-        TerritoryBlockInitial initTB = new TerritoryBlockInitial();
-        HashMap<String, Rectangle> fogPos = initTB.getFogPos();
-        for (Territory territory : territories.values()) {
-            String name = territory.getName();
-            //try img icon but failed
-            //makeImgLabel(mapPanel, spyPos.get(name));
-            makeLabel(mapPanel,"[F]",fogPos.get(name),false);
+        for (JLabel label: fogLabels) {
+            mapPanel.remove(label);
         }
-
+        for (Territory territory : territories.values()) {
+            Boolean isFogged = territory.isFogged();
+            if (isFogged) {
+                String name = territory.getName();
+                JLabel label = makeLabel(mapPanel, "[F]", fogPos.get(name), false);
+                fogLabels.add(label);
+            }
+        }
     }
 
     private static void updateSpy() {
-        //TODO: add if to check when have to display 
-        TerritoryBlockInitial initTB = new TerritoryBlockInitial();
-        HashMap<String, Rectangle> spyPos = initTB.getSpyPos();
-        HashMap<String, Rectangle> spyPosNum = initTB.getSpyNumPos();
-        for (Territory territory : territories.values()) {
-            String name = territory.getName();
-            //try img icon but failed
-            //makeImgLabel(mapPanel, spyPos.get(name));
-            makeLabel(mapPanel,"[S]",spyPos.get(name),false);
-            makeLabel(mapPanel,"(0)",spyPosNum.get(name),false);
-
+        for (JLabel label: spyLabels) {
+            mapPanel.remove(label);
         }
-
+        for (Territory territory : territories.values()) {
+            ArrayList<Spy> spies = territory.getSpyList(playerID);
+            if (!spies.isEmpty()) {
+                String name = territory.getName();
+                JLabel spylabel = makeLabel(mapPanel, "[S]", spyPos.get(name), false);
+                String num = "(" + spies.size() + ")";
+                JLabel numLabel = makeLabel(mapPanel, num, spyNumPos.get(name), false);
+                spyLabels.add(spylabel);
+                spyLabels.add(numLabel);
+            }
+        }
     }
 
     //Mark: - setup the player info
@@ -840,6 +828,7 @@ public class app extends JFrame {
                     clientOperator.makeOrder("fog", fogOrders);
                     updateArrtibute();
                     updatePlayerPanel();
+                    updateMapPanel();
                 } catch (ClientOperationException ce) {
                     JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
@@ -894,6 +883,7 @@ public class app extends JFrame {
                     clientOperator.makeOrder("move", moveOrders);
                     updateArrtibute();
                     updatePlayerPanel();
+                    updateMapPanel();
                 } catch (ClientOperationException ce) {
                     JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
@@ -923,6 +913,9 @@ public class app extends JFrame {
     Make the units info list.
      */
     private static String[] makeUnits(JLabel label) {
+        if (label == null) {
+            return new String[0];
+        }
         String fromTerr = label.getText();
         Territory territory;
         if (fromTerr.equals("")) {
