@@ -359,6 +359,8 @@ public class app extends JFrame {
             }
         });
         updateMapPanel();
+        Spy spy = new Spy("1", new Point(10, 10),new Point(20, 10),  2);
+        mapPanel.add(spy);
         frame.add(mapInfoPane, BorderLayout.CENTER);
     }
 

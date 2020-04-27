@@ -20,4 +20,13 @@ public class Point {
     public boolean equals(Point p) {
         return p.getX() == x && p.getY() == y;
     }
+
+    public void move(int dx, int dy) {
+        x += dx;
+        y += dy;
+    }
+
+    public double distanceTo(Point p) {
+        return Math.abs(p.getX() - x) +  Math.abs(p.getY() - y);
+    }
 }
