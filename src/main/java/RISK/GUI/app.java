@@ -267,7 +267,7 @@ public class app extends JFrame {
         for (Territory territory : territories.values()) {
             String name = territory.getName();
             //makeImgLabel(mapPanel, spyPos.get(name));
-            JLable label = makeLabel(mapPanel,"spy",spyPos.get(name),false);
+            JLabel label = makeLabel(mapPanel,"spy",spyPos.get(name),false);
             spyLabels.put(name,label);
             mapPanel.remove(label);
         }
@@ -421,6 +421,8 @@ public class app extends JFrame {
 
     private static void updateSpy() {
         //TODO
+        TerritoryBlockInitial initTB = new TerritoryBlockInitial();
+        HashMap<String, Rectangle> spyPos = initTB.getSpyPos();
         for (Territory territory : territories.values()) {
             String name = territory.getName();
             //makeImgLabel(mapPanel, spyPos.get(name));
