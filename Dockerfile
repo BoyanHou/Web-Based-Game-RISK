@@ -6,6 +6,8 @@ USER root
 
 ENV DEBIAN_FRONTEND noninteractive
 
+ENV DISPLAY :0
+
 RUN apt-get update
 RUN apt-get -y install xorg openbox
 RUN apt-get -y install xvfb
@@ -54,6 +56,8 @@ RUN ./gradlew resolveDependencies
 # if we change src, etc, but not our gradle setup,
 # Docker can resume from this point
 COPY --chown=juser ./ ./
+
+
 
 # compile the code
 RUN ./gradlew  assemble
