@@ -1,6 +1,6 @@
 #!/bin/bashv
 
-./gradlew build || exit 1
+xvfb-run ./gradlew build || exit 1
 ./gradlew cloverGenerateReport || exit 1
 scripts/coverage_summary.sh
 ls -l /
