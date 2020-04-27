@@ -55,5 +55,7 @@ RUN ./gradlew resolveDependencies
 # Docker can resume from this point
 COPY --chown=juser ./ ./
 
+ENV DISPLAY :0
+
 # compile the code
 RUN ./gradlew  assemble
