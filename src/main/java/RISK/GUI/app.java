@@ -122,11 +122,11 @@ public class app extends JFrame {
     private static Rectangle displayButtonBounds = new Rectangle(200, 50, 100, 30);
 
     private static Dimension actionPanelSize = new Dimension(1000, 250);
-    private static Rectangle chooseActionBounds = new Rectangle(50, 40, 200, 30);
-    private static Rectangle moveButtonBounds = new Rectangle(100, 110, 90, 40);
-    private static Rectangle attackButtonBounds = new Rectangle(320, 110, 90, 40);
-    private static Rectangle upgradeButtonBounds = new Rectangle(540, 110, 90, 40);
-    private static Rectangle finishButtonBounds = new Rectangle(760, 145, 90, 40);
+    private static Rectangle chooseActionBounds = new Rectangle(50, 50, 200, 30);
+    private static Rectangle moveButtonBounds = new Rectangle(100, 80, 90, 40);
+    private static Rectangle attackButtonBounds = new Rectangle(320, 80, 90, 40);
+    private static Rectangle upgradeButtonBounds = new Rectangle(540, 80, 90, 40);
+    private static Rectangle finishButtonBounds = new Rectangle(760, 115, 90, 40);
 
     private static Dimension movePanelSize = new Dimension(1000, 250);
     private static Rectangle moveFromPromptBounds = new Rectangle(50, 20, 50, 30);
@@ -165,7 +165,19 @@ public class app extends JFrame {
         frame.setSize(frameSize);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        actionPanel = new JPanel();
+        actionPanel = new JPanel(){
+                public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try{
+                    BufferedImage img = ImageIO.read(new File("./src/main/resources/frame2.png"));
+                    Image newImage =img.getScaledInstance(970, 260, Image.SCALE_DEFAULT);
+                    g.drawImage(newImage,0,0,null);
+                }
+                catch(IOException ioe){
+                }
+            }
+        };
+
         movePanel = new JPanel();
         attackPanel = new JPanel();
         upgradePanel = new JPanel();
@@ -173,12 +185,13 @@ public class app extends JFrame {
         spyPanel = new JPanel();
         spyCoverPanel = new JPanel();
         spyRemovePanel = new JPanel();
+
         informationPanel = new JPanel(){
                 public void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 try{
                     BufferedImage img = ImageIO.read(new File("./src/main/resources/infoPanel2.png"));
-                    Image newImage =img.getScaledInstance(300, 410, Image.SCALE_DEFAULT);
+                    Image newImage =img.getScaledInstance(300, 415, Image.SCALE_DEFAULT);
                     g.drawImage(newImage,0,0,null);
                 }
                 catch(IOException ioe){
@@ -281,7 +294,7 @@ public class app extends JFrame {
         BufferedImage fog = null;
         try {
             spy = ImageIO.read(new File("./src/main/resources/spy.png"));
-            fog = ImageIO.read(new File("./src/main/resources/fog.png"));
+            fog = ImageIO.read(new File("./src/main/resources/fog2.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -603,7 +616,7 @@ public class app extends JFrame {
         actionPanel.setLayout(null);
         actionPanel.setPreferredSize(actionPanelSize);
 
-        makeLabel(actionPanel, "Choose your action", chooseActionBounds, false);
+        //makeLabel(actionPanel, "Choose your action", chooseActionBounds, false);
 
         // Creating button
         JButton moveButton = makeButton(actionPanel, "Move", moveButtonBounds);
@@ -657,7 +670,7 @@ public class app extends JFrame {
         });
         buttons.put("actionUpgrade", updateButton);
 
-        JButton spyButton = makeButton(actionPanel, "Spy", new Rectangle(440, 180, 90, 40));
+        JButton spyButton = makeButton(actionPanel, "Spy", new Rectangle(440, 130, 90, 40));
         spyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -674,7 +687,7 @@ public class app extends JFrame {
         });
         buttons.put("actionSpy", spyButton);
 
-        JButton fogButton = makeButton(actionPanel, "Fog", new Rectangle(210, 180, 90, 40));
+        JButton fogButton = makeButton(actionPanel, "Fog", new Rectangle(210, 130, 90, 40));
         fogButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
