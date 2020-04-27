@@ -109,16 +109,16 @@ public class app extends JFrame {
     private static Dimension mapPanelSize = new Dimension(700, 500);
 
     private static Dimension playerPanelSize = new Dimension(500, 100);
-    private static Rectangle playerIDBounds = new Rectangle(50, 50, 150, 30);
-    private static Rectangle foodPromptBounds = new Rectangle(200, 50, 80, 30);
-    private static Rectangle foodLabelBounds = new Rectangle(280, 50, 50, 30);
-    private static Rectangle techPromptBounds = new Rectangle(330, 50, 50, 30);
-    private static Rectangle techLabelBounds = new Rectangle(380, 50, 50, 30);
+    private static Rectangle playerIDBounds = new Rectangle(20, 75, 150, 30);
+    private static Rectangle foodPromptBounds = new Rectangle(120, 75, 80, 30);
+    private static Rectangle foodLabelBounds = new Rectangle(170, 75, 50, 30);
+    private static Rectangle techPromptBounds = new Rectangle(360, 75, 50, 30);
+    private static Rectangle techLabelBounds = new Rectangle(410, 75, 50, 30);
 
     private static Dimension informationPanelSize = new Dimension(300, 500);
     private static Rectangle chooseTerrLabelBounds = new Rectangle(0, 50, 150, 30);
     private static Rectangle chooseTerrDropDownBounds = new Rectangle(0, 100, 200, 30);
-    private static Rectangle detailsBounds = new Rectangle(50, 150, 200, 300);
+    private static Rectangle detailsBounds = new Rectangle(50, 50, 200, 300);
     private static Rectangle displayButtonBounds = new Rectangle(200, 50, 100, 30);
 
     private static Dimension actionPanelSize = new Dimension(1000, 250);
@@ -181,8 +181,8 @@ public class app extends JFrame {
                 super.paintComponent(g);
                 try{
                     BufferedImage img = ImageIO.read(new File("./src/main/resources/banner.png"));
-                    Image newImage =img.getScaledInstance(1000, 200, Image.SCALE_DEFAULT);
-                    g.drawImage(newImage,10,0,null);
+                    Image newImage =img.getScaledInstance(970, 100, Image.SCALE_DEFAULT);
+                    g.drawImage(newImage,0,0,null);
                 }
                 catch(IOException ioe){
                 }
@@ -1153,7 +1153,14 @@ public class app extends JFrame {
     private static JLabel makeLabel(JPanel panel, String title, Rectangle position, Boolean addListener) {
         JLabel label = new JLabel(title);
         label.setBackground(new Color(59, 89, 182));
-        label.setForeground(Color.BLACK);
+
+        // set special color for player panel
+        if(panel == playerPanel){
+            label.setForeground(Color.WHITE);
+        }
+        else{
+            label.setForeground(Color.BLACK);
+        }
         label.setFont(new Font("Serif", Font.BOLD, 12));
         label.setBounds(position);
         if (addListener) {
