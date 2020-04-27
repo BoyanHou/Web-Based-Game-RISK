@@ -52,3 +52,6 @@ COPY --chown=juser ./ ./
 
 # compile the code
 RUN ./gradlew  assemble
+
+RUN apt-get update
+RUN apt-get -y install xvfb
