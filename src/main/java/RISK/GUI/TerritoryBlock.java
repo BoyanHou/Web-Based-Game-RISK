@@ -11,7 +11,10 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
+
+
 public class TerritoryBlock {
+
 
     private Color color;
     private Territory territory;
@@ -38,7 +41,7 @@ public class TerritoryBlock {
     //TODO change
     public void setSpyPos(Point p) {
         spyImgPos = p;
-        spyNumPos = p;
+        spyNumPos = new Point(p.getX(), p.getY() - 20);
     }
 
     public void setBlocks(ArrayList<Block> blocks) {

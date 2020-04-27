@@ -36,9 +36,6 @@ public class TerritoryBlockInitial {
 					}
 				}	
 				terrBlck1.setBlocks(terr1);
-				//TODO
-				terrBlck1.setFogPos(new Point(0, 0));
-				terrBlck1.setSpyPos(new Point(0, 0));
 
 				// terrBlck2
 				TerritoryBlock terrBlck2 = new TerritoryBlock();
@@ -496,6 +493,13 @@ public class TerritoryBlockInitial {
 				territoryBlockMap.put("Elantris",terrBlck13);
 				territoryBlockMap.put("Roshar",terrBlck14);
 				territoryBlockMap.put("Cherry",terrBlck15);
+
+
+				//set all the fog and spy position
+				terrBlck1.setFogPos(new Point(10, 40));
+				terrBlck1.setSpyPos(new Point(40, 40));
+
+
 				
 
 		
@@ -523,11 +527,100 @@ public class TerritoryBlockInitial {
 		terrPosMap.put("Scadrial",new Rectangle(272,169,rectWidth,rectHeight));
 		terrPosMap.put("Elantris",new Rectangle(125,208,rectWidth,rectHeight));
 		terrPosMap.put("Roshar",new Rectangle(260,247,rectWidth,rectHeight));
-		terrPosMap.put("Cherry",new Rectangle(246,337,rectWidth,rectHeight));
+		terrPosMap.put("Cherry",new Rectangle(236,337,rectWidth,rectHeight));
 
 		return terrPosMap;
 
 	}
+
+
+	// get the position of each spy
+	public HashMap<String, Rectangle> getSpyPos(){
+		HashMap<String,Rectangle> spyPosMap = new HashMap<>();
+		int rectWidth = 80;
+		int rectHeight = 30;
+
+		spyPosMap.put("Mango",new Rectangle(59,187,rectWidth,rectHeight));
+		spyPosMap.put("Apple",new Rectangle(87,133,rectWidth,rectHeight));
+		spyPosMap.put("Narnia",new Rectangle(161,94,rectWidth,rectHeight));
+		spyPosMap.put("Midkemia",new Rectangle(255,87,rectWidth,rectHeight));
+		spyPosMap.put("Oz",new Rectangle(357,94,rectWidth,rectHeight));
+		spyPosMap.put("Banana",new Rectangle(438,32,rectWidth,rectHeight));
+		spyPosMap.put("Gondor",new Rectangle(497,61,rectWidth,rectHeight));
+		spyPosMap.put("Pear",new Rectangle(561,104,rectWidth,rectHeight));
+		spyPosMap.put("Mordor",new Rectangle(462,163,rectWidth,rectHeight));
+		spyPosMap.put("Hogwarts",new Rectangle(468,243,rectWidth,rectHeight));
+		spyPosMap.put("Peach",new Rectangle(356,325,rectWidth,rectHeight));
+		spyPosMap.put("Scadrial",new Rectangle(292,154,rectWidth,rectHeight));
+		spyPosMap.put("Elantris",new Rectangle(145,193,rectWidth,rectHeight));
+		spyPosMap.put("Roshar",new Rectangle(280,233,rectWidth,rectHeight));
+		spyPosMap.put("Cherry",new Rectangle(260,323,rectWidth,rectHeight));
+		
+		return spyPosMap;
+	}
+
+	// get the position of each spy number
+	public HashMap<String, Rectangle> getSpyNumPos(){
+		HashMap<String,Rectangle> spyPosNumMap = new HashMap<>();
+		int rectWidth = 80;
+		int rectHeight = 30;
+
+		spyPosNumMap.put("Mango",new Rectangle(79,187,rectWidth,rectHeight));
+		spyPosNumMap.put("Apple",new Rectangle(107,133,rectWidth,rectHeight));
+		spyPosNumMap.put("Narnia",new Rectangle(181,94,rectWidth,rectHeight));
+		spyPosNumMap.put("Midkemia",new Rectangle(275,87,rectWidth,rectHeight));
+		spyPosNumMap.put("Oz",new Rectangle(377,94,rectWidth,rectHeight));
+		spyPosNumMap.put("Banana",new Rectangle(458,32,rectWidth,rectHeight));
+		spyPosNumMap.put("Gondor",new Rectangle(517,61,rectWidth,rectHeight));
+		spyPosNumMap.put("Pear",new Rectangle(581,104,rectWidth,rectHeight));
+		spyPosNumMap.put("Mordor",new Rectangle(482,163,rectWidth,rectHeight));
+		spyPosNumMap.put("Hogwarts",new Rectangle(488,243,rectWidth,rectHeight));
+		spyPosNumMap.put("Peach",new Rectangle(376,325,rectWidth,rectHeight));
+		spyPosNumMap.put("Scadrial",new Rectangle(312,154,rectWidth,rectHeight));
+		spyPosNumMap.put("Elantris",new Rectangle(165,193,rectWidth,rectHeight));
+		spyPosNumMap.put("Roshar",new Rectangle(300,233,rectWidth,rectHeight));
+		spyPosNumMap.put("Cherry",new Rectangle(280,323,rectWidth,rectHeight));
+		
+		return spyPosNumMap;
+	}
+
+	// get the position of each fog
+	public HashMap<String, Rectangle> getFogPos(){
+		HashMap<String,Rectangle> fogPosMap = new HashMap<>();
+		int rectWidth = 80;
+		int rectHeight = 30;
+
+		fogPosMap.put("Mango",new Rectangle(39,187,rectWidth,rectHeight));
+		fogPosMap.put("Apple",new Rectangle(67,133,rectWidth,rectHeight));
+		fogPosMap.put("Narnia",new Rectangle(141,94,rectWidth,rectHeight));
+		fogPosMap.put("Midkemia",new Rectangle(235,87,rectWidth,rectHeight));
+		fogPosMap.put("Oz",new Rectangle(337,94,rectWidth,rectHeight));
+		fogPosMap.put("Banana",new Rectangle(418,32,rectWidth,rectHeight));
+		fogPosMap.put("Gondor",new Rectangle(477,61,rectWidth,rectHeight));
+		fogPosMap.put("Pear",new Rectangle(541,104,rectWidth,rectHeight));
+		fogPosMap.put("Mordor",new Rectangle(442,163,rectWidth,rectHeight));
+		fogPosMap.put("Hogwarts",new Rectangle(448,243,rectWidth,rectHeight));
+		fogPosMap.put("Peach",new Rectangle(336,325,rectWidth,rectHeight));
+		fogPosMap.put("Scadrial",new Rectangle(272,154,rectWidth,rectHeight));
+		fogPosMap.put("Elantris",new Rectangle(125,193,rectWidth,rectHeight));
+		fogPosMap.put("Roshar",new Rectangle(260,233,rectWidth,rectHeight));
+		fogPosMap.put("Cherry",new Rectangle(240,323,rectWidth,rectHeight));
+		
+		return fogPosMap;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
