@@ -28,6 +28,7 @@ import java.io.IOException;
 
 
 public class app extends JFrame {
+    private static HashMap<String, JButton> buttons = new HashMap<>();
     private static ClientOperator<JSONObject> clientOperator;
     private static GameClient<JSONObject> gameClient;
     private static HashMap<Integer, Player> players;
@@ -174,7 +175,6 @@ public class app extends JFrame {
         spyRemovePanel = new JPanel();
         informationPanel = new JPanel();
 
-
         // add background image to this panel
         playerPanel = new JPanel(){
                 public void paintComponent(Graphics g) {
@@ -186,7 +186,6 @@ public class app extends JFrame {
                 }
                 catch(IOException ioe){
                 }
-
             }
         };
 
@@ -484,9 +483,9 @@ public class app extends JFrame {
         makeLabel(playerPanel, "Your ID: " + String.valueOf(playerID), playerIDBounds, false);
 
         makeLabel(playerPanel, "Food: ", foodPromptBounds, false);
-        foodLabel = makeLabel(playerPanel, "", foodLabelBounds, true);
+        foodLabel = makeLabel(playerPanel, "", foodLabelBounds, false);
         makeLabel(playerPanel, "Tech: ", techPromptBounds, false);
-        techLabel = makeLabel(playerPanel, String.valueOf(""), techLabelBounds, true);
+        techLabel = makeLabel(playerPanel, String.valueOf(""), techLabelBounds, false);
         updateArrtibute();
         updatePlayerPanel();
 
@@ -612,7 +611,7 @@ public class app extends JFrame {
                 choseMoveNums.setListData(armiesInfo);
             }
         });
-
+        buttons.put("actionMove", moveButton);
 
         JButton attackButton = makeButton(actionPanel, "Attack", attackButtonBounds);
         attackButton.addActionListener(new ActionListener() {
@@ -630,6 +629,7 @@ public class app extends JFrame {
                 choseAttachNums.setListData(armiesInfo);
             }
         });
+        buttons.put("actionAttack", attackButton);
 
         JButton updateButton = makeButton(actionPanel, "Update", upgradeButtonBounds);
         updateButton.addActionListener(new ActionListener() {
@@ -644,6 +644,7 @@ public class app extends JFrame {
                 upgradeTerr.setText("");
             }
         });
+        buttons.put("actionUpgrade", updateButton);
 
         JButton spyButton = makeButton(actionPanel, "Spy", new Rectangle(440, 180, 90, 40));
         spyButton.addActionListener(new ActionListener() {
@@ -660,6 +661,7 @@ public class app extends JFrame {
                 toSpyTerrLabel.setText("");
             }
         });
+        buttons.put("actionSpy", spyButton);
 
         JButton fogButton = makeButton(actionPanel, "Fog", new Rectangle(210, 180, 90, 40));
         fogButton.addActionListener(new ActionListener() {
@@ -674,6 +676,7 @@ public class app extends JFrame {
                 addedFogTerrLabel.setText("");
             }
         });
+        buttons.put("actionFog", fogButton);
 
         JButton finishButton = makeButton(actionPanel, "Finsh", finishButtonBounds);
         finishButton.addActionListener(new ActionListener() {
@@ -711,6 +714,7 @@ public class app extends JFrame {
                 }
             }
         });
+        buttons.put("actionFinish", finishButton);
         currentPanel = actionPanel;
         frame.add(actionPanel, BorderLayout.SOUTH);
     }
@@ -732,6 +736,7 @@ public class app extends JFrame {
                 coverSpyOnLabel.setText("");
             }
         });
+        buttons.put("spyConvertSpy", coverSpy);
 
         JButton removeSpy = makeButton(spyPanel, "Move Spy", new Rectangle(250, 190, 150, 30));
         removeSpy.addActionListener(new ActionListener() {
@@ -747,8 +752,10 @@ public class app extends JFrame {
                 toSpyTerrLabel.setText("");
             }
         });
+        buttons.put("spyMoveSpy", removeSpy);
 
-        makeCancelButton(spyPanel, cancelConfirmButton);
+        JButton button = makeCancelButton(spyPanel, cancelConfirmButton);
+        buttons.put("spyCancel", button);
     }
 
     public static void setSpyCoverPanel() {
@@ -781,8 +788,10 @@ public class app extends JFrame {
                 }
             }
         });
+        buttons.put("convertSpyMake", button);
 
-        makeCancelButton(spyCoverPanel, cancelConfirmButton);
+        JButton button1 = makeCancelButton(spyCoverPanel, cancelConfirmButton);
+        buttons.put("convertSpyCancel", button1);
     }
 
     public static void setSpyRemovePanel() {
@@ -819,8 +828,10 @@ public class app extends JFrame {
                 }
             }
         });
+        buttons.put("moveSpyMake", button);
 
-        makeCancelButton(spyRemovePanel, cancelConfirmButton);
+        JButton button1 = makeCancelButton(spyRemovePanel, cancelConfirmButton);
+        buttons.put("moveSpyCancel", button1);
     }
 
     public static void setFogPanel() {
@@ -853,16 +864,15 @@ public class app extends JFrame {
                 }
             }
         });
-
-        makeCancelButton(fogPanel, cancelConfirmButton);
+        buttons.put("fogMake", fogButton);
+        JButton button = makeCancelButton(fogPanel, cancelConfirmButton);
+        buttons.put("fogCancel", button);
     }
 
 
     public static void setMovePanel() {
-
         movePanel.setLayout(null);
         movePanel.setPreferredSize(movePanelSize);
-
         makeLabel(movePanel, "From: ", moveFromPromptBounds, false);
         updateOwnerTerrNames();
 
@@ -909,7 +919,9 @@ public class app extends JFrame {
             }
         });
 
-        makeCancelButton(movePanel, cancelConfirmButton);
+        buttons.put("moveMake", moveButton);
+        JButton button = makeCancelButton(movePanel, cancelConfirmButton);
+        buttons.put("moveCancel", button);
 
     }
 
@@ -1022,7 +1034,9 @@ public class app extends JFrame {
             }
         });
 
-        makeCancelButton(attackPanel, cancelConfirmButton);
+        buttons.put("attackMake", button);
+        JButton button1 = makeCancelButton(attackPanel, cancelConfirmButton);
+        buttons.put("attackCancel", button1);
     }
 
 
@@ -1070,8 +1084,10 @@ public class app extends JFrame {
                 }
             }
         });
+        buttons.put("upgradeMake", makeUpgradeButton);
 
-        makeCancelButton(upgradePanel, cancelConfirmButton);
+        JButton button = makeCancelButton(upgradePanel, cancelConfirmButton);
+        buttons.put("upgradeCancel", button);
     }
 
 
@@ -1092,6 +1108,7 @@ public class app extends JFrame {
         //button.setIcon(new ImageIcon("ButtonImage.jpg"));
         button.setBounds(position);
         panel.add(button);
+
         return button;
     }
 
@@ -1104,13 +1121,13 @@ public class app extends JFrame {
         button.setFocusPainted(false);
         button.setFont(new Font("Serif", Font.BOLD, 12));
         //button.setIcon(new ImageIcon("ButtonImage.jpg"));
-
         button.setBounds(position);
         panel.add(button);
+
         return button;
     }
 
-    private static void makeCancelButton(JPanel panel, Rectangle bounds) {
+    private static JButton makeCancelButton(JPanel panel, Rectangle bounds) {
         JButton cancelButton = makeButton(panel, "Cancel", bounds);
         cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -1123,6 +1140,7 @@ public class app extends JFrame {
                 currentSelectedLabel = new JLabel();
             }
         });
+        return cancelButton;
     }
 
     /*
@@ -1210,6 +1228,17 @@ public class app extends JFrame {
 
     public static void close() {
         frame.dispose();
+    }
+
+
+    public static void trigger(String buttonStr) {
+        JButton button = buttons.get(buttonStr);
+        if (button!=null) {
+            button.doClick();
+            System.out.println("Trigger: " + buttonStr);
+        } else {
+        System.out.println("Failure: " + buttonStr);}
+
     }
 
 
