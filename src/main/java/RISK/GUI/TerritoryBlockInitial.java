@@ -37,8 +37,8 @@ public class TerritoryBlockInitial {
 				}	
 				terrBlck1.setBlocks(terr1);
 				//TODO
-				terrBlck1.setFogPos(new Point(0, 0));
-				terrBlck1.setSpyPos(new Point(0, 0));
+				terrBlck1.setFogPos(new Point(10, 40));
+				terrBlck1.setSpyPos(new Point(40, 40));
 
 				// terrBlck2
 				TerritoryBlock terrBlck2 = new TerritoryBlock();
@@ -526,6 +526,34 @@ public class TerritoryBlockInitial {
 		terrPosMap.put("Cherry",new Rectangle(246,337,rectWidth,rectHeight));
 
 		return terrPosMap;
+
+	}
+
+
+	// get the position of each spy
+	public HashMap<String, Rectangle> getSpyPos(){
+		HashMap<String,Rectangle> spyPosMap = new HashMap<>();
+		int rectWidth = 80;
+		int rectHeight = 30;
+
+	    spyPosMap.put("Mango",new Rectangle(69,202,rectWidth,rectHeight));
+		spyPosMap.put("Apple",new Rectangle(102,148,rectWidth,rectHeight));
+		spyPosMap.put("Narnia",new Rectangle(161,109,rectWidth,rectHeight));
+		spyPosMap.put("Midkemia",new Rectangle(255,103,rectWidth,rectHeight));
+		spyPosMap.put("Oz",new Rectangle(357,109,rectWidth,rectHeight));
+		spyPosMap.put("Banana",new Rectangle(438,47,rectWidth,rectHeight));
+		spyPosMap.put("Gondor",new Rectangle(517,76,rectWidth,rectHeight));
+		spyPosMap.put("Pear",new Rectangle(571,119,rectWidth,rectHeight));
+		spyPosMap.put("Mordor",new Rectangle(462,178,rectWidth,rectHeight));
+		spyPosMap.put("Hogwarts",new Rectangle(468,258,rectWidth,rectHeight));
+		spyPosMap.put("Peach",new Rectangle(346,340,rectWidth,rectHeight));
+		spyPosMap.put("Scadrial",new Rectangle(292,169,rectWidth,rectHeight));
+		spyPosMap.put("Elantris",new Rectangle(145,208,rectWidth,rectHeight));
+		spyPosMap.put("Roshar",new Rectangle(280,247,rectWidth,rectHeight));
+		spyPosMap.put("Cherry",new Rectangle(266,337,rectWidth,rectHeight));
+
+		return spyPosMap;
+
 
 	}
 

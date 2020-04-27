@@ -27,6 +27,8 @@ public class app extends JFrame {
     private static HashMap<Integer, Player> players;
     private static HashMap<Integer, Territory> territories;
     private static ArrayList<TerritoryBlock> territoryBlocks;
+    private static HashMap<String, JLabel> spyLabels;
+    private static HashMap<String, JLabel> fogLabels;
     private static HashMap<Integer, Army> armies;
     private static String[] ownedTerrNames;
 
@@ -61,9 +63,7 @@ public class app extends JFrame {
     private static JLabel foodLabel;
     private static JLabel techLabel;
 
-    //map panel
-    private static ArrayList<JLabel> fogLabels;
-    private static ArrayList<JLabel> spyLabels;
+
 
     //the informationPanel
     private static JLabel details;
@@ -244,8 +244,8 @@ public class app extends JFrame {
         mapInfoPane.setPreferredSize(mapPanelSize);
 
         //initialize fog and spy
-        fogLabels = new ArrayList<>();
-        spyLabels = new ArrayList<>();
+        fogLabels = new HashMap<>();
+        spyLabels = new HashMap<>();
 
         //initialize territoryBlocks
         TerritoryBlockInitial initTB = new TerritoryBlockInitial();
@@ -261,6 +261,19 @@ public class app extends JFrame {
         }
 
         mapPanel = new MapPanel(territoryBlocks);
+
+        //initial the fogLables and spyLabels
+        HashMap<String, Rectangle> spyPos = initTB.getSpyPos();
+        for (Territory territory : territories.values()) {
+            String name = territory.getName();
+            //makeImgLabel(mapPanel, spyPos.get(name));
+            JLable label = makeLabel(mapPanel,"spy",spyPos.get(name),false);
+            spyLabels.put(name,label);
+            mapPanel.remove(label);
+        }
+
+
+
         mapInfoPane.add(terrInfoPanel, 2);
         mapInfoPane.add(mapPanel, 0);
         mapPanel.setLayout(null);
@@ -376,8 +389,10 @@ public class app extends JFrame {
         for (TerritoryBlock territoryBlock : territoryBlocks) {
             updateTerrBlock(territoryBlock, outdatedTerrMap);
         }
+        updateSpy();
         mapPanel.revalidate();
         mapPanel.repaint();
+
     }
 
     //update one Terr
@@ -406,6 +421,12 @@ public class app extends JFrame {
 
     private static void updateSpy() {
         //TODO
+        for (Territory territory : territories.values()) {
+            String name = territory.getName();
+            //makeImgLabel(mapPanel, spyPos.get(name));
+            makeLabel(mapPanel,"spy",spyPos.get(name),false);
+        }
+
     }
 
     //Mark: - setup the player info
@@ -650,8 +671,8 @@ public class app extends JFrame {
     public static void setSpyPanel() {
         spyPanel.setLayout(null);
         spyPanel.setPreferredSize(movePanelSize);
-
-        JButton coverSpy = makeButton(spyPanel, "Cover Spy", new Rectangle(50, 190, 150, 30));
+        
+        JButton coverSpy = makeButton(spyPanel, "Put Spy", new Rectangle(50, 190, 150, 30));
         coverSpy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -665,7 +686,7 @@ public class app extends JFrame {
             }
         });
 
-        JButton removeSpy = makeButton(spyPanel, "Remove Spy", new Rectangle(250, 190, 150, 30));
+        JButton removeSpy = makeButton(spyPanel, "Move Spy", new Rectangle(250, 190, 150, 30));
         removeSpy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1075,6 +1096,24 @@ public class app extends JFrame {
         panel.add(label);
         return label;
     }
+
+    // this method is used for add image to a label
+    private static JLabel makeImgLabel(JPanel panel, Rectangle position) {
+        JLabel label = new JLabel();
+        //System.getProperty("user.dir");
+        ImageIcon img= new ImageIcon("/resources/spy.png");
+
+/*
+        label.setBackground(new Color(59, 89, 182));
+        label.setForeground(Color.BLACK);
+        label.setBounds(position);
+        */
+        label.setIcon(img);
+        panel.add(label);
+        return label;
+    }
+
+    
 
     /*
     @param: target: where the label should be added
