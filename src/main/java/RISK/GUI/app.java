@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -36,6 +37,7 @@ public class app extends JFrame {
     private static HashMap<String, Rectangle> spyPos;
     private static HashMap<String, Rectangle> spyNumPos;
     private static ImageIcon spyImgIcon;
+    private static ImageIcon fogImgIcon;
     private static HashMap<Integer, Army> armies;
     private static String[] ownedTerrNames;
 
@@ -172,22 +174,22 @@ public class app extends JFrame {
         spyRemovePanel = new JPanel();
         informationPanel = new JPanel();
 
-        /*
+
         // add background image to this panel
         playerPanel = new JPanel(){
                 public void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 try{
-                    ImageIcon img = new ImageIcon(new URL("https://ibb.co/C5tQL7x"));
-                    g.drawImage(img.getImage(),10,0,null);
+                    BufferedImage img = ImageIO.read(new File("./src/main/resources/banner.png"));
+                    Image newImage =img.getScaledInstance(1000, 200, Image.SCALE_DEFAULT);
+                    g.drawImage(newImage,10,0,null);
                 }
                 catch(IOException ioe){
                 }
 
             }
         };
-        */
-        playerPanel = new JPanel();
+
         makeChoicePanel = new JPanel();
         terrInfoPanel = new JPanel();
         try {
@@ -265,13 +267,16 @@ public class app extends JFrame {
     //MARK: - draw the map
     private static void setMapPane() {
         //initializa img
-        BufferedImage img = null;
+        BufferedImage spy = null;
+        BufferedImage fog = null;
         try {
-            img = ImageIO.read(new File("./src/main/resources/spy.png"));
+            spy = ImageIO.read(new File("./src/main/resources/spy.png"));
+            fog = ImageIO.read(new File("./src/main/resources/fog.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        spyImgIcon = new ImageIcon(img);
+        spyImgIcon = new ImageIcon(spy);
+        fogImgIcon = new ImageIcon(fog);
 
         //initialize territoryBlocks
         TerritoryBlockInitial initTB = new TerritoryBlockInitial();
@@ -427,11 +432,11 @@ public class app extends JFrame {
             //normal
             territoryBlock.update();
         } else if (outdatedTerrMap.containsKey(territory.getTerrID())) {
-                //display outdated
-                territoryBlock.setColor(Color.GRAY);
+            //display outdated
+            territoryBlock.setColor(Color.GRAY);
         } else {
-                //not display information
-                territoryBlock.setColor(Color.WHITE);
+            //not display information
+            territoryBlock.setColor(Color.WHITE);
         }
     }
 
@@ -443,7 +448,8 @@ public class app extends JFrame {
             Boolean isFogged = territory.isFogged();
             if (isFogged) {
                 String name = territory.getName();
-                JLabel label = makeLabel(mapPanel, "[F]", fogPos.get(name), false);
+                JLabel label = makeLabel(mapPanel, "", fogPos.get(name), false);
+                label.setIcon(fogImgIcon);
                 fogLabels.add(label);
             }
         }
@@ -457,7 +463,7 @@ public class app extends JFrame {
             ArrayList<Spy> spies = territory.getSpyList(playerID);
             if (!spies.isEmpty()) {
                 String name = territory.getName();
-                JLabel spylabel = makeLabel(mapPanel, "[S]", spyPos.get(name), false);
+                JLabel spylabel = makeLabel(mapPanel, "", spyPos.get(name), false);
                 spylabel.setIcon(spyImgIcon);
                 String num = "(" + spies.size() + ")";
                 JLabel numLabel = makeLabel(mapPanel, num, spyNumPos.get(name), false);
@@ -497,13 +503,13 @@ public class app extends JFrame {
         techLabel.setText(String.valueOf(tech));
     }
 
-      //MARK: - SetUp information Display --------------------------------------------------------------------------------
-      private static void setInfoPanel() {
-          informationPanel.setLayout(null);
-          informationPanel.setPreferredSize(informationPanelSize);
-          details = makeLabel(informationPanel, "Details Information", detailsBounds, false);
-          frame.add(informationPanel, BorderLayout.EAST);
-      }
+    //MARK: - SetUp information Display --------------------------------------------------------------------------------
+    private static void setInfoPanel() {
+        informationPanel.setLayout(null);
+        informationPanel.setPreferredSize(informationPanelSize);
+        details = makeLabel(informationPanel, "Details Information", detailsBounds, false);
+        frame.add(informationPanel, BorderLayout.EAST);
+    }
 
     /*
     @param: territories: an arrayList of territories
@@ -712,7 +718,7 @@ public class app extends JFrame {
     public static void setSpyPanel() {
         spyPanel.setLayout(null);
         spyPanel.setPreferredSize(movePanelSize);
-        
+
         JButton coverSpy = makeButton(spyPanel, "Put Spy", new Rectangle(50, 190, 150, 30));
         coverSpy.addActionListener(new ActionListener() {
             @Override
@@ -1133,11 +1139,16 @@ public class app extends JFrame {
         label.setFont(new Font("Serif", Font.BOLD, 12));
         label.setBounds(position);
         if (addListener) {
+            //text label
+            Border blackline = BorderFactory.createLineBorder(Color.black);
+            label.setBorder(blackline);
             label.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     currentSelectedLabel = label;
                 }
             });
+        } else {
+            //display label
         }
         panel.add(label);
         return label;
@@ -1160,7 +1171,7 @@ public class app extends JFrame {
         return label;
     }
 
-    
+
 
     /*
     @param: target: where the label should be added
