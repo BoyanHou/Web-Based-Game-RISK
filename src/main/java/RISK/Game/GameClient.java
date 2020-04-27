@@ -19,6 +19,22 @@ public abstract class GameClient<T> extends GameDisplayable {
     this.messenger = null;
   }
 
+  // for building test instance only
+  public GameClient(String terrPath,
+                    String playerPath,
+                    String armyPath,
+                    ClassBuilder classBuilder)throws IOException, BuildClassesException  {
+    super(terrPath,
+            playerPath,
+            armyPath,
+            classBuilder);
+
+    this.outdatedTerrMap = new HashMap<>();
+    this.classBuilder = classBuilder;
+    this.gameState = 0; // set to be in-game
+    this.messenger = null;
+  }
+
   public int getGameState() {
     return this.gameState;
   }

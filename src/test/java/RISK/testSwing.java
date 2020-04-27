@@ -12,22 +12,20 @@ import RISK.Order.OrderFactory;
 import RISK.Order.OrderFactoryEvo2;
 import org.junit.jupiter.api.Test;
 
-public class testSwing {
+public class testSwing extends baseGameClientMaker {
 
     @Test
     public void test() {
-        ClassBuilder classBuilder = new ClassBuilderEvo2();
-        GameClient client = new GameClientJSON(classBuilder);
+        this.makeClient();
         // make client operator
-        OrderFactory orderFactory = new OrderFactoryEvo2();
-        ClientOperator clientOperator = new ClientOperatorEvo2(client, orderFactory);
+        ClientOperator clientOperator = new ClientOperatorEvo2(this.client, this.orderFactory);
         // make text GUI
-        try {
-            clientOperator.initConnection("0.0.0.0", "9000");
-        } catch (
-                ClientOperationException ce) {
-
-        }
+//        try {
+//            clientOperator.initConnection("0.0.0.0", "9000");
+//        } catch (
+//                ClientOperationException ce) {
+//
+//        }
         System.out.println("Finish Connection");
         new app(clientOperator, false);
         app.trigger("actionMove");

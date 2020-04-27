@@ -16,7 +16,20 @@ public class GameClientJSON extends GameClient<JSONObject> {
     super(classBuilder);
   }
 
-  @Override
+  // for building test instance only
+  public GameClientJSON(int playerID, String terrPath,
+                    String playerPath,
+                    String armyPath,
+                    ClassBuilder classBuilder)throws IOException, BuildClassesException {
+    super(terrPath,
+            playerPath,
+            armyPath,
+            classBuilder);
+    this.playerID = playerID;
+  }
+
+
+    @Override
   public void initializeConnection(String serverIP,
                                    int serverPort)
     throws MessengerException, BuildClassesException {
