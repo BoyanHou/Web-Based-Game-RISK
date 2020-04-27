@@ -15,12 +15,14 @@ import RISK.Territory.Territory;
 import RISK.Unit.Unit;
 import org.json.JSONObject;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.net.URL;
 import java.io.IOException;
 
 
@@ -33,6 +35,7 @@ public class app extends JFrame {
     private static HashMap<String, Rectangle> fogPos;
     private static HashMap<String, Rectangle> spyPos;
     private static HashMap<String, Rectangle> spyNumPos;
+    private static ImageIcon spyImgIcon;
     private static HashMap<Integer, Army> armies;
     private static String[] ownedTerrNames;
 
@@ -261,6 +264,15 @@ public class app extends JFrame {
 
     //MARK: - draw the map
     private static void setMapPane() {
+        //initializa img
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("./src/main/resources/spy.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        spyImgIcon = new ImageIcon(img);
+
         //initialize territoryBlocks
         TerritoryBlockInitial initTB = new TerritoryBlockInitial();
         HashMap<String, TerritoryBlock> territoryBlockMap = initTB.getTerritoryBlockMap();
@@ -446,6 +458,7 @@ public class app extends JFrame {
             if (!spies.isEmpty()) {
                 String name = territory.getName();
                 JLabel spylabel = makeLabel(mapPanel, "[S]", spyPos.get(name), false);
+                spylabel.setIcon(spyImgIcon);
                 String num = "(" + spies.size() + ")";
                 JLabel numLabel = makeLabel(mapPanel, num, spyNumPos.get(name), false);
                 spyLabels.add(spylabel);
