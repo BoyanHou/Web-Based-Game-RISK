@@ -17,6 +17,9 @@ RUN apt-get update && apt-get -yq dist-upgrade \
      unzip \
      openjdk-11-jdk-headless \
      emacs25
+RUN apt-get update
+RUN apt-get -y install xvfb
+
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     locale-gen
@@ -53,5 +56,3 @@ COPY --chown=juser ./ ./
 # compile the code
 RUN ./gradlew  assemble
 
-RUN apt-get update
-RUN apt-get -y install xvfb
