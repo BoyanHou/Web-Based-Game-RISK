@@ -20,6 +20,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.net.URL;
+import java.io.IOException;
+
 
 public class app extends JFrame {
     private static ClientOperator<JSONObject> clientOperator;
@@ -162,6 +165,22 @@ public class app extends JFrame {
         spyCoverPanel = new JPanel();
         spyRemovePanel = new JPanel();
         informationPanel = new JPanel();
+
+        /*
+        // add background image to this panel
+        playerPanel = new JPanel(){
+                public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try{
+                    ImageIcon img = new ImageIcon(new URL("https://ibb.co/C5tQL7x"));
+                    g.drawImage(img.getImage(),10,0,null);
+                }
+                catch(IOException ioe){
+                }
+
+            }
+        };
+        */
         playerPanel = new JPanel();
         makeChoicePanel = new JPanel();
         terrInfoPanel = new JPanel();
@@ -267,7 +286,7 @@ public class app extends JFrame {
         for (Territory territory : territories.values()) {
             String name = territory.getName();
             //makeImgLabel(mapPanel, spyPos.get(name));
-            JLabel label = makeLabel(mapPanel,"spy",spyPos.get(name),false);
+            JLabel label = makeLabel(mapPanel,"[S]",spyPos.get(name),false);
             spyLabels.put(name,label);
             mapPanel.remove(label);
         }
@@ -390,6 +409,7 @@ public class app extends JFrame {
             updateTerrBlock(territoryBlock, outdatedTerrMap);
         }
         updateSpy();
+        updateFog();
         mapPanel.revalidate();
         mapPanel.repaint();
 
@@ -415,26 +435,43 @@ public class app extends JFrame {
         }
     }
 
-    private static void updatedFog() {
-        //TODO
+    private static void updateFog() {
+        //TODO add if to check when have to display 
+        TerritoryBlockInitial initTB = new TerritoryBlockInitial();
+        HashMap<String, Rectangle> fogPos = initTB.getFogPos();
+        for (Territory territory : territories.values()) {
+            String name = territory.getName();
+            //try img icon but failed
+            //makeImgLabel(mapPanel, spyPos.get(name));
+            makeLabel(mapPanel,"[F]",fogPos.get(name),false);
+        }
+
     }
 
     private static void updateSpy() {
-        //TODO
+        //TODO: add if to check when have to display 
         TerritoryBlockInitial initTB = new TerritoryBlockInitial();
         HashMap<String, Rectangle> spyPos = initTB.getSpyPos();
+        HashMap<String, Rectangle> spyPosNum = initTB.getSpyNumPos();
         for (Territory territory : territories.values()) {
             String name = territory.getName();
+            //try img icon but failed
             //makeImgLabel(mapPanel, spyPos.get(name));
-            makeLabel(mapPanel,"spy",spyPos.get(name),false);
+            makeLabel(mapPanel,"[S]",spyPos.get(name),false);
+            makeLabel(mapPanel,"(0)",spyPosNum.get(name),false);
+
         }
 
     }
 
     //Mark: - setup the player info
     private static void setPlayerPanel() {
+        // add back image
+
+
         playerPanel.setLayout(null);
         playerPanel.setPreferredSize(playerPanelSize);
+
         makeLabel(playerPanel, "Your ID: " + String.valueOf(playerID), playerIDBounds, false);
 
         makeLabel(playerPanel, "Food: ", foodPromptBounds, false);
@@ -465,12 +502,11 @@ public class app extends JFrame {
           frame.add(informationPanel, BorderLayout.EAST);
       }
 
-  /*
-    
+    /*
     @param: territories: an arrayList of territories
     @return: String[]
     Make a String array of all given territory.
-     */
+    */
     private static String[] getTerrNames(ArrayList<Territory> terres) {
         String[] names = new String[terres.size()];
         int index = 0;
@@ -516,11 +552,11 @@ public class app extends JFrame {
         Army army = territory.getOwnerArmy();
         HashMap<Integer, ArrayList<Unit>> armyUnitMap = army.getUnitMap();
         for (Integer level : armyUnitMap.keySet()) {
-            sb.append("    Level ");
+            sb.append("Level ");
             sb.append(level);
             sb.append(": ");
             sb.append(armyUnitMap.get(level).size());
-            sb.append(" units");
+            sb.append("units");
             sb.append("\n");
         }
         sb.append("</pre></html>");
@@ -531,7 +567,7 @@ public class app extends JFrame {
     @param: name: the territory name
     @return: Territory
     Return the territory with the corresponding name.
-     */
+    */
     private static Territory getTerr(String name) {
         updateArrtibute();
         for (Territory territory : territories.values()) {
@@ -1103,9 +1139,10 @@ public class app extends JFrame {
     private static JLabel makeImgLabel(JPanel panel, Rectangle position) {
         JLabel label = new JLabel();
         //System.getProperty("user.dir");
-        ImageIcon img= new ImageIcon("/resources/spy.png");
+        ImageIcon img= new ImageIcon(ClassLoader.getSystemResource("spy.png"));
+        //ImageIcon img = new ImageIcon("/home/lee/ece651-spr20-g7/src/main/resources/spy.png");
 
-/*
+        /*
         label.setBackground(new Color(59, 89, 182));
         label.setForeground(Color.BLACK);
         label.setBounds(position);
