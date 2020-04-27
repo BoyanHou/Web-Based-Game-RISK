@@ -180,7 +180,7 @@ public class app extends JFrame {
                 public void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 try{
-                    BufferedImage img = ImageIO.read(new File("./src/main/resources/banner.png"));
+                    BufferedImage img = ImageIO.read(new File("./src/main/resources/newbanner.png"));
                     Image newImage =img.getScaledInstance(970, 100, Image.SCALE_DEFAULT);
                     g.drawImage(newImage,0,0,null);
                 }
