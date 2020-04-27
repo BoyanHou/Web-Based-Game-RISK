@@ -118,7 +118,7 @@ public class app extends JFrame {
     private static Dimension informationPanelSize = new Dimension(300, 500);
     private static Rectangle chooseTerrLabelBounds = new Rectangle(0, 50, 150, 30);
     private static Rectangle chooseTerrDropDownBounds = new Rectangle(0, 100, 200, 30);
-    private static Rectangle detailsBounds = new Rectangle(50, 50, 200, 300);
+    private static Rectangle detailsBounds = new Rectangle(80, 50, 200, 300);
     private static Rectangle displayButtonBounds = new Rectangle(200, 50, 100, 30);
 
     private static Dimension actionPanelSize = new Dimension(1000, 250);
@@ -173,7 +173,18 @@ public class app extends JFrame {
         spyPanel = new JPanel();
         spyCoverPanel = new JPanel();
         spyRemovePanel = new JPanel();
-        informationPanel = new JPanel();
+        informationPanel = new JPanel(){
+                public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try{
+                    BufferedImage img = ImageIO.read(new File("./src/main/resources/infoPanel2.png"));
+                    Image newImage =img.getScaledInstance(300, 410, Image.SCALE_DEFAULT);
+                    g.drawImage(newImage,0,0,null);
+                }
+                catch(IOException ioe){
+                }
+            }
+        };
 
         // add background image to this panel
         playerPanel = new JPanel(){
@@ -545,7 +556,7 @@ public class app extends JFrame {
             Territory oldTerr = outdatedTerrMap.get(territory.getTerrID());
             info = getTerrInfo(oldTerr);
         } else {
-            info = "No Available Information";
+            info = "No Available Info";
         }
         return info;
     }
@@ -1155,7 +1166,7 @@ public class app extends JFrame {
         label.setBackground(new Color(59, 89, 182));
 
         // set special color for player panel
-        if(panel == playerPanel){
+        if(panel == playerPanel || panel == informationPanel){
             label.setForeground(Color.WHITE);
         }
         else{
