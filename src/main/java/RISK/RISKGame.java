@@ -39,7 +39,7 @@ public class RISKGame {
               System.out.println(e.getMessage());
           }
           // run GUI
-        new app(clientOperator);
+        new app(clientOperator, true);
       } else {
         String mannual = "use 1: server <portNum> <playerNum>\n";
         mannual += "    2: client <serverPort> <serverIP>";

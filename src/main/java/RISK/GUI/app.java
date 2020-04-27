@@ -146,12 +146,12 @@ public class app extends JFrame {
     private static Rectangle cancelConfirmButton = new Rectangle(510, 190, 150, 30);
 
 
-    public app(ClientOperator<JSONObject> co) {
+    public app(ClientOperator<JSONObject> co, Boolean isVisible) {
         clientOperator = co;
         gameClient = clientOperator.gameClient;
         playerID = gameClient.getPlayerID();
         updateArrtibute();
-        setFrame();
+        setFrame(isVisible);
     }
 
     private static void updateArrtibute() {
@@ -160,7 +160,7 @@ public class app extends JFrame {
         armies = gameClient.getArmyMap();
     }
 
-    private static void setFrame() {
+    private static void setFrame(Boolean isVisible) {
         frame = new JFrame("RISK");
         frame.setSize(frameSize);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -208,7 +208,7 @@ public class app extends JFrame {
         } catch (ClientOperationException ce) {
 
         }
-        frame.setVisible(true);
+        frame.setVisible(isVisible);
     }
 
     private static void setTerrInfoPanel() {
@@ -1256,7 +1256,7 @@ public class app extends JFrame {
 
         }
         System.out.println("Finish Connection");
-        new app(clientOperator);
+        new app(clientOperator, true);
     }
 
 }

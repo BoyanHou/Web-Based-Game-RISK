@@ -29,7 +29,7 @@ public class testSwing {
 
         }
         System.out.println("Finish Connection");
-        new app(clientOperator);
+        new app(clientOperator, false);
         app.trigger("actionMove");
         app.trigger("moveCancel");
 
