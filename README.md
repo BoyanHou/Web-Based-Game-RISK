@@ -20,10 +20,16 @@
 
 ## How to use GUI:
 - after starting up the client, gui will automatically pop-up
-- choose your desired move on the bottom of the GUI: move, attack, upgrade
-- for choosing the desired territory for your orders, click on the map
+- choose your desired move on the bottom of the GUI: move, attack, upgrade, fog, spy
+- for choosing the desired territory for your orders, first click the textField and then click on the map. The territory that clicked on will display automatically
 - for choosing units for your orders, click the checkboxes on the right; hold ctrl for multiple choices
+- for make the order, click the correspoing button after finshing your selection
+- all cancel buttons will lead you back to the action chosen panel
 - when you finish this round, click finish, you will be prompt to wait until new round begins
-- For viewing any territory details, use the pull-down window on the right of the GUI to choose a territory, then click the details button to veiw details
+- For viewing any territory details, hover on the territory(the color of territory will become darker) you want to get details. Then the informaiton will show on the right INFO panel.
+    + If the color of a territory is white, the information of this territory is unavailiable.
+    + If the color of a territory is gray, the information of the territory is outdated.
+    + If there is a fog icon on the territory, that means you couldn't get the latest infomation anymore. You could place a fog on your territory to protect the situation of your territory.
+    + If there is a spy icon on the territory with a number on the right, that means you have put spies on that territory.
 - If you loose the game, you will be prompt to continue to audit the game (choose "yes") or not (choose "no")
-- If somebody has won the game, the GUI will prompt you, then exit.
+- If somebody has won the game, the GUI will prompt you, then you could exit.
