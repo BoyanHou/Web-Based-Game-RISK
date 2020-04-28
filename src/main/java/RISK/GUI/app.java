@@ -256,6 +256,7 @@ public class app extends JFrame {
                 try {
                     clientOperator.AuditOrNot("YES");
                     System.out.println("Send Yes");
+                    frame.remove(informationPanel);
                     frame.remove(makeChoicePanel);
                     frame.revalidate();
                     frame.repaint();
