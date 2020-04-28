@@ -23,7 +23,7 @@
 - choose your desired move on the bottom of the GUI: move, attack, upgrade, fog, spy
 - for choosing the desired territory for your orders, first click the textField and then click on the map. The territory that clicked on will display automatically
 - for choosing units for your orders, click the checkboxes on the right; hold ctrl for multiple choices
-- for make the order, click the correspoing button after finshing your selection
+- for making the order, click the correspoing button after finshing your selection
 - all cancel buttons will lead you back to the action chosen panel
 - when you finish this round, click finish, you will be prompt to wait until new round begins
 - For viewing any territory details, hover on the territory(the color of territory will become darker) you want to get details. Then the informaiton will show on the right INFO panel.
