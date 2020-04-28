@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.plaf.metal.OceanTheme;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -258,14 +259,7 @@ public class app extends JFrame {
                     frame.remove(makeChoicePanel);
                     frame.revalidate();
                     frame.repaint();
-                    String message = clientOperator.listenForUpdates();
-                    while (message.equals("CONTINUE")) {
-                        JOptionPane.showMessageDialog(frame, "Next Round");
-                        updateArrtibute();
-                        updateMapPanel();
-                        message = clientOperator.listenForUpdates();
-                    }
-                    JOptionPane.showMessageDialog(frame, message);
+                    aduit();
                 } catch (ClientOperationException ce) {
                     JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
@@ -285,6 +279,22 @@ public class app extends JFrame {
                 JOptionPane.showMessageDialog(frame, "Please Close the Web Now");
             }
         });
+    }
+
+    private static void aduit() {
+        try {
+            String message = clientOperator.listenForUpdates();
+            if (message.equals("CONTINUE")) {
+                JOptionPane.showMessageDialog(frame, "Next Round");
+                updateArrtibute();
+                updateMapPanel();
+                aduit();
+            } else {
+                JOptionPane.showMessageDialog(frame, message);
+            }
+        } catch (ClientOperationException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     //MARK: - draw the map
@@ -971,6 +981,17 @@ public class app extends JFrame {
             return new String[0];
         }
         String fromTerr = label.getText();
+        Player owner = players.get(playerID);
+        HashMap<Integer, Territory> terries = owner.getTerrMap();
+        boolean isFind = false;
+        for (Territory territory: terries.values()) {
+            if (territory.getName().equals(fromTerr)) {
+                isFind = true;
+            }
+        }
+        if (!isFind) {
+            return new String[0];
+        }
         Territory territory;
         if (fromTerr.equals("")) {
             return new String[0];
