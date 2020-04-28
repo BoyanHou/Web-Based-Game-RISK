@@ -282,7 +282,7 @@ public class app extends JFrame {
                 } catch (ClientOperationException ce) {
                     JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
-                JOptionPane.showMessageDialog(frame, "Please Close the Web now");
+                JOptionPane.showMessageDialog(frame, "Please Close the Web Now");
             }
         });
     }
@@ -451,7 +451,7 @@ public class app extends JFrame {
         String terrName = territoryBlock.getTerrName();
         Territory territory = getTerr(terrName);
         territoryBlock.setTerritory(territory);
-        if (territory.isVisible(playerID)) {
+        if (territory.isVisible(playerID) || gameClient.getGameState() == 1) {
             //normal
             territoryBlock.update();
         } else if (outdatedTerrMap.containsKey(territory.getTerrID())) {
@@ -562,7 +562,7 @@ public class app extends JFrame {
         }
         String info;
         HashMap<Integer, Territory> outdatedTerrMap = gameClient.getOutdatedTerrMap();
-        if (territory.isVisible(playerID)) {
+        if (territory.isVisible(playerID) || gameClient.getGameState() == 1) {
             //normal
             info = getTerrInfo(territory);
         } else if (outdatedTerrMap.containsKey(territory.getTerrID())) {
@@ -715,7 +715,6 @@ public class app extends JFrame {
                     //     otherwise: someone has won, print this String and exit game
                     switch (message) {
                         case "LOSE":
-
                             JOptionPane.showMessageDialog(frame, "Lose");
                             frame.remove(actionPanel);
                             frame.add(makeChoicePanel, BorderLayout.SOUTH);
@@ -731,8 +730,8 @@ public class app extends JFrame {
                             JOptionPane.showMessageDialog(frame, message);
                     }
                     updateArrtibute();
+                    updatePlayerPanel();
                     updateMapPanel();
-
                 } catch (ClientOperationException ce) {
                     JOptionPane.showMessageDialog(frame, ce.getMessage());
                 }
