@@ -1,4 +1,4 @@
-#!/bin/bashv
+#!/bin/bash
 
 xvfb-run ./gradlew build || exit 1
 ./gradlew cloverGenerateReport || exit 1
